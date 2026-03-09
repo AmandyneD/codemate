@@ -351,3 +351,16 @@ nav {
   background: white;
   font-size: 14px;
 }
+
+
+.dashboard-section + .dashboard-section {
+  margin-top: 40px;
+}
+
+.section-heading {
+  margin-bottom: 16px;
+}
+
+.section-heading h2 {
+  margin-bottom: 6px;
+}

@@ -73,7 +73,8 @@ class ProjectsController < ApplicationController
       :category,
       :estimated_duration,
       :max_collaborators,
-      :status
+      :status,
+      technology_ids: []
     )
   end
 end

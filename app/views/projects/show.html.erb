@@ -71,6 +71,31 @@
         <li><strong>Status:</strong> <%= @project.status.capitalize %></li>
       </ul>
 
+          <% if user_signed_in? %>
+      <% unless @project.owner == current_user %>
+        <% existing_collaboration = @project.collaborations.find_by(user: current_user) %>
+
+        <% if existing_collaboration.nil? && @project.recruiting? %>
+          <%= button_to "Join project",
+            project_collaborations_path(@project),
+            method: :post,
+            class: "btn btn-primary" %>
+        <% elsif existing_collaboration&.status == "pending" %>
+          <div class="callout">Your request is pending.</div>
+        <% elsif existing_collaboration&.status == "accepted" %>
+          <div class="callout success">You are part of this project.</div>
+        <% elsif existing_collaboration&.status == "rejected" %>
+          <div class="callout">Your request was rejected.</div>
+        <% elsif !@project.recruiting? %>
+          <div class="callout">This project is not currently recruiting.</div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="callout">
+        <%= link_to "Log in", new_user_session_path %> to request to join this project.
+      </div>
+    <% end %>
+
       <% if @project.recruiting? %>
         <div class="callout success">
           This project is currently recruiting.
