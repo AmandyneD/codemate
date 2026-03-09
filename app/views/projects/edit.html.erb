@@ -1,2 +1,12 @@
-<h1>Projects#edit</h1>
-<p>Find me in app/views/projects/edit.html.erb</p>
+<div class="page-shell">
+  <div class="page-header">
+    <div>
+      <h1>Edit project</h1>
+      <p class="page-subtitle">Update the content and settings of your project.</p>
+    </div>
+  </div>
+
+  <%= render "form", project: @project %>
+
+  <p class="back-link"><%= link_to "← Back to project", project_path(@project) %></p>
+</div>

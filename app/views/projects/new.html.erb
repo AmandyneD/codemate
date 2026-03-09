@@ -1,2 +1,12 @@
-<h1>Projects#new</h1>
-<p>Find me in app/views/projects/new.html.erb</p>
+<div class="page-shell">
+  <div class="page-header">
+    <div>
+      <h1>New project</h1>
+      <p class="page-subtitle">Create a project and start building your team.</p>
+    </div>
+  </div>
+
+  <%= render "form", project: @project %>
+
+  <p class="back-link"><%= link_to "← Back to projects", projects_path %></p>
+</div>

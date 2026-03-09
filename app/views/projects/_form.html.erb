@@ -1,0 +1,68 @@
+<div class="form-card">
+  <%= form_with model: project do |f| %>
+    <% if project.errors.any? %>
+      <div class="form-errors">
+        <h2><%= pluralize(project.errors.count, "error") %> prevented this project from being saved:</h2>
+        <ul>
+          <% project.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :title %>
+      <%= f.text_field :title, placeholder: "Ex: Codemate, Airbnb clone, habit tracker..." %>
+    </div>
+
+    <div class="field">
+      <%= f.label :short_description %>
+      <%= f.text_field :short_description, placeholder: "A short summary for project cards" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :description %>
+      <%= f.text_area :description, rows: 6, placeholder: "Describe the project, goals, and what kind of collaborators you are looking for." %>
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <%= f.label :category %>
+        <%= f.select :category, [["Web app", "web_app"], ["Mobile app", "mobile_app"], ["SaaS", "saas"], ["AI", "ai"], ["Game", "game"], ["Tool", "tool"], ["Other", "other"]] %>
+      </div>
+
+      <div class="field">
+        <%= f.label :estimated_duration %>
+        <%= f.select :estimated_duration, [["Weekend", "weekend"], ["One week", "one_week"], ["Two weeks", "two_weeks"], ["One month", "one_month"], ["Three months", "three_months"], ["Long term", "long_term"]] %>
+      </div>
+
+      <div class="field">
+        <%= f.label :max_collaborators %>
+        <%= f.number_field :max_collaborators, min: 1 %>
+      </div>
+
+      <div class="field">
+  <label>Technologies</label>
+
+      <div class="tech-checkboxes">
+        <%= f.collection_check_boxes :technology_ids, Technology.order(:name), :id, :name do |b| %>
+          <label class="tech-option">
+            <%= b.check_box %>
+            <span><%= b.text %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+      <div class="field">
+        <%= f.label :status %>
+        <%= f.select :status, [["Draft", "draft"], ["Open", "open"], ["Full", "full"], ["Closed", "closed"], ["Completed", "completed"]] %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.submit project.persisted? ? "Save changes" : "Create project", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

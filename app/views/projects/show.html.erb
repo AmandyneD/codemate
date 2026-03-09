@@ -1,2 +1,85 @@
-<h1>Projects#show</h1>
-<p>Find me in app/views/projects/show.html.erb</p>
+<div class="page-shell">
+  <p class="back-link"><%= link_to "← Back to projects", projects_path %></p>
+
+  <section class="project-hero">
+    <div>
+      <div class="project-card-top">
+        <span class="badge"><%= @project.status.capitalize %></span>
+        <span class="badge badge-light"><%= @project.category %></span>
+      </div>
+
+      <h1><%= @project.title %></h1>
+      <p class="page-subtitle"><%= @project.short_description %></p>
+    </div>
+
+    <% if user_signed_in? && @project.owner == current_user %>
+      <%= link_to "Edit project", edit_project_path(@project), class: "btn btn-primary" %>
+    <% end %>
+  </section>
+
+  <div class="project-layout">
+    <main class="content-card">
+      <section class="content-section">
+        <h2>About this project</h2>
+        <p><%= @project.description %></p>
+      </section>
+
+      <section class="content-section">
+        <h2>Technologies</h2>
+        <div class="tech-list">
+          <% if @project.technologies.any? %>
+            <% @project.technologies.each do |technology| %>
+              <span class="tech-badge"><%= technology.name %></span>
+            <% end %>
+          <% else %>
+            <span class="muted-text">No technologies added yet</span>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2>Team members</h2>
+
+        <% if @accepted_collaborations.any? %>
+          <div class="member-list">
+            <% @accepted_collaborations.each do |collaboration| %>
+              <div class="member-card">
+                <div>
+                  <strong><%= collaboration.user.display_name %></strong>
+                  <% if collaboration.owner %>
+                    <span class="member-role">Owner</span>
+                  <% elsif collaboration.role.present? %>
+                    <span class="member-role"><%= collaboration.role %></span>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="muted-text">No team members yet.</p>
+        <% end %>
+      </section>
+    </main>
+
+    <aside class="sidebar-card">
+      <h2>Project info</h2>
+
+      <ul class="info-list">
+        <li><strong>Owner:</strong> <%= @project_owner&.display_name || "Unknown" %></li>
+        <li><strong>Duration:</strong> <%= @project.estimated_duration.humanize %></li>
+        <li><strong>Team size:</strong> <%= @project.accepted_members_count %> / <%= @project.max_collaborators %></li>
+        <li><strong>Status:</strong> <%= @project.status.capitalize %></li>
+      </ul>
+
+      <% if @project.recruiting? %>
+        <div class="callout success">
+          This project is currently recruiting.
+        </div>
+      <% else %>
+        <div class="callout">
+          This project is not currently recruiting.
+        </div>
+      <% end %>
+    </aside>
+  </div>
+</div>

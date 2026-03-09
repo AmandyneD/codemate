@@ -1,2 +1,61 @@
-<h1>Projects#index</h1>
-<p>Find me in app/views/projects/index.html.erb</p>
+<div class="page-shell">
+  <div class="page-header">
+    <div>
+      <h1>Discover projects</h1>
+      <p class="page-subtitle">Find a project to join, build, and showcase in your portfolio.</p>
+    </div>
+
+    <% if user_signed_in? %>
+      <%= link_to "Create a project", new_project_path, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+  <% if @projects.any? %>
+    <div class="projects-grid">
+      <% @projects.each do |project| %>
+        <article class="project-card">
+          <div class="project-card-top">
+            <span class="badge"><%= project.status.capitalize %></span>
+            <span class="badge badge-light"><%= project.category %></span>
+          </div>
+
+          <h2><%= link_to project.title, project_path(project), class: "project-card-title" %></h2>
+          <p class="project-card-text"><%= project.short_description %></p>
+
+          <div class="project-meta">
+            <span>⏱ <%= project.estimated_duration.humanize %></span>
+            <span>👥 <%= project.accepted_members_count %> / <%= project.max_collaborators %></span>
+          </div>
+
+          <div class="tech-list">
+            <% if project.technologies.any? %>
+              <% project.technologies.each do |technology| %>
+                <span class="tech-badge"><%= technology.name %></span>
+              <% end %>
+            <% else %>
+              <span class="muted-text">No technologies yet</span>
+            <% end %>
+          </div>
+
+          <div class="project-card-footer">
+            <span class="muted-text">
+              Owner:
+              <strong><%= project.owner&.display_name || "Unknown" %></strong>
+            </span>
+
+            <%= link_to "View project", project_path(project), class: "btn btn-secondary" %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state">
+      <h2>No projects yet</h2>
+      <p>Be the first to create a project on Codemate.</p>
+
+      <% if user_signed_in? %>
+        <%= link_to "Create the first project", new_project_path, class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

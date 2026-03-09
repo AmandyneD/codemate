@@ -20,6 +20,8 @@ class Project < ApplicationRecord
 
   scope :published, -> { where.not(status: "draft") }
 
+  after_initialize :set_defaults, if: :new_record?
+
   def owner_collaboration
     collaborations.find_by(owner: true)
   end
@@ -38,5 +40,11 @@ class Project < ApplicationRecord
 
   def recruiting?
     status == "open" && accepted_members_count < max_collaborators
+  end
+
+  private
+
+  def set_defaults
+    self.status ||= "draft"
   end
 end
