@@ -18,7 +18,14 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @accepted_collaborations = @project.collaborations.accepted.includes(:user)
+    @accepted_collaborations = @project.collaborations
+                                      .where(status: "accepted")
+                                      .includes(:user)
+
+    @pending_collaborations = @project.collaborations
+                                      .where(status: "pending")
+                                      .includes(:user)
+
     @project_owner = @project.owner
   end
 

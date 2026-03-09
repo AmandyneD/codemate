@@ -59,6 +59,41 @@
           <p class="muted-text">No team members yet.</p>
         <% end %>
       </section>
+
+      <% if user_signed_in? && @project.owner == current_user %>
+        <section class="content-section">
+          <h2>Pending join requests</h2>
+
+          <% if @pending_collaborations.any? %>
+            <div class="member-list">
+              <% @pending_collaborations.each do |collaboration| %>
+                <div class="member-card">
+                  <div>
+                    <strong><%= collaboration.user.display_name %></strong>
+                    <div class="muted-text"><%= collaboration.user.email %></div>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <%= button_to "Accept",
+                      project_collaboration_path(@project, collaboration),
+                      method: :patch,
+                      params: { status: "accepted" },
+                      class: "btn btn-primary" %>
+
+                    <%= button_to "Reject",
+                      project_collaboration_path(@project, collaboration),
+                      method: :patch,
+                      params: { status: "rejected" },
+                      class: "btn btn-secondary" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="muted-text">No pending requests.</p>
+          <% end %>
+        </section>
+      <% end %>
     </main>
 
     <aside class="sidebar-card">
@@ -71,30 +106,30 @@
         <li><strong>Status:</strong> <%= @project.status.capitalize %></li>
       </ul>
 
-          <% if user_signed_in? %>
-      <% unless @project.owner == current_user %>
-        <% existing_collaboration = @project.collaborations.find_by(user: current_user) %>
+      <% if user_signed_in? %>
+        <% unless @project.owner == current_user %>
+          <% existing_collaboration = @project.collaborations.find_by(user: current_user) %>
 
-        <% if existing_collaboration.nil? && @project.recruiting? %>
-          <%= button_to "Join project",
-            project_collaborations_path(@project),
-            method: :post,
-            class: "btn btn-primary" %>
-        <% elsif existing_collaboration&.status == "pending" %>
-          <div class="callout">Your request is pending.</div>
-        <% elsif existing_collaboration&.status == "accepted" %>
-          <div class="callout success">You are part of this project.</div>
-        <% elsif existing_collaboration&.status == "rejected" %>
-          <div class="callout">Your request was rejected.</div>
-        <% elsif !@project.recruiting? %>
-          <div class="callout">This project is not currently recruiting.</div>
+          <% if existing_collaboration.nil? && @project.recruiting? %>
+            <%= button_to "Join project",
+              project_collaborations_path(@project),
+              method: :post,
+              class: "btn btn-primary" %>
+          <% elsif existing_collaboration&.status == "pending" %>
+            <div class="callout">Your request is pending.</div>
+          <% elsif existing_collaboration&.status == "accepted" %>
+            <div class="callout success">You are part of this project.</div>
+          <% elsif existing_collaboration&.status == "rejected" %>
+            <div class="callout">Your request was rejected.</div>
+          <% elsif !@project.recruiting? %>
+            <div class="callout">This project is not currently recruiting.</div>
+          <% end %>
         <% end %>
+      <% else %>
+        <div class="callout">
+          <%= link_to "Log in", new_user_session_path %> to request to join this project.
+        </div>
       <% end %>
-    <% else %>
-      <div class="callout">
-        <%= link_to "Log in", new_user_session_path %> to request to join this project.
-      </div>
-    <% end %>
 
       <% if @project.recruiting? %>
         <div class="callout success">

@@ -9,7 +9,7 @@ class CollaborationsController < ApplicationController
       return
     end
 
-    if @project.status == "closed" || @project.status == "completed" || @project.status == "full"
+    if @project.status.in?(%w[closed completed full])
       redirect_to @project, alert: "This project is not accepting new members."
       return
     end
@@ -33,8 +33,8 @@ class CollaborationsController < ApplicationController
   def index
     authorize_owner!
 
-    @pending_collaborations = @project.collaborations.pending.includes(:user)
-    @accepted_collaborations = @project.collaborations.accepted.includes(:user)
+    @pending_collaborations = @project.collaborations.where(status: "pending").includes(:user)
+    @accepted_collaborations = @project.collaborations.where(status: "accepted").includes(:user)
   end
 
   def update
@@ -44,7 +44,7 @@ class CollaborationsController < ApplicationController
     case params[:status]
     when "accepted"
       if @project.accepted_members_count >= @project.max_collaborators
-        redirect_to project_collaborations_path(@project), alert: "This project is already full."
+        redirect_to @project, alert: "This project is already full."
         return
       end
 
@@ -54,13 +54,13 @@ class CollaborationsController < ApplicationController
         @project.update!(status: "full")
       end
 
-      redirect_to project_collaborations_path(@project), notice: "Collaboration accepted."
+      redirect_to @project, notice: "Collaboration accepted."
     when "rejected"
       @collaboration.update!(status: "rejected")
-      redirect_to project_collaborations_path(@project), notice: "Collaboration rejected."
+      redirect_to @project, notice: "Collaboration rejected."
     when "left"
       if @collaboration.owner
-        redirect_to project_path(@project), alert: "The owner cannot leave the project."
+        redirect_to @project, alert: "The owner cannot leave the project."
         return
       end
 
@@ -72,7 +72,7 @@ class CollaborationsController < ApplicationController
 
       redirect_to my_projects_path, notice: "You left the project."
     else
-      redirect_to project_path(@project), alert: "Invalid action."
+      redirect_to @project, alert: "Invalid action."
     end
   end
 
