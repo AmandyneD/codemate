@@ -6,5 +6,7 @@ class CreateProjectTechnologies < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+
+    add_index :project_technologies, [ :project_id, :technology_id ], unique: true
   end
 end

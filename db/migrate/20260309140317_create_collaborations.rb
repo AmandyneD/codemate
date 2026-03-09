@@ -9,5 +9,7 @@ class CreateCollaborations < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+
+    add_index :collaborations, [ :user_id, :project_id ], unique: true
   end
 end
