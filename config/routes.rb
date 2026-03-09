@@ -1,15 +1,48 @@
 Rails.application.routes.draw do
+  get "dashboard/projects"
+  get "project_technologies/create"
+  get "project_technologies/destroy"
+  get "user_technologies/create"
+  get "user_technologies/destroy"
+  get "messages/create"
+  get "conversations/index"
+  get "conversations/show"
+  get "conversations/create"
+  get "bookmarks/index"
+  get "bookmarks/create"
+  get "bookmarks/destroy"
+  get "collaborations/create"
+  get "collaborations/index"
+  get "collaborations/update"
+  get "users/index"
+  get "users/show"
+  get "users/edit"
+  get "users/update"
+  get "projects/index"
+  get "projects/show"
+  get "projects/new"
+  get "projects/create"
+  get "projects/edit"
+  get "projects/update"
+  root "projects#index"
+
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  resources :users, only: [ :index, :show, :edit, :update ] do
+    resources :user_technologies, only: [ :create, :destroy ]
+  end
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  resources :projects do
+    resources :project_technologies, only: [ :create, :destroy ]
+    resources :collaborations, only: [ :create, :index, :update ]
+    resources :bookmarks, only: [ :create, :destroy ]
+    resources :conversations, only: [ :create, :index ]
+  end
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  resources :conversations, only: [ :index, :show ] do
+    resources :messages, only: [ :create ]
+  end
+
+  get "/my/projects", to: "dashboard#projects", as: :my_projects
+  get "/my/favorites", to: "bookmarks#index", as: :my_favorites
 end
