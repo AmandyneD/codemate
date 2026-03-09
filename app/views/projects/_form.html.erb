@@ -42,17 +42,20 @@
         <%= f.number_field :max_collaborators, min: 1 %>
       </div>
 
-      <div class="field">
-  <label>Technologies</label>
+    <div class="mb-3">
+      <label class="form-label">Technologies</label>
 
-      <div class="tech-checkboxes">
-        <%= f.collection_check_boxes :technology_ids, Technology.order(:name), :id, :name do |b| %>
-          <label class="tech-option">
-            <%= b.check_box %>
-            <span><%= b.text %></span>
-          </label>
-        <% end %>
-      </div>
+      <% Technology.all.each do |tech| %>
+        <div class="form-check">
+          <%= check_box_tag "project[technology_ids][]", tech.id,
+              @project.technologies.include?(tech),
+              class: "form-check-input" %>
+
+          <%= label_tag tech.name, tech.name, class: "form-check-label" %>
+        </div>
+      <% end %>
+
+    </div>
     </div>
 
       <div class="field">
