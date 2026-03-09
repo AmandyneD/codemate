@@ -1,2 +1,80 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="page-shell">
+  <p class="back-link"><%= link_to "← Back", :back rescue link_to("← Back to projects", projects_path) %></p>
+
+  <section class="project-hero">
+    <div>
+      <h1><%= @user.display_name %></h1>
+      <p class="page-subtitle">
+        <%= @user.bio.presence || "This member has not added a bio yet." %>
+      </p>
+    </div>
+
+    <% if user_signed_in? && current_user == @user %>
+      <%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-primary" %>
+    <% end %>
+  </section>
+
+  <div class="project-layout">
+    <main class="content-card">
+      <section class="content-section">
+        <h2>Technologies</h2>
+        <div class="tech-list">
+          <% if @user.technologies.any? %>
+            <% @user.technologies.order(:name).each do |technology| %>
+              <span class="tech-badge"><%= technology.name %></span>
+            <% end %>
+          <% else %>
+            <span class="muted-text">No technologies added yet.</span>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <h2>Created projects</h2>
+        <% if @owned_projects.any? %>
+          <div class="member-list">
+            <% @owned_projects.each do |project| %>
+              <%= link_to project_path(project), class: "member-card member-card-link" do %>
+                <div>
+                  <strong><%= project.title %></strong>
+                  <div class="muted-text"><%= project.short_description %></div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="muted-text">No created projects yet.</p>
+        <% end %>
+      </section>
+
+      <section class="content-section">
+        <h2>Joined projects</h2>
+        <% if @joined_projects.any? %>
+          <div class="member-list">
+            <% @joined_projects.each do |project| %>
+              <%= link_to project_path(project), class: "member-card member-card-link" do %>
+                <div>
+                  <strong><%= project.title %></strong>
+                  <div class="muted-text"><%= project.short_description %></div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="muted-text">No joined projects yet.</p>
+        <% end %>
+      </section>
+    </main>
+
+    <aside class="sidebar-card">
+      <h2>Profile info</h2>
+
+      <ul class="info-list">
+        <li><strong>Name:</strong> <%= @user.display_name %></li>
+        <li><strong>Email:</strong> <%= @user.email %></li>
+        <li><strong>Projects created:</strong> <%= @owned_projects.count %></li>
+        <li><strong>Projects joined:</strong> <%= @joined_projects.count %></li>
+      </ul>
+    </aside>
+  </div>
+</div>

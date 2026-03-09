@@ -364,3 +364,24 @@ nav {
 .section-heading h2 {
   margin-bottom: 6px;
 }
+
+.member-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.member-card-link:hover {
+  text-decoration: none;
+  color: inherit;
+  transform: translateY(-1px);
+}
+
+.member-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.member-link:hover {
+  text-decoration: underline;
+}

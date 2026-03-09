@@ -43,7 +43,7 @@
         <% if @accepted_collaborations.any? %>
           <div class="member-list">
             <% @accepted_collaborations.each do |collaboration| %>
-              <div class="member-card">
+              <%= link_to user_path(collaboration.user), class: "member-card member-card-link" do %>
                 <div>
                   <strong><%= collaboration.user.display_name %></strong>
                   <% if collaboration.owner %>
@@ -52,7 +52,7 @@
                     <span class="member-role"><%= collaboration.role %></span>
                   <% end %>
                 </div>
-              </div>
+              <% end %>
             <% end %>
           </div>
         <% else %>
