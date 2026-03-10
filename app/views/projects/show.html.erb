@@ -1,25 +1,29 @@
 <div class="page-shell">
   <p class="back-link"><%= link_to "← Back to projects", projects_path %></p>
 
-  <section class="project-hero-modern">
-  <div>
-    <div class="project-card-top-modern">
-      <span class="badge-orange"><%= @project.status.capitalize %></span>
-      <span class="badge-grey"><%= @project.category %></span>
-    </div>
+    <section class="project-hero">
+      <div class="project-hero-main">
+        <div class="project-card-top">
+          <span class="badge"><%= @project.status.capitalize %></span>
+          <span class="badge badge-light"><%= @project.category %></span>
+        </div>
 
-    <% if user_signed_in? && @project.owner == current_user %>
-      <div class="d-flex gap-2">
-        <%= link_to "Edit project", edit_project_path(@project), class: "btn btn-primary" %>
-
-        <%= button_to "Delete project",
-          project_path(@project),
-          method: :delete,
-          form: { data: { turbo_confirm: "Are you sure you want to delete this project?" } },
-          class: "btn btn-danger" %>
+        <h1><%= @project.title %></h1>
+        <p class="page-subtitle"><%= @project.short_description %></p>
       </div>
-    <% end %>
-  </section>
+
+      <% if user_signed_in? && @project.owner == current_user %>
+        <div class="project-hero-actions">
+          <%= link_to "Edit project", edit_project_path(@project), class: "btn btn-primary" %>
+
+          <%= button_to "Delete project",
+            project_path(@project),
+            method: :delete,
+            form: { data: { turbo_confirm: "Are you sure you want to delete this project?" } },
+            class: "btn btn-danger" %>
+        </div>
+      <% end %>
+    </section>
 
   <div class="project-layout">
     <main class="content-card">
