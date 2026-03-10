@@ -11,14 +11,60 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarPremium">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item"></li>
-      </ul>
 
-      <div class="d-flex gap-3">
-        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-dark rounded-pill px-4" %>
-        <%= link_to "Log in", new_user_session_path, class: "btn btn-dark rounded-pill px-4" %>
+      <ul class="navbar-nav mx-auto"></ul>
+
+      <div class="d-flex align-items-center gap-3">
+
+        <% if user_signed_in? %>
+
+          <details class="user-dropdown">
+            <summary class="btn btn-outline-dark rounded-pill px-4">
+              <%= current_user.display_name.presence || "Account" %>
+            </summary>
+
+            <div class="user-dropdown-menu">
+
+              <%= link_to "Profile",
+                  user_path(current_user),
+                  class: "dropdown-item" %>
+
+              <%= link_to "My projects",
+                  my_projects_path,
+                  class: "dropdown-item" %>
+
+              <%= link_to "Favorites",
+                  my_favorites_path,
+                  class: "dropdown-item" %>
+
+              <%= link_to "Account settings",
+                  edit_user_registration_path,
+                  class: "dropdown-item" %>
+
+              <hr>
+
+              <%= button_to "Logout",
+                  destroy_user_session_path,
+                  method: :delete,
+                  class: "dropdown-item logout-button" %>
+
+            </div>
+          </details>
+
+        <% else %>
+
+          <%= link_to "Sign up",
+              new_user_registration_path,
+              class: "btn btn-outline-dark rounded-pill px-4" %>
+
+          <%= link_to "Log in",
+              new_user_session_path,
+              class: "btn btn-dark rounded-pill px-4" %>
+
+        <% end %>
+
       </div>
+
     </div>
   </div>
 </nav>
