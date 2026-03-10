@@ -10,37 +10,158 @@
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <style>
+      .topbar {
+        padding: 14px 24px;
+        border-bottom: 1px solid #e5e7eb;
+        margin-bottom: 24px;
+        background: white;
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .topbar-left,
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .brand-link {
+        font-weight: 700;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .nav-link {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .nav-link:hover {
+        text-decoration: underline;
+      }
+
+      .user-dropdown {
+        position: relative;
+      }
+
+      .user-dropdown summary {
+        list-style: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font: inherit;
+      }
+
+      .user-dropdown summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .user-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        min-width: 220px;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        padding: 8px;
+        z-index: 100;
+      }
+
+      .dropdown-item {
+        display: block;
+        width: 100%;
+        padding: 10px 12px;
+        border: none;
+        background: transparent;
+        text-align: left;
+        text-decoration: none;
+        color: inherit;
+        border-radius: 10px;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .dropdown-item:hover {
+        background: #f5f6fa;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .flash {
+        max-width: 1100px;
+        margin: 0 auto 16px;
+        padding: 12px 16px;
+        border-radius: 12px;
+      }
+
+      .flash-notice {
+        background: #eef6ff;
+        color: #1d4ed8;
+      }
+
+      .flash-alert {
+        background: #fef2f2;
+        color: #b91c1c;
+      }
+    </style>
   </head>
 
   <body>
-    <nav style="padding: 12px; border-bottom: 1px solid #ddd; margin-bottom: 20px;">
-      <%= link_to "Codemate", root_path %>
+    <nav class="topbar">
+      <div class="topbar-inner">
+        <div class="topbar-left">
+          <%= link_to "Codemate", root_path, class: "brand-link" %>
 
-      <% if user_signed_in? %>
-        |
-        <span>Connected as <strong><%= current_user.display_name.presence || current_user.email %></strong></span>
-        |
-        <%= link_to "My projects", my_projects_path %>
-        |
-        <%= link_to "New project", new_project_path %>
-        |
-        <%= link_to "Edit account", edit_user_registration_path %>
-        |
-        <%= button_to "Logout", destroy_user_session_path, method: :delete, style: "display:inline-block; margin-left: 8px;" %>
-      <% else %>
-        |
-        <%= link_to "Sign up", new_user_registration_path %>
-        |
-        <%= link_to "Login", new_user_session_path %>
-      <% end %>
+          <% if user_signed_in? %>
+            <%= link_to "My projects", my_projects_path, class: "nav-link" %>
+            <%= link_to "New project", new_project_path, class: "nav-link" %>
+          <% end %>
+        </div>
+
+        <div class="topbar-right">
+          <% if user_signed_in? %>
+            <%= link_to current_user.display_name.presence || current_user.email,
+                        user_path(current_user),
+                        class: "nav-link" %>
+
+            <details class="user-dropdown">
+              <summary class="nav-link">Settings ▾</summary>
+
+              <div class="user-dropdown-menu">
+                <%= link_to "My profile", user_path(current_user), class: "dropdown-item" %>
+                <%= link_to "Edit profile", edit_user_path(current_user), class: "dropdown-item" %>
+                <%= link_to "Account settings", edit_user_registration_path, class: "dropdown-item" %>
+                <%= button_to "Logout",
+                              destroy_user_session_path,
+                              method: :delete,
+                              class: "dropdown-item" %>
+              </div>
+            </details>
+          <% else %>
+            <%= link_to "Sign up", new_user_registration_path, class: "nav-link" %>
+            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+          <% end %>
+        </div>
+      </div>
     </nav>
 
     <% if notice.present? %>
-      <div class="notice"><%= notice %></div>
+      <div class="flash flash-notice"><%= notice %></div>
     <% end %>
 
     <% if alert.present? %>
-      <div class="alert"><%= alert %></div>
+      <div class="flash flash-alert"><%= alert %></div>
     <% end %>
 
     <%= yield %>
