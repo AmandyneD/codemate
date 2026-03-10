@@ -6,6 +6,42 @@
     </div>
   </div>
 
+  <div class="search-hero">
+    <%= form_with url: projects_path, method: :get, local: true, class: "project-search-bar" do %>
+      <div class="search-input-wrap">
+        <%= text_field_tag :q,
+            params[:q],
+            placeholder: "Search projects...",
+            class: "search-input" %>
+        <span class="search-input-icon">⌕</span>
+      </div>
+
+      <%= select_tag :stack,
+          options_for_select(
+            [["All stacks", ""]] + Technology::CATEGORIES.map { |category| [category.humanize, category] },
+            params[:stack]
+          ),
+          class: "search-select" %>
+
+      <%= select_tag :estimated_duration,
+          options_for_select(
+            [
+              ["All durations", ""],
+              ["Weekend", "weekend"],
+              ["One week", "one_week"],
+              ["Two weeks", "two_weeks"],
+              ["One month", "one_month"],
+              ["Three months", "three_months"],
+              ["Long term", "long_term"]
+            ],
+            params[:estimated_duration]
+          ),
+          class: "search-select" %>
+
+      <%= submit_tag "Search", class: "search-submit" %>
+    <% end %>
+  </div>
+
   <% if @projects.any? %>
     <div class="projects-grid-modern">
       <% @projects.each do |project| %>

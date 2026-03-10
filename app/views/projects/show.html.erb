@@ -54,6 +54,7 @@
               <%= link_to user_path(collaboration.user), class: "member-card member-card-link" do %>
                 <div>
                   <strong><%= collaboration.user.display_name %></strong>
+
                   <% if collaboration.owner %>
                     <span class="member-role">Owner</span>
                   <% elsif collaboration.role.present? %>
@@ -81,12 +82,29 @@
                     <div class="muted-text"><%= collaboration.user.email %></div>
                   </div>
 
-                  <div class="d-flex gap-2">
-                    <%= button_to "Accept",
-                      project_collaboration_path(@project, collaboration),
-                      method: :patch,
-                      params: { status: "accepted" },
-                      class: "btn btn-primary" %>
+                  <div class="d-flex gap-2 align-items-center flex-wrap">
+                    <%= form_with url: project_collaboration_path(@project, collaboration), method: :patch, local: true, class: "d-flex gap-2 align-items-center flex-wrap" do %>
+                      <%= hidden_field_tag :status, "accepted" %>
+
+                      <%= select_tag :role,
+                        options_for_select(
+                          [
+                            ["Frontend developer", "Frontend developer"],
+                            ["Backend developer", "Backend developer"],
+                            ["Full-stack developer", "Full-stack developer"],
+                            ["Mobile developer", "Mobile developer"],
+                            ["UI / UX Designer", "UI / UX Designer"],
+                            ["Product manager", "Product manager"],
+                            ["Data / AI", "Data / AI"],
+                            ["DevOps", "DevOps"],
+                            ["Other", "Other"]
+                          ],
+                          collaboration.role
+                        ),
+                        class: "form-select" %>
+
+                      <%= submit_tag "Accept", class: "btn btn-primary" %>
+                    <% end %>
 
                     <%= button_to "Reject",
                       project_collaboration_path(@project, collaboration),

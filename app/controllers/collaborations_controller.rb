@@ -48,7 +48,10 @@ class CollaborationsController < ApplicationController
         return
       end
 
-      @collaboration.update!(status: "accepted")
+      @collaboration.update!(
+        status: "accepted",
+        role: params[:role].presence
+      )
 
       if @project.accepted_members_count >= @project.max_collaborators
         @project.update!(status: "full")
