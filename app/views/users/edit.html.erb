@@ -1,14 +1,33 @@
-<div class="page-shell">
+<div class="page-shell-modern">
   <p class="back-link">
     <%= link_to "← Back to profile", user_path(@user) %>
   </p>
 
-  <div class="page-header">
+  <div class="page-header-modern">
     <div>
       <h1>Edit profile</h1>
-      <p class="page-subtitle">Update your public profile and technologies.</p>
+      <p class="page-subtitle-modern">Update your public profile and technologies.</p>
     </div>
   </div>
+
+  <section class="profile-hero-card compact">
+  <div class="profile-hero-main">
+    <div class="profile-avatar-wrap">
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar, class: "profile-avatar profile-avatar-medium" %>
+      <% else %>
+        <div class="profile-avatar-fallback">
+          <%= @user.display_name.to_s.first.upcase %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="profile-hero-content">
+      <h2><%= @user.display_name %></h2>
+      <p class="muted-text">Editing your public profile</p>
+    </div>
+  </div>
+</section>
 
   <div class="content-card">
     <%= form_with model: @user, html: { multipart: true } do |f| %>
@@ -41,22 +60,7 @@
           <%= f.text_field :github_url, placeholder: "https://github.com/yourname" %>
         </div>
 
-        <div class="field">
-          <%= f.label :avatar, "Avatar" %>
-          <%= f.file_field :avatar, accept: "image/*" %>
-        </div>
-
-        <% if @user.avatar.attached? %>
-          <div class="field">
-            <label>Current avatar</label>
-            <div class="avatar-preview">
-              <%= image_tag @user.avatar, class: "profile-avatar" %>
-            </div>
-          </div>
-        <% end %>
-      </section>
-
-      <section class="content-section">
+        <section class="content-subcard">
         <h2>Technologies</h2>
         <p class="muted-text">Select the technologies you use so other members can better understand your stack.</p>
 
@@ -76,9 +80,46 @@
         </div>
       </section>
 
+    
+        <% if @user.avatar.attached? %>
+          <div class="field">
+            <label>Current avatar</label>
+            <div class="avatar-preview">
+              <%= image_tag @user.avatar, class: "profile-avatar" %>
+            </div>
+          </div>
+
+              <div class="field">
+          <%= f.label :avatar, "Avatar" %>
+          <%= f.file_field :avatar, accept: "image/*" %>
+        </div>
+
+        <% end %>
+      </section>
+
+      
+
       <div class="actions mt-4">
         <%= f.submit "Save profile", class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>
 </div>
+
+<style>
+  .profile-hero-card.compact {
+  background: var(--navy-light);
+  color: var(--white);
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-avatar-medium {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  object-fit: cover;
+}
