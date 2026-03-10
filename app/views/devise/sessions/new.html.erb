@@ -1,20 +1,126 @@
-<h2>Log in</h2>
+<div class="auth-card">
+  <h2 class="honk text-center mb-4">Log in</h2>
 
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: false,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-    <%= f.input :password,
-                required: false,
-                input_html: { autocomplete: "current-password" } %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+    <div class="mb-3">
+      <%= f.input :email,
+                  required: false,
+                  autofocus: true,
+                  label: "Email",
+                  input_html: { autocomplete: "email", class: "form-control" },
+                  wrapper_html: { class: "mb-3" },
+                  label_html: { class: "form-label" } %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.input :password,
+                  required: false,
+                  label: "Password",
+                  input_html: { autocomplete: "current-password", class: "form-control" },
+                  wrapper_html: { class: "mb-3" },
+                  label_html: { class: "form-label" } %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="form-check mb-3">
+        <%= f.input :remember_me,
+                    as: :boolean,
+                    label: "Remember me",
+                    input_html: { class: "form-check-input" },
+                    label_html: { class: "form-check-label" } %>
+      </div>
+    <% end %>
+
+    <%= f.button :submit, "Log in", class: "btn btn-orange w-100 mt-2" %>
+
+  <% end %>
+
+  <div class="auth-links text-center mt-3">
+    <%= render "devise/shared/links" %>
   </div>
+</div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
-  </div>
-<% end %>
+<style>
+  :root {
+    --navy: #0a0f1f;
+    --orange: #ff7a00;
+    --grey-light: #d1d5db;
+    --grey-mid: #9ca3af;
+    --white: #ffffff;
+  }
 
-<%= render "devise/shared/links" %>
+  body {
+    background: var(--navy);
+  }
+
+  .honk {
+    font-family: "Honk", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 50;
+  }
+
+  .auth-card {
+    max-width: 450px;
+    margin: 60px auto;
+    background: #11182e;
+    padding: 32px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .form-label {
+    color: var(--grey-light);
+    font-weight: 600;
+  }
+
+  .form-control {
+    background: #0d1326;
+    border: 1px solid var(--grey-mid);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .form-control:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 0.25rem rgba(255, 122, 0, 0.35);
+  }
+
+  .form-check-label {
+    color: var(--grey-light);
+  }
+
+  .form-check-input:checked {
+    background-color: var(--orange);
+    border-color: var(--orange);
+  }
+
+  .btn-orange {
+    background: var(--orange);
+    color: var(--navy);
+    font-weight: 700;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+  }
+
+  .btn-orange:hover {
+    background: #ff8f26;
+  }
+
+  .auth-links a {
+    color: var(--grey-light);
+    text-decoration: none;
+  }
+
+  .auth-links a:hover {
+    color: var(--orange);
+  }
+</style>

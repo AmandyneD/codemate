@@ -4,10 +4,6 @@
       <h1 class="page-title honk">Discover projects</h1>
       <p class="page-subtitle-modern">Find a project to join, build, and showcase in your portfolio.</p>
     </div>
-
-    <% if user_signed_in? %>
-      <%= link_to "Create a project", new_project_path, class: "btn btn-orange" %>
-    <% end %>
   </div>
 
   <% if @projects.any? %>
@@ -57,7 +53,9 @@
       <p>Be the first to create a project on Codemate.</p>
 
       <% if user_signed_in? %>
-        <%= link_to "Create the first project", new_project_path, class: "btn btn-orange" %>
+         <%= link_to "Create your first project", new_project_path,
+      class: "btn btn-orange w-25 mt-3",
+      style: "background-color: #ff7a00" %>
       <% end %>
     </div>
   <% end %>

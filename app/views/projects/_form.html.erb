@@ -86,7 +86,10 @@
     </div>
 
     <div class="actions">
-      <%= f.submit project.persisted? ? "Save changes" : "Create project", class: "btn btn-primary" %>
+      <%= f.submit(
+      project.persisted? ? "Save changes" : "Create project",
+      class: "btn btn-orange w-100 mt-3"
+    ) %>
     </div>
   <% end %>
 </div>
