@@ -106,6 +106,22 @@
         <li><strong>Status:</strong> <%= @project.status.capitalize %></li>
       </ul>
 
+    <% if user_signed_in? %>
+      <% existing_bookmark = current_user.bookmarks.find_by(project: @project) %>
+
+      <% if existing_bookmark.present? %>
+        <%= button_to "Remove from favorites",
+          project_bookmark_path(@project, existing_bookmark),
+          method: :delete,
+          class: "btn btn-secondary" %>
+      <% else %>
+        <%= button_to "Add to favorites",
+          project_bookmarks_path(@project),
+          method: :post,
+          class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+
       <% if user_signed_in? %>
         <% unless @project.owner == current_user %>
           <% existing_collaboration = @project.collaborations.find_by(user: current_user) %>

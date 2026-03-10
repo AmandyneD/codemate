@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :owned_projects, through: :owned_collaborations, source: :project
 
   has_many :bookmarks, dependent: :destroy
-  has_many :bookmarked_projects, through: :bookmarks, source: :project
+has_many :bookmarked_projects, through: :bookmarks, source: :project
 
   has_many :started_conversations,
            class_name: "Conversation",

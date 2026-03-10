@@ -6,6 +6,7 @@ class Project < ApplicationRecord
   has_many :users, through: :collaborations
 
   has_many :bookmarks, dependent: :destroy
+has_many :bookmarked_by_users, through: :bookmarks, source: :user
   has_many :conversations, dependent: :destroy
 
   validates :title, presence: true

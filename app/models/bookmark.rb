@@ -2,5 +2,5 @@ class Bookmark < ApplicationRecord
   belongs_to :user
   belongs_to :project
 
-  validates :user_id, uniqueness: { scope: :project_id }
+  validates :project_id, uniqueness: { scope: :user_id }
 end

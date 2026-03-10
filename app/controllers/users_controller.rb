@@ -5,14 +5,18 @@ class UsersController < ApplicationController
 
   def show
     @owned_projects = @user.collaborations
-                           .where(owner: true, status: "accepted")
-                           .includes(:project)
-                           .map(&:project)
+                          .where(owner: true, status: "accepted")
+                          .includes(:project)
+                          .map(&:project)
 
     @joined_projects = @user.collaborations
                             .where(owner: false, status: "accepted")
                             .includes(:project)
                             .map(&:project)
+
+    @favorite_projects = @user.bookmarked_projects
+                              .includes(:technologies)
+                              .order(created_at: :desc)
   end
 
   def edit

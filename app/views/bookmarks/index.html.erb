@@ -1,2 +1,31 @@
-<h1>Bookmarks#index</h1>
-<p>Find me in app/views/bookmarks/index.html.erb</p>
+<div class="page-shell">
+  <div class="page-header">
+    <div>
+      <h1>My favorite projects</h1>
+      <p class="page-subtitle">Projects you saved to revisit later.</p>
+    </div>
+  </div>
+
+  <div class="content-card">
+    <% if @favorite_projects.any? %>
+      <div class="project-list">
+        <% @favorite_projects.each do |project| %>
+          <%= link_to project_path(project), class: "project-row-card" do %>
+            <div class="project-row-card-content">
+              <div class="project-row-card-main">
+                <strong><%= project.title %></strong>
+                <div class="muted-text"><%= project.short_description %></div>
+              </div>
+
+              <div class="project-row-card-meta">
+                <span class="badge"><%= project.status.capitalize %></span>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="muted-text">You have no favorite projects yet.</p>
+    <% end %>
+  </div>
+</div>
