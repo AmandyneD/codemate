@@ -7,6 +7,12 @@ Rails.application.routes.draw do
     resources :user_technologies, only: [ :create, :destroy ]
   end
 
+  resources :technologies, only: [ :index, :show ] do
+    collection do
+      get :search
+    end
+  end
+
   resources :projects do
     resources :project_technologies, only: [ :create, :destroy ]
     resources :collaborations, only: [ :create, :index, :update ]
