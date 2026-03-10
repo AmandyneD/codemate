@@ -45,16 +45,38 @@
       <div class="field">
         <label class="form-label">Technologies</label>
 
-        <% Technology.order(:name).each do |tech| %>
-          <div class="form-check">
-            <%= check_box_tag "project[technology_ids][]", tech.id,
-                project.technology_ids.include?(tech.id),
-                class: "form-check-input",
-                id: "technology_#{tech.id}" %>
+        <div
+          class="tech-picker"
+          data-controller="technology-picker"
+          data-technology-picker-search-url-value="<%= search_technologies_path %>"
+          data-technology-picker-selected-value="<%= project.technologies.select(:id, :name, :category).map { |t| { id: t.id, name: t.name, category: t.category } }.to_json %>"
+        >
+          <div class="tech-picker-selected" data-technology-picker-target="selected"></div>
 
-            <%= label_tag "technology_#{tech.id}", tech.name, class: "form-check-label" %>
+          <div class="tech-picker-toolbar">
+            <input
+              type="text"
+              class="tech-picker-input"
+              placeholder="Search technologies... (ex: Rails, React, Python)"
+              data-technology-picker-target="input"
+              data-action="input->technology-picker#search keydown->technology-picker#handleKeydown"
+            >
+
+            <select
+              class="tech-picker-category"
+              data-technology-picker-target="category"
+              data-action="change->technology-picker#search"
+            >
+              <option value="">All categories</option>
+              <% Technology::CATEGORIES.each do |category| %>
+                <option value="<%= category %>"><%= category.humanize %></option>
+              <% end %>
+            </select>
           </div>
-        <% end %>
+
+          <div class="tech-picker-results" data-technology-picker-target="results"></div>
+          <div data-technology-picker-target="hiddenFields"></div>
+        </div>
       </div>
 
       <div class="field">
