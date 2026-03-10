@@ -19,8 +19,8 @@
       </ul>
 
       <div class="d-flex gap-3">
-        <a href="/signup" class="btn btn-outline-dark rounded-pill px-4">Sign up</a>
-        <a href="/login" class="btn btn-dark rounded-pill px-4">Login</a>
+        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-dark rounded-pill px-4" %>
+        <%= link_to "Log in", new_user_session_path, class: "btn btn-dark rounded-pill px-4" %>
       </div>
 
     </div>
