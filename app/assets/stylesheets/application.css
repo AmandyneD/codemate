@@ -385,3 +385,33 @@ nav {
 .member-link:hover {
   text-decoration: underline;
 }
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.tech-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid #d9dde7;
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.tech-option:hover {
+  border-color: #bfc6d4;
+}
+
+.avatar-preview img.profile-avatar {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid #d9dde7;
+}

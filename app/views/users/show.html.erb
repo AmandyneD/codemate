@@ -1,5 +1,7 @@
 <div class="page-shell">
-  <p class="back-link"><%= link_to "← Back", :back rescue link_to("← Back to projects", projects_path) %></p>
+  <p class="back-link">
+    <%= link_to "← Back", request.referer.presence || projects_path %>
+  </p>
 
   <section class="project-hero">
     <div>
@@ -16,6 +18,13 @@
 
   <div class="project-layout">
     <main class="content-card">
+      <% if @user.avatar_url.present? %>
+        <section class="content-section">
+          <h2>Profile picture</h2>
+          <img src="<%= @user.avatar_url %>" alt="<%= @user.display_name %>" class="profile-avatar">
+        </section>
+      <% end %>
+
       <section class="content-section">
         <h2>Technologies</h2>
         <div class="tech-list">
@@ -72,6 +81,14 @@
       <ul class="info-list">
         <li><strong>Name:</strong> <%= @user.display_name %></li>
         <li><strong>Email:</strong> <%= @user.email %></li>
+
+        <% if @user.github_url.present? %>
+          <li>
+            <strong>GitHub:</strong>
+            <%= link_to @user.github_url, @user.github_url, target: "_blank", rel: "noopener" %>
+          </li>
+        <% end %>
+
         <li><strong>Projects created:</strong> <%= @owned_projects.count %></li>
         <li><strong>Projects joined:</strong> <%= @joined_projects.count %></li>
       </ul>
