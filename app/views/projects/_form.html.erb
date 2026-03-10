@@ -49,12 +49,12 @@
           class="tech-picker"
           data-controller="technology-picker"
           data-technology-picker-search-url-value="<%= search_technologies_path %>"
-          data-technology-picker-selected-value='<%= project.technologies.map { |t| { id: t.id, name: t.name, category: t.category } }.to_json %>'
+          data-technology-picker-selected-value="<%= project.technologies.map { |t| { id: t.id, name: t.name, category: t.category } }.to_json %>"
         >
           <div class="tech-picker-selected" data-technology-picker-target="selected"></div>
 
           <div class="tech-picker-toolbar">
-            <input
+            <input <%# herb:disable html-input-require-autocomplete %>
               type="text"
               class="tech-picker-input"
               placeholder="Search technologies... (ex: Rails, React, Python)"
