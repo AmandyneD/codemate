@@ -828,3 +828,38 @@ nav {
     width: 100%;
   }
 }
+
+.project-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.project-hero-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.project-hero-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.project-hero-actions form {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .project-hero {
+    flex-direction: column;
+  }
+
+  .project-hero-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
