@@ -24,6 +24,7 @@
             <%= link_to "My projects", my_projects_path, class: "nav-link" %>
           </li>
 
+
           <li class="nav-item">
             <%= link_to "Create project",
                 new_project_path,
@@ -110,19 +111,6 @@
               <li><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
             </ul>
           </li>
-
-        <% else %>
-
-          <li class="nav-item">
-            <%= link_to "Sign up", new_user_registration_path, class: "btn btn-orange rounded-pill px-4 me-2" %>
-          </li>
-
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "btn btn-grey rounded-pill px-4" %>
-          </li>
-
-        <% end %>
-
       </ul>
     </div>
   </div>
