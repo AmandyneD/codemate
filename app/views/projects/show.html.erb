@@ -47,17 +47,30 @@
         <% if @accepted_collaborations.any? %>
           <div class="member-list">
             <% @accepted_collaborations.each do |collaboration| %>
-              <%= link_to user_path(collaboration.user), class: "member-card member-card-link" do %>
-                <div>
-                  <strong><%= collaboration.user.display_name %></strong>
+              <div class="member-card">
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap">
+                  <%= link_to user_path(collaboration.user), class: "member-card member-card-link flex-grow-1 p-0 border-0 shadow-none" do %>
+                    <div>
+                      <strong><%= collaboration.user.display_name %></strong>
 
-                  <% if collaboration.owner %>
-                    <span class="member-role">Owner</span>
-                  <% elsif collaboration.role.present? %>
-                    <span class="member-role"><%= collaboration.role %></span>
+                      <% if collaboration.owner %>
+                        <span class="member-role">Owner</span>
+                      <% elsif collaboration.role.present? %>
+                        <span class="member-role"><%= collaboration.role %></span>
+                      <% end %>
+                    </div>
+                  <% end %>
+
+                  <% if user_signed_in? && @project.owner == current_user && !collaboration.owner %>
+                    <%= button_to "Remove",
+                      project_collaboration_path(@project, collaboration),
+                      method: :patch,
+                      params: { status: "removed" },
+                      form: { data: { turbo_confirm: "Are you sure you want to remove this member from the project?" } },
+                      class: "btn btn-danger" %>
                   <% end %>
                 </div>
-              <% end %>
+              </div>
             <% end %>
           </div>
         <% else %>
