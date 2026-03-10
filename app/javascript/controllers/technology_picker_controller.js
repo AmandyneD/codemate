@@ -8,12 +8,17 @@ export default class extends Controller {
   }
 
   connect() {
+    console.log("technology-picker connected")
+    console.log("selectedValue:", this.selectedValue)
+
     this.selectedItems = this.selectedValue || []
     this.renderSelected()
     this.renderHiddenFields()
   }
 
   search() {
+    console.log("technology-picker search triggered")
+
     const query = this.inputTarget.value.trim()
     const category = this.categoryTarget.value
 
@@ -27,11 +32,14 @@ export default class extends Controller {
       url.searchParams.set("category", category)
     }
 
+    console.log("fetching:", url.toString())
+
     fetch(url, {
       headers: { Accept: "application/json" }
     })
       .then(response => response.json())
       .then(data => {
+        console.log("results:", data)
         this.renderResults(data)
       })
       .catch(error => {

@@ -1,20 +1,31 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_project, only: %i[show edit update]
-  before_action :authorize_owner!, only: %i[edit update]
+  before_action :set_project, only: %i[show edit update destroy]
+  before_action :authorize_owner!, only: %i[edit update destroy]
 
   def index
-    @projects = Project.published.includes(:technologies, collaborations: :user)
+    @projects = Project.includes(:technologies)
+                      .where.not(status: "draft")
+                      .order(created_at: :desc)
 
-    @projects = @projects.where(category: params[:category]) if params[:category].present?
-    @projects = @projects.where(estimated_duration: params[:estimated_duration]) if params[:estimated_duration].present?
-
-    if params[:technology_id].present?
-      @projects = @projects.joins(:project_technologies)
-                           .where(project_technologies: { technology_id: params[:technology_id] })
+    if params[:q].present?
+      query = "%#{params[:q].strip}%"
+      @projects = @projects.where(
+        "title ILIKE :q OR short_description ILIKE :q OR description ILIKE :q",
+        q: query
+      )
     end
 
-    @projects = @projects.distinct.order(created_at: :desc)
+    if params[:stack].present?
+      @projects = @projects.joins(:technologies)
+                          .where(technologies: { category: params[:stack] })
+    end
+
+    if params[:estimated_duration].present?
+      @projects = @projects.where(estimated_duration: params[:estimated_duration])
+    end
+
+    @projects = @projects.distinct
   end
 
   def show
@@ -58,6 +69,11 @@ class ProjectsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @project.destroy
+    redirect_to my_projects_path, notice: "Projet supprimé avec succès."
   end
 
   private

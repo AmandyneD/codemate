@@ -1,12 +1,123 @@
-<div class="page-shell">
-  <div class="page-header">
+<div class="page-shell-modern">
+  <div class="page-header-modern mb-4">
     <div>
-      <h1>New project</h1>
-      <p class="page-subtitle">Create a project and start building your team.</p>
+      <h1 class="page-title honk">New project</h1>
+      <p class="page-subtitle-modern">Create a project and start building your team.</p>
     </div>
   </div>
 
-  <%= render "form", project: @project %>
+  <div class="project-form-card" style="color: black">
+    <%= render "form", project: @project %>
+  </div>
 
-  <p class="back-link"><%= link_to "← Back to projects", projects_path %></p>
+  <p class="back-link-modern mt-4">
+    <%= link_to "← Back to projects", projects_path, class: "back-link-modern" %>
+  </p>
 </div>
+
+<style>
+  :root {
+    --navy: #0a0f1f;
+    --orange: #ff7a00;
+    --grey-light: #d1d5db;
+    --grey-mid: #9ca3af;
+    --white: #ffffff;
+  }
+
+  body {
+    background: var(--navy);
+  }
+
+  .honk {
+    font-family: "Honk", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 50;
+  }
+
+  /* --- Page shell --- */
+  .page-shell-modern {
+    padding: 40px;
+    color: var(--white);
+    min-height: 100vh;
+  }
+
+  .page-header-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .page-title {
+    font-size: 48px;
+    margin: 0;
+    color: var(--orange);
+  }
+
+  .page-subtitle-modern {
+    color: var(--grey-light);
+    margin-top: 6px;
+  }
+
+  /* --- Form card --- */
+  .project-form-card {
+    background: #11182e;
+    padding: 32px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* --- Form elements (Bootstrap compatible) --- */
+  .project-form-card label {
+    color: var(--grey-light);
+    font-weight: 600;
+  }
+
+  .project-form-card .form-control,
+  .project-form-card textarea,
+  .project-form-card select {
+    background: #0d1326;
+    border: 1px solid var(--grey-mid);
+    color: var(--white);
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .project-form-card .form-control:focus,
+  .project-form-card textarea:focus,
+  .project-form-card select:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 0.25rem rgba(255, 122, 0, 0.35);
+  }
+
+  /* --- Buttons --- */
+  .btn-orange {
+    background: var(--orange);
+    color: var(--navy);
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+  }
+
+  .btn-orange:hover {
+    background: #ff8f26;
+  }
+
+  /* --- Back link --- */
+  .back-link-modern {
+    color: var(--grey-light);
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  .back-link-modern:hover {
+    color: var(--orange);
+  }
+</style>

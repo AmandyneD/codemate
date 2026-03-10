@@ -4,9 +4,41 @@
       <h1 class="page-title honk">Discover projects</h1>
       <p class="page-subtitle-modern">Find a project to join, build, and showcase in your portfolio.</p>
     </div>
+  </div>
 
-    <% if user_signed_in? %>
-      <%= link_to "Create a project", new_project_path, class: "btn btn-orange" %>
+  <div class="search-hero">
+    <%= form_with url: projects_path, method: :get, local: true, class: "project-search-bar" do %>
+      <div class="search-input-wrap">
+        <%= text_field_tag :q,
+            params[:q],
+            placeholder: "Search projects...",
+            class: "search-input" %>
+        <span class="search-input-icon">⌕</span>
+      </div>
+
+      <%= select_tag :stack,
+          options_for_select(
+            [["All stacks", ""]] + Technology::CATEGORIES.map { |category| [category.humanize, category] },
+            params[:stack]
+          ),
+          class: "search-select" %>
+
+      <%= select_tag :estimated_duration,
+          options_for_select(
+            [
+              ["All durations", ""],
+              ["Weekend", "weekend"],
+              ["One week", "one_week"],
+              ["Two weeks", "two_weeks"],
+              ["One month", "one_month"],
+              ["Three months", "three_months"],
+              ["Long term", "long_term"]
+            ],
+            params[:estimated_duration]
+          ),
+          class: "search-select" %>
+
+      <%= submit_tag "Search", class: "search-submit" %>
     <% end %>
   </div>
 
@@ -57,7 +89,9 @@
       <p>Be the first to create a project on Codemate.</p>
 
       <% if user_signed_in? %>
-        <%= link_to "Create the first project", new_project_path, class: "btn btn-orange" %>
+         <%= link_to "Create your first project", new_project_path,
+      class: "btn btn-orange w-25 mt-3",
+      style: "background-color: #ff7a00" %>
       <% end %>
     </div>
   <% end %>
