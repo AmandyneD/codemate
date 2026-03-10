@@ -5,9 +5,9 @@ class UsersController < ApplicationController
 
   def show
     @owned_projects = @user.collaborations
-                          .where(owner: true, status: "accepted")
-                          .includes(:project)
-                          .map(&:project)
+                           .where(owner: true, status: "accepted")
+                           .includes(:project)
+                           .map(&:project)
 
     @joined_projects = @user.collaborations
                             .where(owner: false, status: "accepted")
