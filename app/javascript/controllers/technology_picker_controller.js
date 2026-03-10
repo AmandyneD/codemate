@@ -67,7 +67,7 @@ export default class extends Controller {
           data-category="${item.category}"
         >
           <span>${item.name}</span>
-          <small>${item.category}</small>
+          <small>${item.category || "Other"}</small>
         </button>
       `
     }).join("")
