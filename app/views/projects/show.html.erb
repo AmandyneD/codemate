@@ -1,21 +1,21 @@
 <div class="page-shell">
   <p class="back-link"><%= link_to "← Back to projects", projects_path %></p>
 
-  <section class="project-hero">
-    <div>
-      <div class="project-card-top">
-        <span class="badge"><%= @project.status.capitalize %></span>
-        <span class="badge badge-light"><%= @project.category %></span>
-      </div>
-
-      <h1><%= @project.title %></h1>
-      <p class="page-subtitle"><%= @project.short_description %></p>
+  <section class="project-hero-modern">
+  <div>
+    <div class="project-card-top-modern">
+      <span class="badge-orange"><%= @project.status.capitalize %></span>
+      <span class="badge-grey"><%= @project.category %></span>
     </div>
 
-    <% if user_signed_in? && @project.owner == current_user %>
-      <%= link_to "Edit project", edit_project_path(@project), class: "btn btn-primary" %>
-    <% end %>
-  </section>
+    <h1 class="project-title honk"><%= @project.title %></h1>
+    <p class="project-subtitle"><%= @project.short_description %></p>
+  </div>
+
+  <% if user_signed_in? && @project.owner == current_user %>
+    <%= link_to "Edit project", edit_project_path(@project), class: "btn btn-orange" %>
+  <% end %>
+</section>
 
   <div class="project-layout">
     <main class="content-card">

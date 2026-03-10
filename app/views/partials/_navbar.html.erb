@@ -1,28 +1,80 @@
-<nav class="navbar navbar-expand-lg bg-white shadow-sm py-3 sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark topbar-modern sticky-top py-3 shadow-sm">
   <div class="container-fluid px-4">
 
-    <a class="navbar-brand d-flex align-items-center" href="#">
+    <!-- BRAND -->
+    <a class="navbar-brand d-flex align-items-center" href="/">
       <%= image_tag "perso_codemate.svg", height: 50, class: "me-2", alt: "Logo" %>
       <%= image_tag "codemate.svg", height: 34, class: "me-2", alt: "Logo" %>
+      <span class="ms-1 honk">Codemate</span>
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPremium">
+    <!-- BURGER -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse"  id="navbarPremium">
+    <!-- NAV CONTENT -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
 
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item ">
-          
-        </li>
+      <!-- LEFT LINKS -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to "My projects", my_projects_path, class: "nav-link" %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to "Favorites", my_favorites_path, class: "nav-link" %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to "New project", new_project_path, class: "nav-link" %>
+          </li>
+        <% end %>
+
       </ul>
 
-      <div class="d-flex gap-3">
-        <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-dark rounded-pill px-4" %>
-        <%= link_to "Log in", new_user_session_path, class: "btn btn-dark rounded-pill px-4" %>
-      </div>
+      <!-- RIGHT SIDE -->
+      <ul class="navbar-nav ms-auto">
 
+        <% if user_signed_in? %>
+
+          <!-- USER NAME -->
+          <li class="nav-item">
+            <%= link_to current_user.display_name.presence || current_user.email,
+                        user_path(current_user),
+                        class: "nav-link" %>
+          </li>
+
+          <!-- DROPDOWN -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
+              Settings
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-modern">
+              <li><%= link_to "My profile", user_path(current_user), class: "dropdown-item" %></li>
+              <li><%= link_to "Edit profile", edit_user_path(current_user), class: "dropdown-item" %></li>
+              <li><%= link_to "Account settings", edit_user_registration_path, class: "dropdown-item" %></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+            </ul>
+          </li>
+
+        <% else %>
+
+          <li class="nav-item">
+            <%= link_to "Sign up", new_user_registration_path, class: "btn btn-orange rounded-pill px-4 me-2" %>
+          </li>
+
+          <li class="nav-item">
+            <%= link_to "Login", new_user_session_path, class: "btn btn-grey rounded-pill px-4" %>
+          </li>
+
+        <% end %>
+
+      </ul>
     </div>
   </div>
 </nav>
