@@ -39,8 +39,24 @@
         <% if user_signed_in? %>
 
           <details class="user-dropdown">
-            <summary class="btn btn-outline-dark rounded-pill px-4">
-              <%= current_user.display_name.presence || "Account" %>
+            <summary class="user-menu-button">
+
+              <% if current_user.avatar.attached? %>
+                <%= image_tag current_user.avatar,
+                    class: "navbar-avatar",
+                    alt: current_user.display_name %>
+              <% else %>
+                <div class="navbar-avatar-fallback">
+                  <%= current_user.display_name.to_s.first.upcase %>
+                </div>
+              <% end %>
+
+              <span class="navbar-username">
+                <%= current_user.display_name %>
+              </span>
+
+              <span class="navbar-caret">▾</span>
+
             </summary>
 
             <div class="user-dropdown-menu">
