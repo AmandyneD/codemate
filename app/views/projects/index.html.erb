@@ -1,61 +1,206 @@
-<div class="page-shell">
-  <div class="page-header">
+<div class="page-shell-modern">
+  <div class="page-header-modern">
     <div>
-      <h1>Discover projects</h1>
-      <p class="page-subtitle">Find a project to join, build, and showcase in your portfolio.</p>
+      <h1 class="page-title honk">Discover projects</h1>
+      <p class="page-subtitle-modern">Find a project to join, build, and showcase in your portfolio.</p>
     </div>
 
     <% if user_signed_in? %>
-      <%= link_to "Create a project", new_project_path, class: "btn btn-primary" %>
+      <%= link_to "Create a project", new_project_path, class: "btn btn-orange" %>
     <% end %>
   </div>
 
   <% if @projects.any? %>
-    <div class="projects-grid">
+    <div class="projects-grid-modern">
       <% @projects.each do |project| %>
-        <article class="project-card">
-          <div class="project-card-top">
-            <span class="badge"><%= project.status.capitalize %></span>
-            <span class="badge badge-light"><%= project.category %></span>
+        <article class="project-card-modern">
+          <div class="project-card-top-modern">
+            <span class="badge badge-orange"><%= project.status.capitalize %></span>
+            <span class="badge badge-grey"><%= project.category %></span>
           </div>
 
-          <h2><%= link_to project.title, project_path(project), class: "project-card-title" %></h2>
-          <p class="project-card-text"><%= project.short_description %></p>
+          <h2 class="project-card-title-modern">
+            <%= link_to project.title, project_path(project) %>
+          </h2>
 
-          <div class="project-meta">
+          <p class="project-card-text-modern"><%= project.short_description %></p>
+
+          <div class="project-meta-modern">
             <span>⏱ <%= project.estimated_duration.humanize %></span>
             <span>👥 <%= project.accepted_members_count %> / <%= project.max_collaborators %></span>
           </div>
 
-          <div class="tech-list">
+          <div class="tech-list-modern">
             <% if project.technologies.any? %>
               <% project.technologies.each do |technology| %>
-                <span class="tech-badge"><%= technology.name %></span>
+                <span class="tech-badge-modern"><%= technology.name %></span>
               <% end %>
             <% else %>
-              <span class="muted-text">No technologies yet</span>
+              <span class="muted-text-modern">No technologies yet</span>
             <% end %>
           </div>
 
-          <div class="project-card-footer">
-            <span class="muted-text">
+          <div class="project-card-footer-modern">
+            <span class="muted-text-modern">
               Owner:
               <strong><%= project.owner&.display_name || "Unknown" %></strong>
             </span>
 
-            <%= link_to "View project", project_path(project), class: "btn btn-secondary" %>
+            <%= link_to "View project", project_path(project), class: "btn btn-grey" %>
           </div>
         </article>
       <% end %>
     </div>
   <% else %>
-    <div class="empty-state">
+    <div class="empty-state-modern">
       <h2>No projects yet</h2>
       <p>Be the first to create a project on Codemate.</p>
 
       <% if user_signed_in? %>
-        <%= link_to "Create the first project", new_project_path, class: "btn btn-primary" %>
+        <%= link_to "Create the first project", new_project_path, class: "btn btn-orange" %>
       <% end %>
     </div>
   <% end %>
 </div>
+
+      <style>
+  /* --- Palette --- */
+  :root {
+    --navy: #0a0f1f;
+    --orange: #ff7a00;
+    --grey-light: #d1d5db;
+    --grey-mid: #9ca3af;
+    --white: #ffffff;
+  }
+
+  .honk {
+    font-family: "Honk", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 50;
+  }
+
+  .page-shell-modern {
+    background: var(--navy);
+    min-height: 100vh;
+    padding: 40px;
+    color: var(--white);
+  }
+
+  .page-header-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .page-title {
+    font-size: 48px;
+    margin: 0;
+    color: var(--orange);
+  }
+
+  .page-subtitle-modern {
+    color: var(--grey-light);
+    margin-top: 6px;
+  }
+
+  .projects-grid-modern {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+  }
+
+  .project-card-modern {
+    background: #11182e;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+
+  .project-card-modern:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .badge-orange {
+    background: var(--orange);
+    color: var(--navy);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .badge-grey {
+    background: var(--grey-mid);
+    color: var(--navy);
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+
+  .project-card-title-modern a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .project-card-text-modern {
+    color: var(--grey-light);
+  }
+
+  .project-meta-modern {
+    display: flex;
+    justify-content: space-between;
+    color: var(--grey-mid);
+  }
+
+  .tech-badge-modern {
+    background: rgba(255,255,255,0.1);
+    padding: 6px 12px;
+    border-radius: 10px;
+    color: var(--grey-light);
+    font-size: 14px;
+  }
+
+  .project-card-footer-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .muted-text-modern {
+    color: var(--grey-mid);
+  }
+
+  .btn-orange {
+    background: var(--orange);
+    color: var(--navy) !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .btn-grey {
+    background: var(--grey-light);
+    color: var(--navy) !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .empty-state-modern {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--white);
+  }
+</style>
