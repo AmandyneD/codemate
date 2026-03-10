@@ -476,3 +476,18 @@ nav {
   background: #ef4444;
   color: white;
 }
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.avatar-preview .profile-avatar {
+  width: 88px;
+  height: 88px;
+  margin-bottom: 0;
+}

@@ -43,7 +43,7 @@ class UsersController < ApplicationController
       :display_name,
       :bio,
       :github_url,
-      :avatar_url,
+      :avatar,
       technology_ids: []
     )
   end

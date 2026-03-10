@@ -30,5 +30,7 @@ class User < ApplicationRecord
 
   has_many :messages, dependent: :destroy
 
+  has_one_attached :avatar
+
   validates :display_name, presence: true
 end

@@ -42,15 +42,15 @@
         </div>
 
         <div class="field">
-          <%= f.label :avatar_url, "Avatar URL" %>
-          <%= f.text_field :avatar_url, placeholder: "https://..." %>
+          <%= f.label :avatar, "Avatar" %>
+          <%= f.file_field :avatar, accept: "image/*" %>
         </div>
 
-        <% if @user.avatar_url.present? %>
+        <% if @user.avatar.attached? %>
           <div class="field">
-            <label>Avatar preview</label>
+            <label>Current avatar</label>
             <div class="avatar-preview">
-              <img src="<%= @user.avatar_url %>" alt="<%= @user.display_name %>" class="profile-avatar">
+              <%= image_tag @user.avatar, class: "profile-avatar" %>
             </div>
           </div>
         <% end %>

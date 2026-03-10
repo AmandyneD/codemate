@@ -18,11 +18,8 @@
 
   <div class="project-layout">
     <main class="content-card">
-      <% if @user.avatar_url.present? %>
-        <section class="content-section">
-          <h2>Profile picture</h2>
-          <img src="<%= @user.avatar_url %>" alt="<%= @user.display_name %>" class="profile-avatar">
-        </section>
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar, class: "profile-avatar" %>
       <% end %>
 
       <section class="content-section">
