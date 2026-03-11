@@ -1,9 +1,10 @@
-<div class="page-shell">
+<div class="page-shell-centered">
+
   <p class="back-link">
     <%= link_to "← Back", request.referer.presence || projects_path %>
   </p>
 
-  <section class="profile-hero-card">
+  <section class="profile-hero-card-centered">
     <div class="profile-hero-main">
       <div class="profile-avatar-wrap">
         <% if @user.avatar.attached? %>
@@ -16,9 +17,9 @@
       </div>
 
       <div class="profile-hero-content">
-        <h1><%= @user.display_name %></h1>
+        <h1 class="honk"><%= @user.display_name %></h1>
 
-        <p class="page-subtitle">
+        <p class="page-subtitle-modern">
           <%= @user.bio.presence || "This member has not added a bio yet." %>
         </p>
 
@@ -38,295 +39,261 @@
 
     <% if user_signed_in? && current_user == @user %>
       <div class="profile-hero-actions">
-        <%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-primary" %>
+        <%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-orange" %>
       </div>
     <% end %>
   </section>
 
-  <div class="profile-layout">
-    <main class="content-card">
-      <section class="content-section">
-        <div class="section-heading">
-          <h2>Technologies</h2>
-        </div>
+  <main class="content-card-centered">
 
-        <div class="tech-list">
-          <% if @user.technologies.any? %>
-            <% @user.technologies.order(:name).each do |technology| %>
-              <span class="tech-badge"><%= technology.name %></span>
+    <section class="content-section-centered">
+      <div class="section-heading-centered">
+        <h2>Technologies</h2>
+      </div>
+
+      <div class="tech-list-centered">
+        <% if @user.technologies.any? %>
+          <% @user.technologies.order(:name).each do |technology| %>
+            <span class="tech-badge-centered"><%= technology.name %></span>
+          <% end %>
+        <% else %>
+          <span class="muted-text">No technologies added yet.</span>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="content-section-centered">
+      <div class="section-heading-centered">
+        <h2>Created projects</h2>
+        <span class="section-count-centered"><%= @owned_projects.count %></span>
+      </div>
+
+      <% if @owned_projects.any? %>
+        <div class="project-list-centered">
+          <% @owned_projects.each do |project| %>
+            <%= link_to project_path(project), class: "project-row-card-centered" do %>
+              <div class="project-row-card-content">
+                <div class="project-row-card-main">
+                  <strong><%= project.title %></strong>
+                  <div class="muted-text"><%= project.short_description %></div>
+                </div>
+
+                <div class="project-row-card-meta">
+                  <span class="badge-centered"><%= project.status.capitalize %></span>
+                </div>
+              </div>
             <% end %>
-          <% else %>
-            <span class="muted-text">No technologies added yet.</span>
           <% end %>
         </div>
-      </section>
+      <% else %>
+        <p class="muted-text">No created projects yet.</p>
+      <% end %>
+    </section>
 
-      <section class="content-section">
-        <div class="section-heading">
-          <h2>Created projects</h2>
-          <span class="section-count"><%= @owned_projects.count %></span>
-        </div>
+    <section class="content-section-centered">
+      <div class="section-heading-centered">
+        <h2>Joined projects</h2>
+        <span class="section-count-centered"><%= @joined_projects.count %></span>
+      </div>
 
-        <% if @owned_projects.any? %>
-          <div class="project-list">
-            <% @owned_projects.each do |project| %>
-              <%= link_to project_path(project), class: "project-row-card" do %>
-                <div class="project-row-card-content">
-                  <div class="project-row-card-main">
-                    <strong><%= project.title %></strong>
-                    <div class="muted-text"><%= project.short_description %></div>
-                  </div>
-
-                  <div class="project-row-card-meta">
-                    <span class="badge"><%= project.status.capitalize %></span>
-                  </div>
+      <% if @joined_projects.any? %>
+        <div class="project-list-centered">
+          <% @joined_projects.each do |project| %>
+            <%= link_to project_path(project), class: "project-row-card-centered" do %>
+              <div class="project-row-card-content">
+                <div class="project-row-card-main">
+                  <strong><%= project.title %></strong>
+                  <div class="muted-text"><%= project.short_description %></div>
                 </div>
-              <% end %>
-            <% end %>
-          </div>
-        <% else %>
-          <p class="muted-text">No created projects yet.</p>
-        <% end %>
-      </section>
 
-      <section class="content-section">
-        <div class="section-heading">
-          <h2>Joined projects</h2>
-          <span class="section-count"><%= @joined_projects.count %></span>
-        </div>
-
-        <% if @joined_projects.any? %>
-          <div class="project-list">
-            <% @joined_projects.each do |project| %>
-              <%= link_to project_path(project), class: "project-row-card" do %>
-                <div class="project-row-card-content">
-                  <div class="project-row-card-main">
-                    <strong><%= project.title %></strong>
-                    <div class="muted-text"><%= project.short_description %></div>
-                  </div>
-
-                  <div class="project-row-card-meta">
-                    <span class="badge"><%= project.status.capitalize %></span>
-                  </div>
+                <div class="project-row-card-meta">
+                  <span class="badge-centered"><%= project.status.capitalize %></span>
                 </div>
-              <% end %>
+              </div>
             <% end %>
-          </div>
-        <% else %>
-          <p class="muted-text">No joined projects yet.</p>
-        <% end %>
-      </section>
-
-      <section class="content-section">
-        <div class="section-heading">
-          <h2>Favorite projects</h2>
-          <span class="section-count"><%= @favorite_projects.count %></span>
+          <% end %>
         </div>
+      <% else %>
+        <p class="muted-text">No joined projects yet.</p>
+      <% end %>
+    </section>
 
-        <% if @favorite_projects.any? %>
-          <div class="project-list">
-            <% @favorite_projects.each do |project| %>
-              <%= link_to project_path(project), class: "project-row-card" do %>
-                <div class="project-row-card-content">
-                  <div class="project-row-card-main">
-                    <strong><%= project.title %></strong>
-                    <div class="muted-text"><%= project.short_description %></div>
-                  </div>
+    <section class="content-section-centered">
+      <div class="section-heading-centered">
+        <h2>Favorite projects</h2>
+        <span class="section-count-centered"><%= @favorite_projects.count %></span>
+      </div>
 
-                  <div class="project-row-card-meta">
-                    <span class="badge"><%= project.status.capitalize %></span>
-                  </div>
+      <% if @favorite_projects.any? %>
+        <div class="project-list-centered">
+          <% @favorite_projects.each do |project| %>
+            <%= link_to project_path(project), class: "project-row-card-centered" do %>
+              <div class="project-row-card-content">
+                <div class="project-row-card-main">
+                  <strong><%= project.title %></strong>
+                  <div class="muted-text"><%= project.short_description %></div>
                 </div>
-              <% end %>
+
+                <div class="project-row-card-meta">
+                  <span class="badge-centered"><%= project.status.capitalize %></span>
+                </div>
+              </div>
             <% end %>
-          </div>
-        <% else %>
-          <p class="muted-text">No favorite projects yet.</p>
-        <% end %>
-      </section>
-    </main>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="muted-text">No favorite projects yet.</p>
+      <% end %>
+    </section>
 
-    <aside class="sidebar-card">
-      <h2>Profile info</h2>
-
-      <ul class="info-list">
-        <li><strong>Name:</strong> <%= @user.display_name %></li>
-        <li><strong>Email:</strong> <%= @user.email %></li>
-
-        <% if @user.github_url.present? %>
-          <li>
-            <strong>GitHub:</strong>
-            <%= link_to "View profile", @user.github_url, target: "_blank", rel: "noopener" %>
-          </li>
-        <% end %>
-
-        <li><strong>Projects created:</strong> <%= @owned_projects.count %></li>
-        <li><strong>Projects joined:</strong> <%= @joined_projects.count %></li>
-        <li><strong>Technologies:</strong> <%= @user.technologies.count %></li>
-      </ul>
-    </aside>
-  </div>
+  </main>
 </div>
 
 <style>
-/* --- Codemate Palette --- */
-.root {
-  --navy: #0a0f1f;
-  --navy-light: #11182e;
-  --orange: #ff7a00;
-  --grey-light: #d1d5db;
-  --grey-mid: #9ca3af;
-  --grey-dark: #4b5563;
-  --white: #ffffff;
-}
+  :root {
+    --navy: #0a0f1f;
+    --navy-light: #11182e;
+    --orange: #ff7a00;
+    --grey-light: #d1d5db;
+    --grey-mid: #9ca3af;
+    --grey-dark: #4b5563;
+    --white: #ffffff;
+  }
 
-/* --- Page Shell --- */
-.page-shell {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 20px;
-}
+  body {
+    background: var(--navy);
+    color: var(--white);
+  }
 
-/* --- Back link --- */
-.back-link a {
-  color: var(--grey-mid);
-  text-decoration: none;
-  font-size: 15px;
-}
+  /* --- PAGE CENTRÉE --- */
+  .page-shell-centered {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-.back-link a:hover {
-  color: var(--orange);
-}
+  .profile-hero-card-centered {
+    width: 100%;
+    max-width: 600px;
+    background: var(--navy-light);
+    padding: 32px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 32px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
 
-/* --- Header --- */
-.page-header {
-  margin-bottom: 32px;
-}
+  .content-card-centered {
+    width: 100%;
+    max-width: 600px;
+    background: var(--navy-light);
+    padding: 32px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
 
-.page-header h1 {
-  font-size: 36px;
-  margin: 0;
-  color: var(--navy);
-}
+  .content-section-centered {
+    margin-bottom: 32px;
+  }
 
-.page-subtitle {
-  color: var(--grey-dark);
-  margin-top: 6px;
-}
+  .section-heading-centered {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-/* --- Content Card --- */
-.content-card {
-  background: var(--white);
-  border-radius: 16px;
-  padding: 32px;
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
+  .section-count-centered {
+    background: var(--orange);
+    color: var(--navy);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+  }
 
-/* --- Section Titles --- */
-.content-section h2 {
-  font-size: 22px;
-  margin-bottom: 16px;
-  color: var(--navy);
-}
+  .tech-badge-centered {
+    background: #0d1326;
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--grey-mid);
+    margin-right: 6px;
+    margin-bottom: 6px;
+    display: inline-block;
+  }
 
-/* --- Form Fields --- */
-.field {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
+  .project-row-card-centered {
+    display: block;
+    background: #0d1326;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 12px;
+    transition: 0.2s;
+  }
 
-.field label {
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--navy);
-}
+  .project-row-card-centered:hover {
+    border-color: var(--orange);
+    background: rgba(255,122,0,0.05);
+  }
 
-.field input[type="text"],
-.field textarea,
-.field input[type="file"] {
-  border: 1px solid var(--grey-light);
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 15px;
-}
+  .badge-centered {
+    background: var(--orange);
+    color: var(--navy);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+  }
 
-.field input:focus,
-.field textarea:focus {
-  border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(255,122,0,0.25);
-  outline: none;
-}
+  .honk {
+    font-family: "Honk", system-ui;
+    font-variation-settings: "MORF" 15, "SHLN" 50;
+  }
 
-/* --- Avatar Preview --- */
-.avatar-preview {
-  margin-top: 10px;
-}
+  .back-link a {
+    color: var(--grey-light);
+    text-decoration: none;
+  }
+  .back-link a:hover {
+    color: var(--orange);
+  }
 
-.profile-avatar {
-  width: 90px;
-  height: 90px;
-  border-radius: 12px;
-  object-fit: cover;
-  border: 2px solid var(--grey-light);
-}
+  .profile-avatar-large {
+    width: 110px;
+    height: 110px;
+    border-radius: 16px;
+    object-fit: cover;
+  }
 
-/* --- Tech Grid --- */
-.tech-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  margin-top: 16px;
-}
+  .profile-avatar-fallback {
+    width: 110px;
+    height: 110px;
+    border-radius: 16px;
+    background: var(--orange);
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    font-weight: 700;
+  }
 
-.tech-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  border: 1px solid var(--grey-light);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all .2s ease;
-  background: var(--white);
-}
+  .profile-meta span {
+    margin-right: 16px;
+    color: var(--grey-light);
+  }
 
-.tech-option:hover {
-  border-color: var(--orange);
-  background: rgba(255,122,0,0.05);
-}
-
-.tech-option input {
-  margin: 0;
-}
-
-/* --- Form Errors --- */
-.form-errors {
-  background: #ffe6e6;
-  border-left: 4px solid #ff4d4d;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.form-errors h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #b30000;
-}
-
-/* --- Actions --- */
-.actions .btn-primary {
-  background: var(--orange);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: 600;
-}
-
-.actions .btn-primary:hover {
-  background: #e56e00;
-}
-
+  .btn-orange {
+    background: var(--orange);
+    color: var(--navy);
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+  }
+  .btn-orange:hover {
+    background: #ff8f26;
+  }
 </style>
