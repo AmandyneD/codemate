@@ -167,3 +167,166 @@
     </aside>
   </div>
 </div>
+
+<style>
+/* --- Codemate Palette --- */
+.root {
+  --navy: #0a0f1f;
+  --navy-light: #11182e;
+  --orange: #ff7a00;
+  --grey-light: #d1d5db;
+  --grey-mid: #9ca3af;
+  --grey-dark: #4b5563;
+  --white: #ffffff;
+}
+
+/* --- Page Shell --- */
+.page-shell {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* --- Back link --- */
+.back-link a {
+  color: var(--grey-mid);
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.back-link a:hover {
+  color: var(--orange);
+}
+
+/* --- Header --- */
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  margin: 0;
+  color: var(--navy);
+}
+
+.page-subtitle {
+  color: var(--grey-dark);
+  margin-top: 6px;
+}
+
+/* --- Content Card --- */
+.content-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 32px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* --- Section Titles --- */
+.content-section h2 {
+  font-size: 22px;
+  margin-bottom: 16px;
+  color: var(--navy);
+}
+
+/* --- Form Fields --- */
+.field {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--navy);
+}
+
+.field input[type="text"],
+.field textarea,
+.field input[type="file"] {
+  border: 1px solid var(--grey-light);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 15px;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,122,0,0.25);
+  outline: none;
+}
+
+/* --- Avatar Preview --- */
+.avatar-preview {
+  margin-top: 10px;
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid var(--grey-light);
+}
+
+/* --- Tech Grid --- */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.tech-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--grey-light);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .2s ease;
+  background: var(--white);
+}
+
+.tech-option:hover {
+  border-color: var(--orange);
+  background: rgba(255,122,0,0.05);
+}
+
+.tech-option input {
+  margin: 0;
+}
+
+/* --- Form Errors --- */
+.form-errors {
+  background: #ffe6e6;
+  border-left: 4px solid #ff4d4d;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.form-errors h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #b30000;
+}
+
+/* --- Actions --- */
+.actions .btn-primary {
+  background: var(--orange);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.actions .btn-primary:hover {
+  background: #e56e00;
+}
+
+</style>
