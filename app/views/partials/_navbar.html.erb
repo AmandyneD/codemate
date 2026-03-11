@@ -6,24 +6,15 @@
       <%= image_tag "codemate.svg", height: 34, class: "me-2", alt: "Logo" %>
     </a>
 
-<<<<<<< HEAD
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPremium">
-=======
     <!-- BURGER -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPremium" aria-controls="navbarPremium" aria-expanded="false" aria-label="Toggle navigation">
->>>>>>> 53829794e5b8f1484f94be4065ad789ff7134181
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse"  id="navbarPremium">
 
-<<<<<<< HEAD
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-=======
       <% if user_signed_in? %>
       <ul class="navbar-nav mx-auto gap-3">
->>>>>>> 53829794e5b8f1484f94be4065ad789ff7134181
 
         <li class="nav-item">
           <%= link_to "Explore projects", projects_path, class: "nav-link" %>
@@ -88,15 +79,6 @@
 
           <%= link_to "Log in", new_user_session_path, class: "btn btn-dark rounded-pill px-4" %>
         <% end %>
-<<<<<<< HEAD
-
-      <div class="d-flex gap-3">
-        <a href="/signup" class="btn btn-outline-dark rounded-pill px-4">Sign up</a>
-        <a href="/login" class="btn btn-dark rounded-pill px-4">Login</a>
-=======
->>>>>>> 53829794e5b8f1484f94be4065ad789ff7134181
-      </div>
-
     </div>
   </div>
 </nav>
