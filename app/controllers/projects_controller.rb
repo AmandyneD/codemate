@@ -3,30 +3,57 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
   before_action :authorize_owner!, only: %i[edit update destroy]
 
-  def index
-    @projects = Project.includes(:technologies)
-                      .where.not(status: "draft")
-                      .order(created_at: :desc)
+def index
+  Rails.logger.info("PROJECT FILTER PARAMS => #{params.to_unsafe_h}")
 
-    if params[:q].present?
-      query = "%#{params[:q].strip}%"
-      @projects = @projects.where(
-        "title ILIKE :q OR short_description ILIKE :q OR description ILIKE :q",
-        q: query
-      )
-    end
+  @selected_category = params[:category].presence
+  @selected_duration = params[:estimated_duration].presence
+  @selected_technology_ids = Array(params[:technology_ids]).reject(&:blank?).map(&:to_i)
 
-    if params[:stack].present?
-      @projects = @projects.joins(:technologies)
-                          .where(technologies: { category: params[:stack] })
-    end
-
-    if params[:estimated_duration].present?
-      @projects = @projects.where(estimated_duration: params[:estimated_duration])
-    end
-
-    @projects = @projects.distinct
+  @selected_technologies = if @selected_technology_ids.any?
+    Technology.where(id: @selected_technology_ids).select(:id, :name, :category)
+  else
+    []
   end
+
+  @projects = Project.where(status: "open")
+
+  if params[:q].present?
+    query = "%#{params[:q].strip}%"
+
+    @projects = @projects
+      .left_joins(:technologies)
+      .where(
+        "projects.title ILIKE :query
+         OR projects.short_description ILIKE :query
+         OR projects.description ILIKE :query
+         OR technologies.name ILIKE :query
+         OR technologies.category ILIKE :query",
+        query: query
+      )
+  end
+
+  if @selected_technology_ids.any?
+    @projects = @projects
+      .left_joins(:technologies)
+      .where(technologies: { id: @selected_technology_ids })
+  end
+
+  if @selected_category.present?
+    @projects = @projects
+      .left_joins(:technologies)
+      .where(technologies: { category: @selected_category })
+  end
+
+  if @selected_duration.present?
+    @projects = @projects.where(estimated_duration: @selected_duration)
+  end
+
+  @projects = @projects
+    .distinct
+    .includes(:technologies)
+    .order(created_at: :desc)
+end
 
   def show
     @accepted_collaborations = @project.collaborations

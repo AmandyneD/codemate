@@ -6,46 +6,54 @@
       <%= image_tag "codemate.svg", height: 34, class: "me-2", alt: "Logo" %>
     </a>
 
+<<<<<<< HEAD
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPremium">
+=======
+    <!-- BURGER -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPremium" aria-controls="navbarPremium" aria-expanded="false" aria-label="Toggle navigation">
+>>>>>>> 53829794e5b8f1484f94be4065ad789ff7134181
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse"  id="navbarPremium">
 
+<<<<<<< HEAD
       <ul class="navbar-nav mx-auto">
         <li class="nav-item">
+=======
+      <% if user_signed_in? %>
+      <ul class="navbar-nav mx-auto gap-3">
+>>>>>>> 53829794e5b8f1484f94be4065ad789ff7134181
 
-          <li class="nav-item">
-            <%= link_to "Explore projects", projects_path, class: "nav-link" %>
-          </li>
+        <li class="nav-item">
+          <%= link_to "Explore projects", projects_path, class: "nav-link" %>
+        </li>
 
-          <li class="nav-item">
-            <%= link_to "My projects", my_projects_path, class: "nav-link" %>
-          </li>
+        <li class="nav-item">
+          <%= link_to "Browse builders", users_path, class: "nav-link" %>
+        </li>
 
+        <li class="nav-item">
+          <%= link_to "My projects", my_projects_path, class: "nav-link" %>
+        </li>
 
-          <li class="nav-item">
-            <%= link_to "Create project",
-                new_project_path,
-                class: "btn btn-dark rounded-pill px-4" %>
-          </li>
+        <li class="nav-item">
+          <%= link_to "Create project",
+              new_project_path,
+              class: "btn btn-dark rounded-pill px-4" %>
+        </li>
 
-        </ul>
+      </ul>
       <% else %>
         <ul class="navbar-nav mx-auto"></ul>
       <% end %>
 
       <div class="d-flex align-items-center gap-3">
-
         <% if user_signed_in? %>
-
           <details class="user-dropdown">
             <summary class="user-menu-button">
-
               <% if current_user.avatar.attached? %>
-                <%= image_tag current_user.avatar,
-                    class: "navbar-avatar",
-                    alt: current_user.display_name %>
+                <%= image_tag current_user.avatar, class: "navbar-avatar", alt: current_user.display_name %>
               <% else %>
                 <div class="navbar-avatar-fallback">
                   <%= current_user.display_name.to_s.first.upcase %>
@@ -57,52 +65,36 @@
               </span>
 
               <span class="navbar-caret">▾</span>
-
             </summary>
 
             <div class="user-dropdown-menu">
+              <%= link_to "Profile", user_path(current_user), class: "dropdown-item" %>
 
-              <%= link_to "Profile",
-                  user_path(current_user),
-                  class: "dropdown-item" %>
+              <%= link_to "Edit profile", edit_user_path(current_user), class: "dropdown-item" %>
 
-              <%= link_to "My projects",
-                  my_projects_path,
-                  class: "dropdown-item" %>
+              <%= link_to "My projects", my_projects_path, class: "dropdown-item" %>
 
-              <%= link_to "Favorites",
-                  my_favorites_path,
-                  class: "dropdown-item" %>
+              <%= link_to "Favorites", my_favorites_path, class: "dropdown-item" %>
 
-              <%= link_to "Account settings",
-                  edit_user_registration_path,
-                  class: "dropdown-item" %>
+              <%= link_to "Account settings", edit_user_registration_path, class: "dropdown-item" %>
 
               <hr>
 
-              <%= button_to "Logout",
-                  destroy_user_session_path,
-                  method: :delete,
-                  class: "dropdown-item logout-button" %>
-
+              <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item logout-button" %>
             </div>
           </details>
-
         <% else %>
+          <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-dark rounded-pill px-4" %>
 
-          <%= link_to "Sign up",
-              new_user_registration_path,
-              class: "btn btn-outline-dark rounded-pill px-4" %>
-
-          <%= link_to "Log in",
-              new_user_session_path,
-              class: "btn btn-dark rounded-pill px-4" %>
-
+          <%= link_to "Log in", new_user_session_path, class: "btn btn-dark rounded-pill px-4" %>
         <% end %>
+<<<<<<< HEAD
 
       <div class="d-flex gap-3">
         <a href="/signup" class="btn btn-outline-dark rounded-pill px-4">Sign up</a>
         <a href="/login" class="btn btn-dark rounded-pill px-4">Login</a>
+=======
+>>>>>>> 53829794e5b8f1484f94be4065ad789ff7134181
       </div>
 
     </div>
