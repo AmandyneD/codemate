@@ -34,8 +34,8 @@ config.action_mailer.smtp_settings = {
   address: ENV.fetch("SMTP_ADDRESS", "mail.privateemail.com"),
   port: ENV.fetch("SMTP_PORT", 587).to_i,
   domain: ENV.fetch("SMTP_DOMAIN", "codemate.codes"),
-  user_name: ENV.fetch("SMTP_USERNAME", "hello@codemate.codes"),
-  password: ENV.fetch("SMTP_PASSWORD", "@HelloCodeM1569"),
+  user_name: ENV.fetch("SMTP_USERNAME"),
+  password: ENV.fetch("SMTP_PASSWORD"),
   authentication: :plain,
   enable_starttls_auto: true
 }
