@@ -26,7 +26,7 @@
       <%= f.text_area :description, rows: 6, placeholder: "Describe the project, goals, and what kind of collaborators you are looking for." %>
     </div>
 
-    <div class="form-grid">
+    <div class="field">
       <div class="field">
         <%= f.label :category %>
         <%= f.select :category, [["Web app", "web_app"], ["Mobile app", "mobile_app"], ["SaaS", "saas"], ["AI", "ai"], ["Game", "game"], ["Tool", "tool"], ["Other", "other"]] %>
@@ -43,18 +43,29 @@
       </div>
 
       <div class="field">
+        <%= f.label :status %>
+        <%= f.select :status, [["Draft", "draft"], ["Open", "open"], ["Full", "full"], ["Closed", "closed"], ["Completed", "completed"]] %>
+      </div>
+    </div>
+
+      <div class="field">
         <label class="form-label">Technologies</label>
 
         <div
-          class="tech-picker"
+          class="tech-picker mb-6"
           data-controller="technology-picker"
           data-technology-picker-search-url-value="<%= search_technologies_path %>"
-          data-technology-picker-selected-value='<%= project.technologies.map { |t| { id: t.id, name: t.name, category: t.category } }.to_json %>'
+          data-technology-picker-selected-value="<%= project.technologies.map { |t| { id: t.id, name: t.name, category: t.category } }.to_json %>"
         >
           <div class="tech-picker-selected" data-technology-picker-target="selected"></div>
 
+<<<<<<< HEAD
           <div class="tech-picker-toolbar">
+            <input <%# herb:disable html-input-require-autocomplete %>
+=======
+          <div class="tech-picker-toolbar d-flex align-items-center ">
             <input
+>>>>>>> 53829794e5b8f1484f94be4065ad789ff7134181
               type="text"
               class="tech-picker-input"
               placeholder="Search technologies... (ex: Rails, React, Python)"
@@ -78,12 +89,6 @@
           <div data-technology-picker-target="hiddenFields"></div>
         </div>
       </div>
-
-      <div class="field">
-        <%= f.label :status %>
-        <%= f.select :status, [["Draft", "draft"], ["Open", "open"], ["Full", "full"], ["Closed", "closed"], ["Completed", "completed"]] %>
-      </div>
-    </div>
 
     <div class="actions">
       <%= f.submit(

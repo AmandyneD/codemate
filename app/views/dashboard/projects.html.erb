@@ -1,37 +1,52 @@
-<div class="page-shell">
-  <div class="page-header">
+<div class="page-shell-modern">
+
+  <!-- Header -->
+  <div class="page-header-modern d-flex justify-content-between align-items-start mb-4">
     <div>
-      <h1>My projects</h1>
-      <p class="page-subtitle">Manage your drafts, published projects, and collaborations.</p>
+      <h1 class="page-title honk mb-1">My projects</h1>
+      <p class="page-subtitle-modern">Manage your drafts, published projects, and collaborations.</p>
     </div>
 
-    <%= link_to "Create a project", new_project_path, class: "btn btn-primary" %>
+    <%= link_to "Create a project",
+        new_project_path,
+        class: "btn btn-lg", 
+        style: "background-color: #ff7a00; border-color: #ff7a00; color: #000000;" %>
   </div>
 
+  <!-- Projects I created -->
   <section class="dashboard-section">
-    <div class="section-heading">
-      <h2>Projects I created</h2>
-      <p class="muted-text">Includes drafts and published projects.</p>
+    <div class="section-heading mb-4">
+      <h2 class="section-title">Projects I created</h2>
+      <p class="section-subtitle muted-text">Includes drafts and published projects.</p>
     </div>
 
     <% if @owned_projects.any? %>
       <div class="projects-grid">
         <% @owned_projects.each do |project| %>
-          <article class="project-card">
-            <div class="project-card-top">
-              <span class="badge"><%= project.status.capitalize %></span>
-              <span class="badge badge-light"><%= project.category.to_s.humanize %></span>
+          <article class="project-card shadow-sm">
+
+            <!-- Top badges -->
+            <div class="project-card-top d-flex justify-content-between">
+              <span class="badge badge-status"><%= project.status.capitalize %></span>
+              <span class="badge badge-category"><%= project.category.to_s.humanize %></span>
             </div>
 
-            <h3><%= link_to project.title, project_path(project), class: "project-card-title" %></h3>
+            <!-- Title -->
+            <h3 class="project-card-title">
+              <%= link_to project.title, project_path(project), class: "stretched-link" %>
+            </h3>
+
+            <!-- Description -->
             <p class="project-card-text"><%= project.short_description %></p>
 
-            <div class="project-meta">
+            <!-- Meta -->
+            <div class="project-meta d-flex justify-content-between">
               <span>⏱ <%= project.estimated_duration.to_s.humanize %></span>
               <span>👥 <%= project.accepted_members_count %> / <%= project.max_collaborators %></span>
             </div>
 
-            <div class="tech-list">
+            <!-- Technologies -->
+            <div class="tech-list mt-3">
               <% if project.technologies.any? %>
                 <% project.technologies.each do |technology| %>
                   <span class="tech-badge"><%= technology.name %></span>
@@ -41,71 +56,167 @@
               <% end %>
             </div>
 
-            <div class="project-card-footer">
+            <!-- Footer -->
+            <div class="project-card-footer d-flex justify-content-between align-items-center mt-3">
               <span class="muted-text">Owner</span>
-              <div>
-                <%= link_to "View", project_path(project), class: "btn btn-secondary" %>
-                <%= link_to "Edit", edit_project_path(project), class: "btn btn-secondary" %>
+              <div class="d-flex gap-2">
+                <%= link_to "View", project_path(project), class: "btn btn-secondary btn-sm" %>
+                <%= link_to "Edit", edit_project_path(project), class: "btn btn-secondary btn-sm" %>
               </div>
             </div>
+
           </article>
         <% end %>
       </div>
+
     <% else %>
-      <div class="empty-state">
-        <h3>No created projects yet</h3>
-        <p>Start your first project and invite other developers to join.</p>
+      <div class="empty-state text-center py-5">
+        <h3 class="empty-title">No created projects yet</h3>
+        <p class="empty-text">Start your first project and invite other developers to join.</p>
       </div>
     <% end %>
   </section>
 
+  <!-- Projects I joined -->
   <section class="dashboard-section">
-    <div class="section-heading">
-      <h2>Projects I joined</h2>
-      <p class="muted-text">Projects where your collaboration is accepted.</p>
+    <div class="section-heading mb-4">
+      <h2 class="section-title">Projects I joined</h2>
+      <p class="section-subtitle muted-text">Projects where your collaboration is accepted.</p>
     </div>
 
-    <% if @joined_projects.any? %>
-      <div class="projects-grid">
-        <% @joined_projects.each do |project| %>
-          <article class="project-card">
-            <div class="project-card-top">
-              <span class="badge"><%= project.status.capitalize %></span>
-              <span class="badge badge-light"><%= project.category.to_s.humanize %></span>
-            </div>
+        <style>
+  /* --- Palette --- */
+  :root {
+    --navy: #0a0f1f;
+    --orange: #ff7a00;
+    --grey-light: #d1d5db;
+    --grey-mid: #9ca3af;
+    --white: #ffffff;
+  }
 
-            <h3><%= link_to project.title, project_path(project), class: "project-card-title" %></h3>
-            <p class="project-card-text"><%= project.short_description %></p>
+  .honk {
+    font-family: "Honk", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 50;
+  }
 
-            <div class="project-meta">
-              <span>⏱ <%= project.estimated_duration.to_s.humanize %></span>
-              <span>👥 <%= project.accepted_members_count %> / <%= project.max_collaborators %></span>
-            </div>
+  .page-shell-modern {
+    background: var(--navy);
+    padding: 40px;
+    color: var(--white);
+    min-height: 100vh;
+  }
 
-            <div class="tech-list">
-              <% if project.technologies.any? %>
-                <% project.technologies.each do |technology| %>
-                  <span class="tech-badge"><%= technology.name %></span>
-                <% end %>
-              <% else %>
-                <span class="muted-text">No technologies yet</span>
-              <% end %>
-            </div>
+  .page-header-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-            <div class="project-card-footer">
-              <span class="muted-text">
-                Owner: <strong><%= project.owner&.display_name || "Unknown" %></strong>
-              </span>
-              <%= link_to "View", project_path(project), class: "btn btn-secondary" %>
-            </div>
-          </article>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="empty-state">
-        <h3>No joined projects yet</h3>
-        <p>You have not joined any project yet.</p>
-      </div>
-    <% end %>
-  </section>
-</div>
+  .page-title {
+    font-size: 48px;
+    margin: 0;
+    color: var(--orange);
+  }
+
+  .page-subtitle-modern {
+    color: var(--grey-light);
+  }
+
+  .section-title {
+    font-size: 32px;
+    margin-bottom: 0;
+    color: var(--orange);
+  }
+
+  .section-subtitle {
+    color: var(--grey-light);
+    margin-top: 6px;
+  }
+
+  .empty-state {
+    background: #11182e;
+    border-radius: 8px;
+  }
+
+  .empty-title {
+    font-size: 24px;
+    color: var(--orange);
+  }
+
+  .empty-text {
+    color: var(--grey-light);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+  }
+
+  .project-card {
+    background: #11182e;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .badge-status {
+    background: var(--orange);
+    color: var(--navy);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .badge-category {
+    background: var(--grey-mid);
+    color: var(--navy);
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+  .project-card-title a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .project-card-text {
+    color: var(--grey-light);
+  }
+  .project-meta {
+    color: var(--grey-light);
+    font-size: 14px;
+  }
+  .tech-badge {
+    background: rgba(255,255,255,0.1);
+    padding: 6px 12px;
+    border-radius: 10px;
+    color: var(--grey-light);
+    font-size: 14px;
+  }
+  .project-card-footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 16px;
+    color: var(--grey-light);
+    font-size: 14px;
+  }
+  .project-card-footer .btn {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  </style>

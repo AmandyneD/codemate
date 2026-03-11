@@ -1,21 +1,20 @@
-<div class="page-shell">
-  <p class="back-link">
-    <%= link_to "← Back to projects", projects_path, data: { turbo: false } %>
-  </p>
+<div class="page-shell-modern">
+  <p class="back-link-modern">
+  <%= link_to "← Back to projects", projects_path %>
+</p>
+<section class="project-hero-modern">
 
-  <section class="project-hero">
-    <div class="project-hero-main">
-      <div class="project-card-top">
-        <span class="badge"><%= @project.status.capitalize %></span>
-        <span class="badge badge-light"><%= @project.category %></span>
-      </div>
+  <div class="d-flex justify-content-between align-items-center">
 
-      <h1><%= @project.title %></h1>
-      <p class="page-subtitle"><%= @project.short_description %></p>
+    <!-- Badges -->
+    <div class="d-flex gap-2">
+      <span class="badge-orange"><%= @project.status.capitalize %></span>
+      <span class="badge-grey"><%= @project.category %></span>
     </div>
 
-    <% if @is_owner %>
-      <div class="project-hero-actions">
+    <!-- Boutons -->
+    <% if user_signed_in? && @project.owner == current_user %>
+      <div class="d-flex gap-2">
         <%= link_to "Edit project", edit_project_path(@project), class: "btn btn-primary" %>
 
         <%= button_to "Delete project",
@@ -25,30 +24,34 @@
           class: "btn btn-danger" %>
       </div>
     <% end %>
-  </section>
+
+  </div>
+
+</section>
 
   <div class="project-layout">
     <main class="content-card">
+      <h1 class="project-title-modern honk mb-4"><%= @project.title %></h1>
       <section class="content-section">
-        <h2>About this project</h2>
-        <p><%= @project.description %></p>
+        <h5>About this project</h5>
+        <p class="tech-list" style="color: var(--white);"> <%= @project.description %></p>
       </section>
 
       <section class="content-section">
-        <h2>Technologies</h2>
+        <h5>Technologies</h5>
         <div class="tech-list">
           <% if @project.technologies.any? %>
             <% @project.technologies.each do |technology| %>
-              <span class="tech-badge"><%= technology.name %></span>
+              <span class="info-list" style="color: var(--white);"><%= technology.name %></span>
             <% end %>
           <% else %>
-            <span class="muted-text">No technologies added yet</span>
+            <span class="info-list" style="color: var(--white);">No technologies added yet</span>
           <% end %>
         </div>
       </section>
 
       <section class="content-section">
-        <h2>Team members</h2>
+        <h5>Team members</h5>
 
         <% if @accepted_collaborations.any? %>
           <div class="member-list">
@@ -83,64 +86,12 @@
           <p class="muted-text">No team members yet.</p>
         <% end %>
       </section>
-
-      <% if @is_owner %>
-        <section class="content-section">
-          <h2>Pending join requests</h2>
-
-          <% if @pending_collaborations.any? %>
-            <div class="member-list">
-              <% @pending_collaborations.each do |collaboration| %>
-                <div class="member-card">
-                  <div>
-                    <strong><%= collaboration.user.display_name %></strong>
-                    <div class="muted-text"><%= collaboration.user.email %></div>
-                  </div>
-
-                  <div class="d-flex gap-2 align-items-center flex-wrap">
-                    <%= form_with url: project_collaboration_path(@project, collaboration), method: :patch, local: true, class: "d-flex gap-2 align-items-center flex-wrap" do %>
-                      <%= hidden_field_tag :status, "accepted" %>
-
-                      <%= select_tag :role,
-                        options_for_select(
-                          [
-                            ["Frontend developer", "Frontend developer"],
-                            ["Backend developer", "Backend developer"],
-                            ["Full-stack developer", "Full-stack developer"],
-                            ["Mobile developer", "Mobile developer"],
-                            ["UI / UX Designer", "UI / UX Designer"],
-                            ["Product manager", "Product manager"],
-                            ["Data / AI", "Data / AI"],
-                            ["DevOps", "DevOps"],
-                            ["Other", "Other"]
-                          ],
-                          collaboration.role
-                        ),
-                        class: "form-select" %>
-
-                      <%= submit_tag "Accept", class: "btn btn-primary" %>
-                    <% end %>
-
-                    <%= button_to "Reject",
-                      project_collaboration_path(@project, collaboration),
-                      method: :patch,
-                      params: { status: "rejected" },
-                      class: "btn btn-secondary" %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          <% else %>
-            <p class="muted-text">No pending requests.</p>
-          <% end %>
-        </section>
-      <% end %>
     </main>
 
     <aside class="sidebar-card">
-      <h2>Project info</h2>
+      <h5>Project info</h5>
 
-      <ul class="info-list">
+      <ul class="info-list" style="color: var(--white);">
         <li><strong>Owner:</strong> <%= @project_owner&.display_name || "Unknown" %></li>
         <li><strong>Duration:</strong> <%= @project.estimated_duration.humanize %></li>
         <li><strong>Team size:</strong> <%= @project.accepted_members_count %> / <%= @project.max_collaborators %></li>
@@ -167,9 +118,8 @@
             <%= button_to "Join project",
               project_collaborations_path(@project),
               method: :post,
-              form: { data: { turbo: false } },
-              class: "btn btn-primary" %>
-          <% elsif @existing_collaboration&.status == "pending" %>
+              class: "btn btn-primary p-2" %>
+          <% elsif existing_collaboration&.status == "pending" %>
             <div class="callout">Your request is pending.</div>
           <% elsif @existing_collaboration&.status == "accepted" %>
             <div class="callout success">You are part of this project.</div>
@@ -194,6 +144,288 @@
           This project is not currently recruiting.
         </div>
       <% end %>
-    </aside>
-  </div>
-</div>
+
+      <h5 class="h3 mt-4">Pending join requests</h5>
+
+      <% if @pending_collaborations.any? %>
+        <div class="member-list">
+          <% @pending_collaborations.each do |collaboration| %>
+            <div class="member-card">
+              <div>
+                <strong><%= collaboration.user.display_name %></strong>
+                <div class="muted-text"><%= collaboration.user.email %></div>
+              </div>
+
+              <div class="d-flex gap-2 align-items-center flex-wrap">
+                <%= form_with url: project_collaboration_path(@project, collaboration), method: :patch, local: true, class: "d-flex gap-2 align-items-center flex-wrap" do %>
+                  <%= hidden_field_tag :status, "accepted" %>
+
+                  <%= select_tag :role,
+                    options_for_select(
+                      [
+                        ["Frontend developer", "Frontend developer"],
+                        ["Backend developer", "Backend developer"],
+                        ["Full-stack developer", "Full-stack developer"],
+                        ["Mobile developer", "Mobile developer"],
+                        ["UI / UX Designer", "UI / UX Designer"],
+                        ["Product manager", "Product manager"],
+                        ["Data / AI", "Data / AI"],
+                        ["DevOps", "DevOps"],
+                        ["Other", "Other"]
+                      ],
+                      collaboration.role
+                    ),
+                    class: "form-select" %>
+
+                  <%= submit_tag "Accept", class: "btn btn-primary" %>
+                <% end %>
+
+                <%= button_to "Reject",
+                  project_collaboration_path(@project, collaboration),
+                  method: :patch,
+                  params: { status: "rejected" },
+                  class: "btn btn-secondary" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="muted-text">No pending requests.</p>
+      <% end %>
+     </aside>
+
+<style>
+
+/* --- Palette --- */
+:root {
+  --navy: #0a0f1f;
+  --orange: #ff7a00;
+  --grey-light: #d1d5db;
+  --grey-mid: #9ca3af;
+  --white: #ffffff;
+}
+
+/* --- Page shell --- */
+.page-shell-modern {
+  background: var(--navy);
+  min-height: 100vh;
+  padding: 40px;
+  color: var(--white);
+}
+
+.back-link a {
+  color: var(--grey-light);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-link a:hover {
+  color: var(--orange);
+}
+
+.back-link-modern a {
+  color: var(--grey-light);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.back-link-modern a:hover {
+  color: var(--orange);
+}
+
+/* --- Hero section --- */
+.project-hero-modern {
+  margin-bottom: 12px;
+}
+
+.project-card-top-modern {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.badge-orange {
+  background: var(--orange);
+  color: var(--navy);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.badge-grey {
+  background: var(--grey-mid);
+  color: var(--navy);
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+/* --- Layout --- */
+.project-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+}
+
+/* --- Content card --- */
+.content-card {
+  background: #11182e;
+  border-radius: 16px;
+  padding: 32px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.content-section {
+  margin-bottom: 40px;
+}
+
+.content-section h5 {
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+
+/* --- Tech list --- */
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.tech-badge {
+  background: rgba(255,255,255,0.1);
+  padding: 6px 12px;
+  border-radius: 10px;
+  color: var(--grey-light);
+  font-size: 14px;
+}
+
+.muted-text {
+  color: var(--grey-mid);
+}
+
+/* --- Members --- */
+.member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.member-card {
+  background: rgba(255,255,255,0.05);
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.member-card-link {
+  text-decoration: none;
+  color: var(--white);
+}
+
+.member-card-link:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.member-role {
+  display: inline-block;
+  margin-left: 8px;
+  background: var(--grey-mid);
+  color: var(--navy);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+/* --- Sidebar --- */
+.sidebar-card {
+  background: #11182e;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+  height: fit-content;
+}
+
+.sidebar-card h5 {
+  color: var(--orange);
+  margin-bottom: 16px;
+}
+
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+.info-list li {
+  margin-bottom: 10px;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  background: var(--orange) !important;
+  color: var(--navy) !important;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.btn-secondary {
+  background: var(--grey-light) !important;
+  color: var(--navy) !important;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.btn-danger {
+  background: #dc3545 !important;
+  color: var(--white) !important;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* --- Callouts --- */
+.callout {
+  background: rgba(255,255,255,0.08);
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-top: 12px;
+  color: var(--grey-light);
+}
+
+.callout.success {
+  background: rgba(0,255,150,0.15);
+  color: #00ff9a;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .project-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.honk {
+    font-family: "Honk", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 50;
+  }
+
+</style>
