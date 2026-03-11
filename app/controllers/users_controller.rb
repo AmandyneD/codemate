@@ -3,6 +3,24 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [ :edit, :update ]
   before_action :authorize_user!, only: [ :edit, :update ]
 
+  def index
+    @users = User.includes(:technologies, avatar_attachment: :blob)
+
+    if params[:q].present?
+      query = "%#{params[:q].strip}%"
+      @users = @users.where("display_name ILIKE ?", query)
+    end
+
+    if params[:stack].present?
+      @users = @users
+        .joins(:technologies)
+        .where(technologies: { category: params[:stack] })
+        .distinct
+    end
+
+    @users = @users.order(created_at: :desc)
+  end
+
   def show
     @owned_projects = @user.collaborations
                            .where(owner: true, status: "accepted")
