@@ -31,13 +31,16 @@
 
   <div class="project-layout">
     <main class="content-card">
+
+      <h1 class="project-title-modern honk mb-4"><%= @project.title %></h1>
+
       <section class="content-section">
-        <h2>About this project</h2>
+        <h5>About this project</h5>
         <p class="tech-list" style="color: var(--white);"> <%= @project.description %></p>
       </section>
 
       <section class="content-section">
-        <h2>Technologies</h2>
+        <h5>Technologies</h5>
         <div class="tech-list">
           <% if @project.technologies.any? %>
             <% @project.technologies.each do |technology| %>
@@ -50,7 +53,7 @@
       </section>
 
       <section class="content-section">
-        <h2>Team members</h2>
+        <h5>Team members</h5>
 
         <% if @accepted_collaborations.any? %>
           <div class="member-list">
@@ -88,7 +91,7 @@
     </main>
 
     <aside class="sidebar-card">
-      <h2>Project info</h2>
+      <h5>Project info</h5>
 
       <ul class="info-list" style="color: var(--white);">
         <li><strong>Owner:</strong> <%= @project_owner&.display_name || "Unknown" %></li>
@@ -148,7 +151,7 @@
         </div>
       <% end %>
 
-      <h2 class="h3 mt-4">Pending join requests</h2>
+      <h5 class="mt-4">Pending join requests</h5>
 
       <% if @pending_collaborations.any? %>
         <div class="member-list">
@@ -216,6 +219,16 @@
   color: var(--white);
 }
 
+.honk {
+    font-family: "Honk", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 50;
+  }
+
 .back-link a {
   color: var(--grey-light);
   text-decoration: none;
@@ -282,7 +295,7 @@
   margin-bottom: 40px;
 }
 
-.content-section h2 {
+.content-section h5 {
   color: var(--orange);
   margin-bottom: 12px;
 }
@@ -350,7 +363,7 @@
   height: fit-content;
 }
 
-.sidebar-card h2 {
+.sidebar-card h5 {
   color: var(--orange);
   margin-bottom: 16px;
 }
