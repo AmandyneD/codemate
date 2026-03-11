@@ -58,9 +58,11 @@ class CollaborationsController < ApplicationController
       end
 
       redirect_to @project, notice: "Collaboration accepted."
+
     when "rejected"
       @collaboration.update!(status: "rejected")
       redirect_to @project, notice: "Collaboration rejected."
+
     when "left"
       if @collaboration.owner
         redirect_to @project, alert: "The owner cannot leave the project."
@@ -74,6 +76,21 @@ class CollaborationsController < ApplicationController
       end
 
       redirect_to my_projects_path, notice: "You left the project."
+
+    when "removed"
+      if @collaboration.owner
+        redirect_to @project, alert: "You cannot remove the owner."
+        return
+      end
+
+      @collaboration.update!(status: "left")
+
+      if @project.status == "full" && @project.accepted_members_count < @project.max_collaborators
+        @project.update!(status: "open")
+      end
+
+      redirect_to @project, notice: "Member removed from the project."
+
     else
       redirect_to @project, alert: "Invalid action."
     end
