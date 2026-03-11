@@ -147,12 +147,8 @@
           This project is not currently recruiting.
         </div>
       <% end %>
-     </aside>
 
-  <aside class="sidebar-column">
-  <% if user_signed_in? && @project.owner == current_user %>
-    <div class="sidebar-card">
-      <h2>Pending join requests</h2>
+      <h2 class="h3 mt-4">Pending join requests</h2>
 
       <% if @pending_collaborations.any? %>
         <div class="member-list">
@@ -199,12 +195,8 @@
       <% else %>
         <p class="muted-text">No pending requests.</p>
       <% end %>
-    </div>
-  <% end %>
-  </aside>
+     </aside>
 
-    
- 
 <style>
 
 /* --- Palette --- */
