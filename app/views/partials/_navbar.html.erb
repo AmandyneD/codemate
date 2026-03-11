@@ -14,19 +14,27 @@
     <div class="collapse navbar-collapse" id="navbarPremium">
 
       <% if user_signed_in? %>
-        <ul class="navbar-nav mx-auto gap-3">
-          <li class="nav-item">
-            <%= link_to "Explore projects", projects_path, class: "nav-link" %>
-          </li>
+      <ul class="navbar-nav mx-auto gap-3">
 
-          <li class="nav-item">
-            <%= link_to "My projects", my_projects_path, class: "nav-link" %>
-          </li>
+        <li class="nav-item">
+          <%= link_to "Explore projects", projects_path, class: "nav-link" %>
+        </li>
 
-          <li class="nav-item">
-            <%= link_to "Create project", new_project_path, class: "btn btn-dark rounded-pill px-4" %>
-          </li>
-        </ul>
+        <li class="nav-item">
+          <%= link_to "Browse builders", users_path, class: "nav-link" %>
+        </li>
+
+        <li class="nav-item">
+          <%= link_to "My projects", my_projects_path, class: "nav-link" %>
+        </li>
+
+        <li class="nav-item">
+          <%= link_to "Create project",
+              new_project_path,
+              class: "btn btn-dark rounded-pill px-4" %>
+        </li>
+
+      </ul>
       <% else %>
         <ul class="navbar-nav mx-auto"></ul>
       <% end %>
