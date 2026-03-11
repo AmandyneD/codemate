@@ -31,13 +31,14 @@
 
   <div class="project-layout">
     <main class="content-card">
+      <h1 class="project-title-modern honk mb-4"><%= @project.title %></h1>
       <section class="content-section">
-        <h2>About this project</h2>
+        <h5>About this project</h5>
         <p class="tech-list" style="color: var(--white);"> <%= @project.description %></p>
       </section>
 
       <section class="content-section">
-        <h2>Technologies</h2>
+        <h5>Technologies</h5>
         <div class="tech-list">
           <% if @project.technologies.any? %>
             <% @project.technologies.each do |technology| %>
@@ -50,7 +51,7 @@
       </section>
 
       <section class="content-section">
-        <h2>Team members</h2>
+        <h5>Team members</h5>
 
         <% if @accepted_collaborations.any? %>
           <div class="member-list">
@@ -88,7 +89,7 @@
     </main>
 
     <aside class="sidebar-card">
-      <h2>Project info</h2>
+      <h5>Project info</h5>
 
       <ul class="info-list" style="color: var(--white);">
         <li><strong>Owner:</strong> <%= @project_owner&.display_name || "Unknown" %></li>
@@ -121,7 +122,7 @@
             <%= button_to "Join project",
               project_collaborations_path(@project),
               method: :post,
-              class: "btn btn-primary" %>
+              class: "btn btn-primary p-2" %>
           <% elsif existing_collaboration&.status == "pending" %>
             <div class="callout">Your request is pending.</div>
           <% elsif existing_collaboration&.status == "accepted" %>
@@ -148,7 +149,7 @@
         </div>
       <% end %>
 
-      <h2 class="h3 mt-4">Pending join requests</h2>
+      <h5 class="h3 mt-4">Pending join requests</h5>
 
       <% if @pending_collaborations.any? %>
         <div class="member-list">
@@ -282,7 +283,7 @@
   margin-bottom: 40px;
 }
 
-.content-section h2 {
+.content-section h5 {
   color: var(--orange);
   margin-bottom: 12px;
 }
@@ -292,6 +293,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  font-size: 14px;
 }
 
 .tech-badge {
@@ -350,7 +352,7 @@
   height: fit-content;
 }
 
-.sidebar-card h2 {
+.sidebar-card h5 {
   color: var(--orange);
   margin-bottom: 16px;
 }
@@ -419,4 +421,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+.honk {
+    font-family: "Honk", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+      "MORF" 15,
+      "SHLN" 50;
+  }
+
 </style>
