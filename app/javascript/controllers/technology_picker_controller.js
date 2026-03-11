@@ -8,20 +8,14 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("technology-picker connected")
-    console.log("selectedValue:", this.selectedValue)
-
-    this.selectedItems = this.selectedValue || []
+    this.selectedItems = Array.isArray(this.selectedValue) ? this.selectedValue : []
     this.renderSelected()
     this.renderHiddenFields()
   }
 
   search() {
-    console.log("technology-picker search triggered")
-
     const query = this.inputTarget.value.trim()
     const category = this.categoryTarget.value
-
     const url = new URL(this.searchUrlValue, window.location.origin)
 
     if (query.length > 0) {
@@ -32,24 +26,17 @@ export default class extends Controller {
       url.searchParams.set("category", category)
     }
 
-    console.log("fetching:", url.toString())
-
     fetch(url, {
       headers: { Accept: "application/json" }
     })
       .then(response => response.json())
-      .then(data => {
-        console.log("results:", data)
-        this.renderResults(data)
-      })
-      .catch(error => {
-        console.error("Technology search failed:", error)
-      })
+      .then(data => this.renderResults(data))
+      .catch(error => console.error("Technology search failed:", error))
   }
 
   renderResults(items) {
     const filtered = items.filter(item => {
-      return !this.selectedItems.some(selected => selected.id === item.id)
+      return !this.selectedItems.some(selected => Number(selected.id) === Number(item.id))
     })
 
     if (filtered.length === 0) {
@@ -84,7 +71,7 @@ export default class extends Controller {
   }
 
   addTechnology(item) {
-    if (this.selectedItems.some(selected => selected.id === item.id)) return
+    if (this.selectedItems.some(selected => Number(selected.id) === Number(item.id))) return
 
     this.selectedItems.push(item)
     this.inputTarget.value = ""
@@ -96,7 +83,7 @@ export default class extends Controller {
 
   removeTechnology(event) {
     const id = Number(event.currentTarget.dataset.id)
-    this.selectedItems = this.selectedItems.filter(item => item.id !== id)
+    this.selectedItems = this.selectedItems.filter(item => Number(item.id) !== id)
 
     this.renderSelected()
     this.renderHiddenFields()
@@ -130,8 +117,10 @@ export default class extends Controller {
   }
 
   renderHiddenFields() {
-    this.hiddenFieldsTarget.innerHTML = this.selectedItems.map(item => {
-      return `<input type="hidden" name="project[technology_ids][]" value="${item.id}">`
+    const uniqueIds = [...new Set(this.selectedItems.map(item => String(item.id)))]
+
+    this.hiddenFieldsTarget.innerHTML = uniqueIds.map(id => {
+      return `<input type="hidden" name="project[technology_ids][]" value="${id}">`
     }).join("")
   }
 

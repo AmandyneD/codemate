@@ -133,7 +133,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(
+    permitted = params.require(:project).permit(
       :title,
       :short_description,
       :description,
@@ -143,5 +143,9 @@ class ProjectsController < ApplicationController
       :status,
       technology_ids: []
     )
+
+    permitted[:technology_ids] = Array(permitted[:technology_ids]).reject(&:blank?).uniq
+
+    permitted
   end
 end
