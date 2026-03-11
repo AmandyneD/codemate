@@ -70,7 +70,7 @@
                     </div>
                   <% end %>
 
-                  <% if user_signed_in? && @project.owner == current_user && !collaboration.owner %>
+                  <% if @is_owner && !collaboration.owner %>
                     <%= button_to "Remove",
                       project_collaboration_path(@project, collaboration),
                       method: :patch,
@@ -99,11 +99,9 @@
       </ul>
 
       <% if user_signed_in? %>
-        <% existing_bookmark = current_user.bookmarks.find_by(project: @project) %>
-
-        <% if existing_bookmark.present? %>
+        <% if @existing_bookmark.present? %>
           <%= button_to "Remove from favorites",
-            project_bookmark_path(@project, existing_bookmark),
+            project_bookmark_path(@project, @existing_bookmark),
             method: :delete,
             class: "btn btn-secondary" %>
         <% else %>
@@ -115,19 +113,17 @@
       <% end %>
 
       <% if user_signed_in? %>
-        <% unless @project.owner == current_user %>
-          <% existing_collaboration = @project.collaborations.find_by(user: current_user) %>
-
-          <% if existing_collaboration.nil? && @project.recruiting? %>
+        <% unless @is_owner %>
+          <% if @existing_collaboration.nil? && @project.recruiting? %>
             <%= button_to "Join project",
               project_collaborations_path(@project),
               method: :post,
               class: "btn btn-primary p-2" %>
           <% elsif existing_collaboration&.status == "pending" %>
             <div class="callout">Your request is pending.</div>
-          <% elsif existing_collaboration&.status == "accepted" %>
+          <% elsif @existing_collaboration&.status == "accepted" %>
             <div class="callout success">You are part of this project.</div>
-          <% elsif existing_collaboration&.status == "rejected" %>
+          <% elsif @existing_collaboration&.status == "rejected" %>
             <div class="callout">Your request was rejected.</div>
           <% elsif !@project.recruiting? %>
             <div class="callout">This project is not currently recruiting.</div>

@@ -3,68 +3,85 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
   before_action :authorize_owner!, only: %i[edit update destroy]
 
-def index
-  Rails.logger.info("PROJECT FILTER PARAMS => #{params.to_unsafe_h}")
+  def index
+    Rails.logger.info("PROJECT FILTER PARAMS => #{params.to_unsafe_h}")
 
-  @selected_category = params[:category].presence
-  @selected_duration = params[:estimated_duration].presence
-  @selected_technology_ids = Array(params[:technology_ids]).reject(&:blank?).map(&:to_i)
+    @selected_category = params[:category].presence
+    @selected_duration = params[:estimated_duration].presence
+    @selected_technology_ids = Array(params[:technology_ids]).reject(&:blank?).map(&:to_i)
 
-  @selected_technologies = if @selected_technology_ids.any?
-    Technology.where(id: @selected_technology_ids).select(:id, :name, :category)
-  else
-    []
-  end
+    @selected_technologies =
+      if @selected_technology_ids.any?
+        Technology.where(id: @selected_technology_ids).select(:id, :name, :category)
+      else
+        []
+      end
 
-  @projects = Project.where(status: "open")
+    @projects = Project.where(status: "open")
 
-  if params[:q].present?
-    query = "%#{params[:q].strip}%"
+    if params[:q].present?
+      query = "%#{params[:q].strip}%"
+
+      @projects = @projects
+        .left_joins(:technologies)
+        .where(
+          "projects.title ILIKE :query
+           OR projects.short_description ILIKE :query
+           OR projects.description ILIKE :query
+           OR technologies.name ILIKE :query
+           OR technologies.category ILIKE :query",
+          query: query
+        )
+    end
+
+    if @selected_technology_ids.any?
+      @projects = @projects
+        .left_joins(:technologies)
+        .where(technologies: { id: @selected_technology_ids })
+    end
+
+    if @selected_category.present?
+      @projects = @projects
+        .left_joins(:technologies)
+        .where(technologies: { category: @selected_category })
+    end
+
+    if @selected_duration.present?
+      @projects = @projects.where(estimated_duration: @selected_duration)
+    end
 
     @projects = @projects
-      .left_joins(:technologies)
-      .where(
-        "projects.title ILIKE :query
-         OR projects.short_description ILIKE :query
-         OR projects.description ILIKE :query
-         OR technologies.name ILIKE :query
-         OR technologies.category ILIKE :query",
-        query: query
-      )
+      .distinct
+      .includes(:technologies)
+      .order(created_at: :desc)
   end
-
-  if @selected_technology_ids.any?
-    @projects = @projects
-      .left_joins(:technologies)
-      .where(technologies: { id: @selected_technology_ids })
-  end
-
-  if @selected_category.present?
-    @projects = @projects
-      .left_joins(:technologies)
-      .where(technologies: { category: @selected_category })
-  end
-
-  if @selected_duration.present?
-    @projects = @projects.where(estimated_duration: @selected_duration)
-  end
-
-  @projects = @projects
-    .distinct
-    .includes(:technologies)
-    .order(created_at: :desc)
-end
 
   def show
-    @accepted_collaborations = @project.collaborations
-                                      .where(status: "accepted")
-                                      .includes(:user)
-
-    @pending_collaborations = @project.collaborations
-                                      .where(status: "pending")
-                                      .includes(:user)
-
     @project_owner = @project.owner
+    @is_owner = user_signed_in? && (@project_owner == current_user)
+
+    @accepted_collaborations = @project.collaborations
+                                       .where(status: "accepted")
+                                       .includes(:user)
+
+    @pending_collaborations =
+      if @is_owner
+        @project.collaborations
+                .where(status: "pending")
+                .includes(:user)
+      else
+        Collaboration.none
+      end
+
+    @existing_collaboration =
+      if user_signed_in?
+        @project.collaborations.find_by(user: current_user)
+      end
+
+    @existing_bookmark =
+      if user_signed_in?
+        current_user.bookmarks.find_by(project: @project)
+      end
   end
 
   def new
@@ -116,7 +133,7 @@ end
   end
 
   def project_params
-    params.require(:project).permit(
+    permitted = params.require(:project).permit(
       :title,
       :short_description,
       :description,
@@ -126,5 +143,9 @@ end
       :status,
       technology_ids: []
     )
+
+    permitted[:technology_ids] = Array(permitted[:technology_ids]).reject(&:blank?).uniq
+
+    permitted
   end
 end
