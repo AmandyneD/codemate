@@ -13,34 +13,29 @@ export default class extends Controller {
     this.renderHiddenFields()
   }
 
-    search() {
-      const query = this.inputTarget.value.trim()
-      const category = this.categoryTarget.value
+  search() {
+    const query = this.inputTarget.value.trim()
+    const category = this.categoryTarget.value
 
-      if (query.length === 0) {
-        this.clearResults()
-        return
-      }
-
-      const url = new URL(this.searchUrlValue, window.location.origin)
-
-      url.searchParams.set("q", query)
-
-      if (category.length > 0) {
-        url.searchParams.set("category", category)
-      }
-
-      fetch(url, {
-        headers: { Accept: "application/json" }
-      })
-        .then(response => response.json())
-        .then(data => this.renderResults(data))
-        .catch(error => console.error("Technology search failed:", error))
+    if (query.length === 0) {
+      this.clearResults()
+      return
     }
 
-    clearResults() {
-  this.resultsTarget.innerHTML = ""
-}
+    const url = new URL(this.searchUrlValue, window.location.origin)
+    url.searchParams.set("q", query)
+
+    if (category.length > 0) {
+      url.searchParams.set("category", category)
+    }
+
+    fetch(url, {
+      headers: { Accept: "application/json" }
+    })
+      .then(response => response.json())
+      .then(data => this.renderResults(data))
+      .catch(error => console.error("Technology search failed:", error))
+  }
 
   renderResults(items) {
     const filtered = items.filter(item => {
@@ -48,7 +43,7 @@ export default class extends Controller {
     })
 
     if (filtered.length === 0) {
-      this.resultsTarget.innerHTML = ""
+      this.clearResults()
       return
     }
 
