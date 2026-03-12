@@ -2207,3 +2207,64 @@ a:hover {
   background: var(--codemate-offwhite);
   border-color: var(--codemate-offwhite);
 }
+
+
+/* ---------- Auth layout ---------- */
+
+.auth-page-centered {
+  min-height: calc(100vh - 90px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.auth-card-register {
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid var(--border-light);
+  background: var(--surface-dark);
+  padding: 32px;
+}
+
+.auth-title {
+  margin: 0 0 8px;
+}
+
+.auth-subtitle {
+  margin: 0 0 28px;
+}
+
+.auth-card-register .field {
+  margin-bottom: 18px;
+}
+
+.auth-card-register .field input {
+  min-height: 52px;
+}
+
+.auth-submit {
+  width: 100%;
+  min-height: 54px;
+  font-size: 22px;
+}
+
+.auth-links {
+  margin-top: 18px;
+  color: var(--text-soft);
+}
+
+.auth-links a {
+  color: var(--codemate-offwhite);
+  text-decoration: none;
+}
+
+.auth-links a:hover {
+  color: var(--codemate-green-light);
+}
+
+@media (max-width: 640px) {
+  .auth-card-register {
+    padding: 22px;
+  }
+}

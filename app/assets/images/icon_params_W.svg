@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Calque_1" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 231.16 228.97">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #efefef;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-1" points="183.85 166.88 183.85 151.71 168.7 151.71 168.7 166.88 153.57 166.83 153.57 151.73 168.7 151.67 168.7 30.57 183.85 30.57 183.85 151.67 198.97 151.73 199 166.82 183.85 166.88"/>
+  <rect class="cls-1" x="168.7" y="166.88" width="15.15" height="30.26"/>
+  <rect class="cls-1" x="108.12" y="30.54" width="15.15" height="30.26"/>
+  <polygon class="cls-1" points="108.12 60.8 108.12 75.97 123.28 75.97 123.28 60.8 138.43 60.87 138.4 75.95 123.27 76.01 123.27 197.12 108.13 197.12 108.13 76.01 92.99 75.95 92.99 60.86 108.12 60.8"/>
+  <rect class="cls-1" x="17.24" y="60.83" width="75.75" height="15.18" transform="translate(-13.31 123.53) rotate(-89.99)"/>
+  <polygon class="cls-1" points="47.52 106.3 47.52 121.38 32.4 121.44 32.39 106.27 47.52 106.3"/>
+  <polygon class="cls-1" points="62.71 121.38 62.71 106.3 77.85 106.24 77.86 121.41 62.71 121.38"/>
+  <rect class="cls-1" x="17.23" y="151.67" width="75.76" height="15.18" transform="translate(-104.16 214.35) rotate(-89.99)"/>
+</svg>

@@ -1,113 +1,43 @@
-<div class="auth-card">
-  <h2 class="Jersey 10 text-center mb-4">Sign up</h2>
+<div class="auth-page auth-page-centered">
+  <div class="auth-card auth-card-register">
+    <h1 class="title-lg auth-title">Sign up</h1>
+    <p class="page-subtitle auth-subtitle">
+      Create your account and start building with other developers.
+    </p>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div class="mb-3">
-      <%= f.label :display_name, class: "form-label" %>
-      <%= f.text_field :display_name, autofocus: true, autocomplete: "nickname", class: "form-control" %>
+      <div class="field">
+        <%= f.label :display_name, "Display name" %>
+        <%= f.text_field :display_name, autofocus: true, autocomplete: "nickname" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :email, "Email" %>
+        <%= f.email_field :email, autocomplete: "email" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, "Password" %>
+        <% if @minimum_password_length %>
+          <small class="helper-text"><%= @minimum_password_length %> characters minimum</small>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation, "Confirm password" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      </div>
+
+      <div class="auth-actions">
+        <%= f.submit "Create account", class: "btn btn-primary auth-submit" %>
+      </div>
+    <% end %>
+
+    <div class="auth-links">
+      <%= render "devise/shared/links" %>
     </div>
-
-    <div class="mb-3">
-      <%= f.label :email, class: "form-label" %>
-      <%= f.email_field :email, autocomplete: "email", class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= f.label :password, class: "form-label" %>
-      <% if @minimum_password_length %>
-        <small class="text-muted d-block mb-1">
-          (<%= @minimum_password_length %> characters minimum)
-        </small>
-      <% end %>
-      <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= f.label :password_confirmation, class: "form-label" %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
-    </div>
-
-    <%= f.submit "Sign up", class: "btn btn-orange w-100 mt-2" %>
-  <% end %>
-
-  <div class="auth-links text-center mt-3">
-    <%= render "devise/shared/links" %>
   </div>
 </div>
-
-<style>
-  :root {
-    --navy: #0a0f1f;
-    --orange: #ff7a00;
-    --grey-light: #d1d5db;
-    --grey-mid: #9ca3af;
-    --white: #ffffff;
-  }
-
-  body {
-    background: var(--navy);
-  }
-
-  .Jersey 10 {
-    font-family: "Jersey 10", system-ui;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    font-variation-settings:
-      "MORF" 15,
-      "SHLN" 50;
-  }
-
-  .auth-card {
-    max-width: 450px;
-    margin: 60px auto;
-    background: #11182e;
-    padding: 32px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--white);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  .form-label {
-    color: var(--grey-light);
-    font-weight: 600;
-  }
-
-  .form-control {
-    background: #0d1326;
-    border: 1px solid var(--grey-mid);
-    color: var(--white);
-    border-radius: 10px;
-    padding: 12px;
-  }
-
-  .form-control:focus {
-    border-color: var(--orange);
-    box-shadow: 0 0 0 0.25rem rgba(255, 122, 0, 0.35);
-  }
-
-  .btn-orange {
-    background: var(--orange);
-    color: var(--navy);
-    font-weight: 700;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-  }
-
-  .btn-orange:hover {
-    background: #ff8f26;
-  }
-
-  .auth-links a {
-    color: var(--grey-light);
-    text-decoration: none;
-  }
-
-  .auth-links a:hover {
-    color: var(--orange);
-  }
-</style>
