@@ -13,26 +13,34 @@ export default class extends Controller {
     this.renderHiddenFields()
   }
 
-  search() {
-    const query = this.inputTarget.value.trim()
-    const category = this.categoryTarget.value
-    const url = new URL(this.searchUrlValue, window.location.origin)
+    search() {
+      const query = this.inputTarget.value.trim()
+      const category = this.categoryTarget.value
 
-    if (query.length > 0) {
+      if (query.length === 0) {
+        this.clearResults()
+        return
+      }
+
+      const url = new URL(this.searchUrlValue, window.location.origin)
+
       url.searchParams.set("q", query)
+
+      if (category.length > 0) {
+        url.searchParams.set("category", category)
+      }
+
+      fetch(url, {
+        headers: { Accept: "application/json" }
+      })
+        .then(response => response.json())
+        .then(data => this.renderResults(data))
+        .catch(error => console.error("Technology search failed:", error))
     }
 
-    if (category.length > 0) {
-      url.searchParams.set("category", category)
-    }
-
-    fetch(url, {
-      headers: { Accept: "application/json" }
-    })
-      .then(response => response.json())
-      .then(data => this.renderResults(data))
-      .catch(error => console.error("Technology search failed:", error))
-  }
+    clearResults() {
+  this.resultsTarget.innerHTML = ""
+}
 
   renderResults(items) {
     const filtered = items.filter(item => {
@@ -40,7 +48,7 @@ export default class extends Controller {
     })
 
     if (filtered.length === 0) {
-      this.resultsTarget.innerHTML = `<div class="tech-picker-empty">No matching technologies found.</div>`
+      this.resultsTarget.innerHTML = ""
       return
     }
 
@@ -75,7 +83,7 @@ export default class extends Controller {
 
     this.selectedItems.push(item)
     this.inputTarget.value = ""
-    this.resultsTarget.innerHTML = ""
+    this.clearResults()
 
     this.renderSelected()
     this.renderHiddenFields()
@@ -128,5 +136,20 @@ export default class extends Controller {
     if (event.key === "Enter") {
       event.preventDefault()
     }
+
+    if (event.key === "Escape") {
+      this.clearResults()
+      this.inputTarget.blur()
+    }
+  }
+
+  hideResults() {
+    setTimeout(() => {
+      this.clearResults()
+    }, 150)
+  }
+
+  clearResults() {
+    this.resultsTarget.innerHTML = ""
   }
 }

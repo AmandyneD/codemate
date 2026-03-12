@@ -17,11 +17,13 @@ export default class extends Controller {
     const query = this.inputTarget.value.trim()
     const category = this.categoryTarget.value
 
-    const url = new URL(this.searchUrlValue, window.location.origin)
-
-    if (query.length > 0) {
-      url.searchParams.set("q", query)
+    if (query.length === 0) {
+      this.clearResults()
+      return
     }
+
+    const url = new URL(this.searchUrlValue, window.location.origin)
+    url.searchParams.set("q", query)
 
     if (category.length > 0) {
       url.searchParams.set("category", category)
@@ -80,7 +82,7 @@ export default class extends Controller {
 
     this.selectedItems.push(item)
     this.inputTarget.value = ""
-    this.resultsTarget.innerHTML = ""
+    this.clearResults()
 
     this.renderSelected()
     this.renderHiddenFields()
@@ -125,6 +127,10 @@ export default class extends Controller {
     this.hiddenFieldsTarget.innerHTML = this.selectedItems.map(item => {
       return `<input type="hidden" name="technology_ids[]" value="${item.id}">`
     }).join("")
+  }
+
+  clearResults() {
+    this.resultsTarget.innerHTML = ""
   }
 
   handleKeydown(event) {
