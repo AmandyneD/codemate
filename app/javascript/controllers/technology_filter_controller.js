@@ -1,21 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "category", "results", "selected", "hiddenFields"]
+  static targets = ["input", "results", "selected", "hiddenFields"]
   static values = {
     searchUrl: String,
     selected: Array
   }
 
   connect() {
-    this.selectedItems = this.selectedValue || []
+    this.selectedItems = Array.isArray(this.selectedValue) ? this.selectedValue : []
     this.renderSelected()
     this.renderHiddenFields()
   }
 
   search() {
     const query = this.inputTarget.value.trim()
-    const category = this.categoryTarget.value
 
     if (query.length === 0) {
       this.clearResults()
@@ -25,29 +24,21 @@ export default class extends Controller {
     const url = new URL(this.searchUrlValue, window.location.origin)
     url.searchParams.set("q", query)
 
-    if (category.length > 0) {
-      url.searchParams.set("category", category)
-    }
-
     fetch(url, {
       headers: { Accept: "application/json" }
     })
       .then(response => response.json())
-      .then(data => {
-        this.renderResults(data)
-      })
-      .catch(error => {
-        console.error("Technology filter search failed:", error)
-      })
+      .then(data => this.renderResults(data))
+      .catch(error => console.error("Technology filter search failed:", error))
   }
 
   renderResults(items) {
     const filtered = items.filter(item => {
-      return !this.selectedItems.some(selected => selected.id === item.id)
+      return !this.selectedItems.some(selected => Number(selected.id) === Number(item.id))
     })
 
     if (filtered.length === 0) {
-      this.resultsTarget.innerHTML = `<div class="tech-picker-empty">No matching technologies found.</div>`
+      this.resultsTarget.innerHTML = ""
       return
     }
 
@@ -58,10 +49,8 @@ export default class extends Controller {
           class="tech-picker-result"
           data-id="${item.id}"
           data-name="${item.name}"
-          data-category="${item.category}"
         >
           <span>${item.name}</span>
-          <small>${item.category || "Other"}</small>
         </button>
       `
     }).join("")
@@ -70,15 +59,14 @@ export default class extends Controller {
       button.addEventListener("click", () => {
         this.addTechnology({
           id: Number(button.dataset.id),
-          name: button.dataset.name,
-          category: button.dataset.category
+          name: button.dataset.name
         })
       })
     })
   }
 
   addTechnology(item) {
-    if (this.selectedItems.some(selected => selected.id === item.id)) return
+    if (this.selectedItems.some(selected => Number(selected.id) === Number(item.id))) return
 
     this.selectedItems.push(item)
     this.inputTarget.value = ""
@@ -90,7 +78,7 @@ export default class extends Controller {
 
   removeTechnology(event) {
     const id = Number(event.currentTarget.dataset.id)
-    this.selectedItems = this.selectedItems.filter(item => item.id !== id)
+    this.selectedItems = this.selectedItems.filter(item => Number(item.id) !== id)
 
     this.renderSelected()
     this.renderHiddenFields()
@@ -98,7 +86,7 @@ export default class extends Controller {
 
   renderSelected() {
     if (this.selectedItems.length === 0) {
-      this.selectedTarget.innerHTML = `<div class="tech-picker-placeholder">No technologies selected yet.</div>`
+      this.selectedTarget.innerHTML = ""
       return
     }
 
@@ -124,8 +112,10 @@ export default class extends Controller {
   }
 
   renderHiddenFields() {
-    this.hiddenFieldsTarget.innerHTML = this.selectedItems.map(item => {
-      return `<input type="hidden" name="technology_ids[]" value="${item.id}">`
+    const uniqueIds = [...new Set(this.selectedItems.map(item => String(item.id)))]
+
+    this.hiddenFieldsTarget.innerHTML = uniqueIds.map(id => {
+      return `<input type="hidden" name="technology_ids[]" value="${id}">`
     }).join("")
   }
 
@@ -136,6 +126,11 @@ export default class extends Controller {
   handleKeydown(event) {
     if (event.key === "Enter") {
       event.preventDefault()
+    }
+
+    if (event.key === "Escape") {
+      this.clearResults()
+      this.inputTarget.blur()
     }
   }
 }

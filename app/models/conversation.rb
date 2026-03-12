@@ -12,6 +12,14 @@ class Conversation < ApplicationRecord
     [ sender, recipient ]
   end
 
+  def includes_user?(user)
+    sender == user || recipient == user
+  end
+
+  def other_user(current_user)
+    sender == current_user ? recipient : sender
+  end
+
   private
 
   def different_participants

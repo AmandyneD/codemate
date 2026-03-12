@@ -1,131 +1,42 @@
-<div class="page-shell-centered">
-
-  <div class="page-header-centered">
-    <h1 class="honk">My favorite projects</h1>
-    <p class="page-subtitle-modern">Projects you saved to revisit later.</p>
+<div class="page-shell favorites-page">
+  <div class="page-header">
+    <div>
+      <h1 class="title-xl">My favorite projects</h1>
+      <p class="page-subtitle">Projects you saved to revisit later.</p>
+    </div>
   </div>
 
-  <div class="content-card-centered">
-
+  <div class="content-card favorites-card">
     <% if @favorite_projects.any? %>
-      <div class="project-list-centered">
+      <div class="project-list project-list-clean">
         <% @favorite_projects.each do |project| %>
-          <%= link_to project_path(project), class: "project-row-card-centered" do %>
-            <div class="project-row-card-content">
-              <div class="project-row-card-main">
-                <strong><%= project.title %></strong>
-                <div class="muted-text"><%= project.short_description %></div>
+          <%= link_to project_path(project), class: "project-row-card project-row-card-clean" do %>
+            <div class="project-row-card-content project-row-card-content-clean">
+              <div class="project-row-card-main project-row-card-main-clean">
+                <h3 class="project-row-title"><%= project.title %></h3>
+                <p class="project-row-description">
+                  <%= project.short_description.presence || "No description yet." %>
+                </p>
+
+                <div class="project-row-tags">
+                  <span class="project-row-meta-item"><%= project.category.to_s.humanize %></span>
+                  <span class="project-row-meta-item"><%= project.estimated_duration.to_s.humanize %></span>
+                </div>
               </div>
 
-              <div class="project-row-card-meta">
-                <span class="badge-centered"><%= project.status.capitalize %></span>
+              <div class="project-row-card-meta project-row-card-meta-clean">
+                <span class="badge-status"><%= project.status.capitalize %></span>
+                <span class="project-row-open">View</span>
               </div>
             </div>
           <% end %>
         <% end %>
       </div>
     <% else %>
-      <p class="muted-text text-center">You have no favorite projects yet.</p>
+      <div class="empty-state">
+        <h2 class="title-lg">No favorite projects yet</h2>
+        <p class="page-subtitle">Save projects to find them quickly later.</p>
+      </div>
     <% end %>
-
   </div>
 </div>
-
-<style>
-  :root {
-    --navy: #0a0f1f;
-    --navy-light: #11182e;
-    --orange: #ff7a00;
-    --grey-light: #d1d5db;
-    --grey-mid: #9ca3af;
-    --white: #ffffff;
-  }
-
-  body {
-    background: var(--navy);
-    color: var(--white);
-  }
-
-  /* --- PAGE CENTRÉE --- */
-  .page-shell-centered {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .page-header-centered {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .honk {
-    font-family: "Honk", system-ui;
-    font-variation-settings: "MORF" 15, "SHLN" 50;
-  }
-
-  .page-subtitle-modern {
-    color: var(--grey-light);
-  }
-
-  /* --- CARD PRINCIPALE --- */
-  .content-card-centered {
-    width: 100%;
-    max-width: 600px;
-    background: var(--navy-light);
-    padding: 32px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  }
-
-  /* --- LISTE DES PROJETS --- */
-  .project-list-centered {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .project-row-card-centered {
-    display: block;
-    background: #0d1326;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.08);
-    transition: 0.2s;
-  }
-
-  .project-row-card-centered:hover {
-    border-color: var(--orange);
-    background: rgba(255,122,0,0.05);
-  }
-
-  .project-row-card-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .project-row-card-main strong {
-    font-size: 17px;
-  }
-
-  .muted-text {
-    color: var(--grey-light);
-    font-size: 14px;
-  }
-
-  .badge-centered {
-    background: var(--orange);
-    color: var(--navy);
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-weight: 700;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-</style>

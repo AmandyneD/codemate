@@ -1,2 +1,31 @@
-<h1>Conversations#show</h1>
-<p>Find me in app/views/conversations/show.html.erb</p>
+<div class="container py-4">
+  <p>
+    <%= link_to "← Back to project", project_path(@project) %>
+  </p>
+
+  <h1>Conversation with <%= @other_user.display_name %></h1>
+  <p>Project: <%= @project.title %></p>
+
+  <div class="border rounded p-3 mb-4">
+    <% if @messages.any? %>
+      <% @messages.each do |message| %>
+        <div class="mb-3">
+          <strong><%= message.user.display_name %></strong>
+          <div><%= message.content %></div>
+          <small class="text-muted"><%= l(message.created_at, format: :short) %></small>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No messages yet.</p>
+    <% end %>
+  </div>
+
+  <%= form_with model: [@conversation, @message], local: true do |f| %>
+    <div class="mb-3">
+      <%= f.label :content, "Your message" %>
+      <%= f.text_area :content, rows: 4, class: "form-control" %>
+    </div>
+
+    <%= f.submit "Send", class: "btn btn-primary" %>
+  <% end %>
+</div>

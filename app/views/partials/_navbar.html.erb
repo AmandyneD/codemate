@@ -1,50 +1,51 @@
-<nav class="navbar navbar-expand-lg navbar-dark topbar-modern sticky-top py-3 shadow-sm">
-  <div class="container-fluid px-4">
-
-    <%= link_to root_path, class: "navbar-brand d-flex align-items-center" do %>
-      <%= image_tag "perso_codemate.svg", height: 50, class: "me-2", alt: "Logo" %>
-      <%= image_tag "codemate.svg", height: 34, class: "me-2", alt: "Codemate" %>
+<nav class="navbar navbar-expand-lg topbar-modern sticky-top">
+  <div class="navbar-container">
+    <%= link_to root_path, class: "navbar-brand codemate-brand" do %>
+      <%= image_tag "mate_blanc.svg", height: 50, class: "brand-icon", alt: "Logo" %>
+      <%= image_tag "codemate_blanc.svg", height: 26, class: "brand-wordmark", alt: "Codemate" %>
     <% end %>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPremium">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarPremium"
+      aria-controls="navbarPremium"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarPremium">
-
-      <!-- CENTER NAV -->
-      <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-2">
-
+      <ul class="navbar-nav navbar-links">
         <li class="nav-item">
-          <%= link_to "Explore projects", projects_path, class: "nav-link" %>
+          <%= link_to "Explore projects",
+            projects_path,
+            class: "nav-link custom-nav-link #{'is-active' if current_page?(projects_path)}" %>
         </li>
 
         <li class="nav-item">
-          <%= link_to "Browse builders", users_path, class: "nav-link" %>
+          <%= link_to "Browse builders",
+            users_path,
+            class: "nav-link custom-nav-link #{'is-active' if current_page?(users_path)}" %>
         </li>
 
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to "My projects", my_projects_path, class: "nav-link" %>
-          </li>
-
-          <li class="nav-item ms-lg-2">
-            <%= link_to "Create project",
-                new_project_path,
-                class: "btn btn-dark rounded-pill px-4" %>
+            <%= link_to "My projects",
+              my_projects_path,
+              class: "nav-link custom-nav-link #{'is-active' if current_page?(my_projects_path)}" %>
           </li>
         <% end %>
-
       </ul>
 
-      <!-- RIGHT USER -->
-      <div class="d-flex align-items-center gap-3">
-
+      <div class="navbar-right">
         <% if user_signed_in? %>
+          <%= link_to "Create project", new_project_path, class: "navbar-cta" %>
 
           <details class="user-dropdown">
             <summary class="user-menu-button">
-
               <% if current_user.avatar.attached? %>
                 <%= image_tag current_user.avatar, class: "navbar-avatar", alt: current_user.display_name %>
               <% else %>
@@ -53,10 +54,7 @@
                 </div>
               <% end %>
 
-              <span class="navbar-username">
-                <%= current_user.display_name %>
-              </span>
-
+              <span class="navbar-username"><%= current_user.display_name %></span>
               <span class="navbar-caret">▾</span>
             </summary>
 
@@ -69,19 +67,19 @@
 
               <hr>
 
-              <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "dropdown-item logout-button" %>
+              <%= button_to "Logout",
+                destroy_user_session_path,
+                method: :delete,
+                class: "dropdown-item logout-button" %>
             </div>
           </details>
-
         <% else %>
-
-          <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-dark rounded-pill px-4" %>
-          <%= link_to "Log in", new_user_session_path, class: "btn btn-dark rounded-pill px-4" %>
-
+          <div class="navbar-auth-actions">
+            <%= link_to "Sign up", new_user_registration_path, class: "nav-link custom-nav-link" %>
+            <%= link_to "Log in", new_user_session_path, class: "navbar-cta" %>
+          </div>
         <% end %>
-
       </div>
-
     </div>
   </div>
 </nav>

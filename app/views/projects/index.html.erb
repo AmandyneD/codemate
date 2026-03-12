@@ -1,378 +1,66 @@
-<div class="page-shell-modern">
-  <div class="page-header-modern page-header-modern--inline">
+<div class="page-shell">
+  <div class="page-header">
     <div>
-      <h1 class="page-title honk">Browse projects</h1>
-      <p class="page-subtitle-modern">
+      <h1 class="title-xl">Browse projects</h1>
+      <p class="page-subtitle">
         Search by project name, technologies, and refine with advanced filters.
       </p>
     </div>
 
-    <p class="result-count">
-      <span><%= @projects.size %></span> projects found
+    <p class="muted-text">
+      <strong><%= @projects.size %></strong> projects found
     </p>
   </div>
 
- <%= render "filters" %>
+  <%= render "filters" %>
 
   <% if @projects.any? %>
-    <div class="projects-grid-modern">
+    <div class="projects-grid">
       <% @projects.each do |project| %>
-        <article class="project-card-modern">
-          <div class="project-card-top-modern">
-            <span class="badge badge-orange"><%= project.status.capitalize %></span>
-            <span class="badge badge-grey"><%= project.category %></span>
+        <article class="project-card">
+          <div class="project-card-top">
+            <span class="badge-status"><%= project.status.capitalize %></span>
+            <span class="badge-category"><%= project.category.humanize %></span>
           </div>
 
-          <h2 class="project-card-title-modern">
-            <%= link_to project.title, project_path(project) %>
+          <h2 class="title-md">
+            <%= link_to project.title, project_path(project), class: "project-card-title" %>
           </h2>
 
-          <p class="project-card-text-modern"><%= project.short_description %></p>
+          <p class="project-card-text"><%= project.short_description %></p>
 
-          <div class="project-meta-modern">
+          <div class="project-meta">
             <span>⏱ <%= project.estimated_duration.humanize %></span>
             <span>👥 <%= project.accepted_members_count %> / <%= project.max_collaborators %></span>
           </div>
 
-          <div class="tech-list-modern">
+          <div class="tech-list">
             <% if project.technologies.any? %>
               <% project.technologies.each do |technology| %>
-                <span class="tech-badge-modern"><%= technology.name %></span>
+                <span class="tech-badge"><%= technology.name %></span>
               <% end %>
             <% else %>
-              <span class="muted-text-modern">No technologies yet</span>
+              <span class="muted-text">No technologies yet</span>
             <% end %>
           </div>
 
-          <div class="project-card-footer-modern">
-            <span class="muted-text-modern">
+          <div class="project-card-footer">
+            <span class="muted-text">
               Owner:
               <strong><%= project.owner&.display_name || "Unknown" %></strong>
             </span>
 
-            <%= link_to "View project", project_path(project), class: "btn btn-grey" %>
+            <%= link_to "View project", project_path(project), class: "btn btn-secondary" %>
           </div>
         </article>
       <% end %>
     </div>
   <% else %>
-    <div class="empty-state-modern">
-      <h2>No open projects found</h2>
-      <p>Try another search or remove some filters.</p>
+    <div class="empty-state">
+      <h2 class="title-lg">No open projects found</h2>
+      <p class="page-subtitle">Try another search or remove some filters.</p>
 
-      <%= link_to "Reset filters", projects_path, class: "btn btn-orange mt-3", style: "background-color: #ff7a00" %>
+      <%= link_to "Reset filters", projects_path, class: "btn btn-orange mt-3" %>
     </div>
   <% end %>
 </div>
-
-<style>
-  :root {
-    --navy: #0a0f1f;
-    --orange: #ff7a00;
-    --grey-light: #d1d5db;
-    --grey-mid: #9ca3af;
-    --white: #ffffff;
-  }
-
-  .honk {
-    font-family: "Honk", system-ui;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-    font-variation-settings:
-      "MORF" 15,
-      "SHLN" 50;
-  }
-
-  .page-shell-modern {
-    background: var(--navy);
-    min-height: 100vh;
-    padding: 40px;
-    color: var(--white);
-  }
-
-  .page-header-modern--inline {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 28px;
-  }
-
-  .page-title {
-    font-size: 48px;
-    margin: 0;
-    color: var(--orange);
-  }
-
-  .page-subtitle-modern {
-    color: var(--grey-light);
-    margin-top: 6px;
-  }
-
-  .result-count {
-    margin: 0;
-    color: var(--grey-mid);
-    font-size: 14px;
-  }
-
-  .result-count span {
-    color: var(--white);
-    font-weight: 700;
-  }
-
-  .search-box-minimal {
-    background: #11182e;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 22px;
-    padding: 24px;
-    max-width: 980px;
-    margin: 0 auto 42px auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  .search-main-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 14px;
-    align-items: end;
-    margin-bottom: 20px;
-  }
-
-  .search-main-field {
-    min-width: 0;
-  }
-
-  .field-label {
-    color: var(--grey-light);
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .field-label-secondary {
-    color: var(--grey-mid);
-    font-size: 14px;
-  }
-
-  .main-search-input {
-    width: 100%;
-    min-height: 56px;
-    border-radius: 16px;
-    border: none;
-    padding: 0 18px;
-    font-size: 18px;
-  }
-
-  .btn-search-main {
-    background: var(--orange);
-    color: var(--navy);
-    border: none;
-    border-radius: 16px;
-    padding: 16px 30px;
-    font-weight: 700;
-    min-height: 56px;
-  }
-
-  .search-tech-block {
-    margin-bottom: 18px;
-  }
-
-  .tech-picker-minimal {
-    background: #f5f5f5;
-    border-radius: 18px;
-    padding: 14px;
-  }
-
-  .tech-picker-selected {
-    margin-bottom: 10px;
-  }
-
-  .tech-picker-toolbar {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .tech-picker-input {
-    flex: 1;
-  }
-
-  .tech-picker-category {
-    min-width: 220px;
-  }
-
-  .tech-picker-results {
-    margin-top: 10px;
-  }
-
-  .advanced-filters-box {
-    margin-top: 8px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 16px;
-  }
-
-  .advanced-filters-box summary {
-    cursor: pointer;
-    color: var(--grey-light);
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-
-  .advanced-filters-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-    margin-top: 14px;
-  }
-
-  .advanced-select {
-    width: 100%;
-    min-height: 48px;
-    border-radius: 12px;
-    border: none;
-    padding: 0 14px;
-  }
-
-  .advanced-reset-row {
-    margin-top: 14px;
-  }
-
-  .btn-reset-inline {
-    color: var(--grey-light);
-    text-decoration: none;
-    font-size: 14px;
-  }
-
-  .projects-grid-modern {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 28px;
-  }
-
-  .project-card-modern {
-    background: #11182e;
-    border-radius: 16px;
-    padding: 24px;
-    border: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    transition: transform .2s ease, box-shadow .2s ease;
-  }
-
-  .project-card-modern:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  .project-card-top-modern {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .badge-orange {
-    background: var(--orange);
-    color: var(--navy);
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-weight: 600;
-  }
-
-  .badge-grey {
-    background: var(--grey-mid);
-    color: var(--navy);
-    padding: 4px 10px;
-    border-radius: 8px;
-  }
-
-  .project-card-title-modern a {
-    color: var(--white);
-    text-decoration: none;
-    font-size: 22px;
-    font-weight: 600;
-  }
-
-  .project-card-text-modern {
-    color: var(--grey-light);
-  }
-
-  .project-meta-modern {
-    display: flex;
-    justify-content: space-between;
-    color: var(--grey-mid);
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .tech-list-modern {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .tech-badge-modern {
-    background: rgba(255,255,255,0.1);
-    padding: 6px 12px;
-    border-radius: 10px;
-    color: var(--grey-light);
-    font-size: 14px;
-  }
-
-  .project-card-footer-modern {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .muted-text-modern {
-    color: var(--grey-mid);
-  }
-
-  .btn-orange {
-    background: var(--orange);
-    color: var(--navy) !important;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    border: none;
-  }
-
-  .btn-grey {
-    background: var(--grey-light);
-    color: var(--navy) !important;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    border: none;
-  }
-
-  .empty-state-modern {
-    text-align: center;
-    padding: 80px 0;
-    color: var(--white);
-  }
-
-  @media (max-width: 768px) {
-    .search-main-row,
-    .advanced-filters-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .tech-picker-toolbar {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    .tech-picker-category {
-      min-width: unset;
-      width: 100%;
-    }
-  }
-</style>

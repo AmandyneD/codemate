@@ -10,8 +10,8 @@
         <span class="badge-category"><%= @project.category.humanize %></span>
       </div>
 
-      <h1 class="project-title"><%= @project.title %></h1>
-      <p class="project-subtitle"><%= @project.short_description %></p>
+      <h1 class="project-title title-xl"><%= @project.title %></h1>
+      <p class="project-subtitle subtitle"><%= @project.short_description %></p>
     </div>
 
     <% if @is_owner %>
@@ -30,12 +30,12 @@
   <div class="layout">
     <main class="card">
       <section>
-        <h2>About</h2>
+        <h2 class="title-lg">About</h2>
         <p><%= @project.description %></p>
       </section>
 
       <section>
-        <h2>Technologies</h2>
+        <h2 class="title-lg">Technologies</h2>
 
         <div class="tech-list">
           <% if @project.technologies.any? %>
@@ -49,38 +49,58 @@
       </section>
 
       <section>
-        <h2>Team</h2>
+        <h2 class="title-lg">Team</h2>
 
-        <% @accepted_collaborations.each do |collab| %>
-          <div class="member-row">
-            <div>
-              <strong><%= collab.user.display_name %></strong>
+        <% if @accepted_collaborations.any? %>
+          <% @accepted_collaborations.each do |collab| %>
+            <div class="member-row">
+              <div>
+                <strong><%= collab.user.display_name %></strong>
 
-              <% if collab.owner %>
-                <span class="role">Owner</span>
+                <% if collab.owner %>
+                  <span class="role">Owner</span>
+                <% elsif collab.role.present? %>
+                  <span class="role"><%= collab.role %></span>
+                <% end %>
+              </div>
+
+              <% if @is_owner && !collab.owner %>
+                <div class="member-actions">
+                  <%= button_to "Message",
+                    project_conversations_path(@project, recipient_id: collab.user.id),
+                    method: :post,
+                    class: "btn-outline" %>
+
+                  <%= button_to "Remove",
+                    project_collaboration_path(@project, collab),
+                    method: :patch,
+                    params: { status: "removed" },
+                    class: "btn-remove" %>
+                </div>
               <% end %>
             </div>
-
-            <% if @is_owner && !collab.owner %>
-              <%= button_to "Remove",
-                project_collaboration_path(@project, collab),
-                method: :patch,
-                params: { status: "removed" },
-                class: "btn-remove" %>
-            <% end %>
-          </div>
+          <% end %>
+        <% else %>
+          <p class="muted">No team members yet.</p>
         <% end %>
       </section>
     </main>
 
     <aside class="card">
-      <h2>Project info</h2>
+      <h2 class="title-lg">Project info</h2>
 
       <ul class="info">
         <li>Owner: <%= @project_owner.display_name %></li>
         <li>Duration: <%= @project.estimated_duration.humanize %></li>
         <li>Team: <%= @project.accepted_members_count %> / <%= @project.max_collaborators %></li>
       </ul>
+
+      <% if user_signed_in? && !@is_owner && @existing_collaboration&.status.in?(%w[pending accepted]) %>
+        <%= button_to "Message owner",
+          project_conversations_path(@project, recipient_id: @project_owner.id),
+          method: :post,
+          class: "btn-outline mt-3" %>
+      <% end %>
 
       <% if @project.recruiting? %>
         <div class="callout-green">
@@ -89,18 +109,29 @@
       <% end %>
 
       <% if @is_owner %>
-        <h2>Pending</h2>
+        <h2 class="title-lg">Pending</h2>
 
-        <% @pending_collaborations.each do |collab| %>
-          <div class="member-row">
-            <strong><%= collab.user.display_name %></strong>
+        <% if @pending_collaborations.any? %>
+          <% @pending_collaborations.each do |collab| %>
+            <div class="member-row">
+              <strong><%= collab.user.display_name %></strong>
 
-            <%= button_to "Accept",
-              project_collaboration_path(@project, collab),
-              method: :patch,
-              params: { status: "accepted" },
-              class: "btn-green" %>
-          </div>
+              <div class="member-actions">
+                <%= button_to "Message",
+                  project_conversations_path(@project, recipient_id: collab.user.id),
+                  method: :post,
+                  class: "btn-outline" %>
+
+                <%= button_to "Accept",
+                  project_collaboration_path(@project, collab),
+                  method: :patch,
+                  params: { status: "accepted" },
+                  class: "btn-green" %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="muted">No pending requests.</p>
         <% end %>
       <% end %>
     </aside>
@@ -108,126 +139,3 @@
 </div>
 
 <style>
-
-:root {
-  --black: #181916;
-  --offwhite: #f2efeb;
-  --green: #49674e;
-  --green-bright: #53b57f;
-  --orange: #d88314;
-  --plum: #78475e;
-}
-
-.project-shell {
-  background: var(--black);
-  min-height: 100vh;
-  padding: 40px;
-  color: var(--offwhite);
-}
-
-.card {
-  border: 1px solid var(--offwhite);
-  padding: 28px;
-  background: transparent;
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 40px;
-}
-
-.project-title {
-  font-size: 52px;
-  margin: 10px 0;
-}
-
-.project-subtitle {
-  color: #bbb;
-}
-
-.badge-status {
-  background: var(--orange);
-  color: var(--black);
-  padding: 4px 10px;
-}
-
-.badge-category {
-  border: 1px solid var(--offwhite);
-  padding: 4px 10px;
-}
-
-.tech-badge {
-  border: 1px solid var(--green-bright);
-  padding: 6px 12px;
-}
-
-.member-row {
-  border: 1px solid var(--offwhite);
-  padding: 12px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.btn-remove {
-  border: 1px solid var(--orange);
-  color: var(--orange);
-  background: transparent;
-}
-
-.btn-green {
-  background: var(--green-bright);
-  border: none;
-}
-
-.btn-orange {
-  background: var(--orange);
-  border: none;
-}
-
-.callout-green {
-  border: 1px solid var(--green-bright);
-  padding: 12px;
-  margin-top: 20px;
-}
-
-.project-title,
-.project-subtitle,
-main.card p,
-main.card li,
-main.card strong,
-main.card a,
-.member-row,
-.member-row strong,
-.member-card,
-.member-card strong,
-.member-card-link,
-.project-info-list,
-.project-info-list li,
-.info,
-.info li,
-.sidebar-card,
-.sidebar-card strong {
-  color: #f2efeb !important;
-}
-
-main.card h2,
-aside.card h2,
-.project-sidebar-card h2 {
-  color: #d88314 !important;
-}
-
-.muted,
-.muted-text {
-  color: rgba(242, 239, 235, 0.72) !important;
-}
-
-.role,
-.member-role,
-.member-role-badge {
-  background: #49674e !important;
-  color: #f2efeb !important;
-}
-
-</style>

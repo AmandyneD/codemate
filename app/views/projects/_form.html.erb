@@ -1,95 +1,87 @@
-<div class="form-card">
-  <%= form_with model: project do |f| %>
-    <% if project.errors.any? %>
-      <div class="form-errors">
-        <h2><%= pluralize(project.errors.count, "error") %> prevented this project from being saved:</h2>
-        <ul>
-          <% project.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+<div class="project-form-shell">
+  <div class="project-form-card">
+    <%= form_with model: project do |f| %>
+      <% if project.errors.any? %>
+        <div class="form-errors">
+          <h2 class="title-md"><%= pluralize(project.errors.count, "error") %> prevented this project from being saved:</h2>
+          <ul>
+            <% project.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-    <div class="field">
-      <%= f.label :title %>
-      <%= f.text_field :title, placeholder: "Ex: Codemate, Airbnb clone, habit tracker..." %>
-    </div>
-
-    <div class="field">
-      <%= f.label :short_description %>
-      <%= f.text_field :short_description, placeholder: "A short summary for project cards" %>
-    </div>
-
-    <div class="field">
-      <%= f.label :description %>
-      <%= f.text_area :description, rows: 6, placeholder: "Describe the project, goals, and what kind of collaborators you are looking for." %>
-    </div>
-
-    <div class="field">
       <div class="field">
-        <%= f.label :category %>
-        <%= f.select :category, [["Web app", "web_app"], ["Mobile app", "mobile_app"], ["SaaS", "saas"], ["AI", "ai"], ["Game", "game"], ["Tool", "tool"], ["Other", "other"]] %>
+        <%= f.label :title %>
+        <%= f.text_field :title, placeholder: "Ex: Codemate, Airbnb clone, habit tracker..." %>
       </div>
 
       <div class="field">
-        <%= f.label :estimated_duration %>
-        <%= f.select :estimated_duration, [["Weekend", "weekend"], ["One week", "one_week"], ["Two weeks", "two_weeks"], ["One month", "one_month"], ["Three months", "three_months"], ["Long term", "long_term"]] %>
+        <%= f.label :short_description %>
+        <%= f.text_field :short_description, placeholder: "A short summary for project cards" %>
       </div>
 
       <div class="field">
-        <%= f.label :max_collaborators %>
-        <%= f.number_field :max_collaborators, min: 1 %>
+        <%= f.label :description %>
+        <%= f.text_area :description, rows: 6, placeholder: "Describe the project, goals, and what kind of collaborators you are looking for." %>
+      </div>
+
+      <div class="project-form-grid">
+        <div class="field">
+          <%= f.label :category %>
+          <%= f.select :category,
+            [["Web app", "web_app"], ["Mobile app", "mobile_app"], ["SaaS", "saas"], ["AI", "ai"], ["Game", "game"], ["Tool", "tool"], ["Other", "other"]] %>
+        </div>
+
+        <div class="field">
+          <%= f.label :estimated_duration %>
+          <%= f.select :estimated_duration,
+            [["Weekend", "weekend"], ["One week", "one_week"], ["Two weeks", "two_weeks"], ["One month", "one_month"], ["Three months", "three_months"], ["Long term", "long_term"]] %>
+        </div>
+
+        <div class="field">
+          <%= f.label :max_collaborators %>
+          <%= f.number_field :max_collaborators, min: 1, placeholder: "Ex: 4" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :status %>
+          <%= f.select :status,
+            [["Draft", "draft"], ["Open", "open"], ["Full", "full"], ["Closed", "closed"], ["Completed", "completed"]] %>
+        </div>
       </div>
 
       <div class="field">
-        <%= f.label :status %>
-        <%= f.select :status, [["Draft", "draft"], ["Open", "open"], ["Full", "full"], ["Closed", "closed"], ["Completed", "completed"]] %>
-      </div>
-    </div>
-
-      <div class="field">
-        <label class="form-label">Technologies</label>
+        <label class="project-form-section-label">Technologies</label>
 
         <div
-          class="tech-picker mb-6"
+          class="project-form-tech"
           data-controller="technology-picker"
           data-technology-picker-search-url-value="<%= search_technologies_path %>"
-          data-technology-picker-selected-value='<%= project.technologies.map { |t| { id: t.id, name: t.name, category: t.category } }.to_json %>'
+          data-technology-picker-selected-value='<%= project.technologies.map { |t| { id: t.id, name: t.name } }.to_json %>'
         >
-          <div class="tech-picker-selected" data-technology-picker-target="selected"></div>
+          <div class="project-form-tech-selected" data-technology-picker-target="selected"></div>
 
-          <div class="tech-picker-toolbar d-flex align-items-center ">
-            <input
-              type="text"
-              class="tech-picker-input"
-              placeholder="Search technologies... (ex: Rails, React, Python)"
-              data-technology-picker-target="input"
-              data-action="input->technology-picker#search keydown->technology-picker#handleKeydown"
-            >
+          <input
+            type="text"
+            class="project-form-tech-input"
+            placeholder="Add technologies..."
+            data-technology-picker-target="input"
+            data-action="input->technology-picker#search keydown->technology-picker#handleKeydown"
+          >
 
-            <select
-              class="tech-picker-category"
-              data-technology-picker-target="category"
-              data-action="change->technology-picker#search"
-            >
-              <option value="">All categories</option>
-              <% Technology::CATEGORIES.each do |category| %>
-                <option value="<%= category %>"><%= category.humanize %></option>
-              <% end %>
-            </select>
-          </div>
-
-          <div class="tech-picker-results" data-technology-picker-target="results"></div>
+          <div class="project-form-tech-results" data-technology-picker-target="results"></div>
           <div data-technology-picker-target="hiddenFields"></div>
         </div>
       </div>
 
-    <div class="actions">
-      <%= f.submit(
-      project.persisted? ? "Save changes" : "Create project",
-      class: "btn btn-orange w-100 mt-3"
-    ) %>
-    </div>
-  <% end %>
+      <div class="project-form-actions">
+        <%= f.submit(
+          project.persisted? ? "Save changes" : "Create project",
+          class: "navbar-cta project-form-submit"
+        ) %>
+      </div>
+    <% end %>
+  </div>
 </div>

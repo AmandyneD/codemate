@@ -1,2 +1,19 @@
-<h1>Conversations#index</h1>
-<p>Find me in app/views/conversations/index.html.erb</p>
+<div class="container py-4">
+  <p>
+    <%= link_to "← Back to project", project_path(@project) %>
+  </p>
+
+  <h1>Conversations</h1>
+
+  <% if @conversations.any? %>
+    <% @conversations.each do |conversation| %>
+      <div class="border rounded p-3 mb-3">
+        <strong><%= conversation.other_user(current_user).display_name %></strong>
+        <div>Project: <%= conversation.project.title %></div>
+        <%= link_to "Open", conversation_path(conversation), class: "btn btn-sm btn-primary mt-2" %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No conversations yet.</p>
+  <% end %>
+</div>

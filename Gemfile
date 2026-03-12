@@ -20,6 +20,8 @@ gem "jbuilder"
 gem "devise"
 gem "simple_form"
 
+gem "inline_svg"
+
 gem "cloudinary"
 gem "activestorage-cloudinary-service"
 
