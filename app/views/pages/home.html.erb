@@ -1,6 +1,5 @@
-<div class="page-shell home-page">
-
-  <section class="home-hero-clean">
+<section class="home-hero-clean">
+  <div class="home-hero-inner">
     <h1 class="title-xl home-title-clean">
       Build real projects.<br>
       Find your dev team.<br>
@@ -20,39 +19,66 @@
 
       <%= link_to "Browse projects", projects_path, class: "btn btn-secondary home-cta-secondary" %>
     </div>
-  </section>
+  </div>
+</section>
+
+<div class="page-shell home-page">
+
+<section class="home-stats-section">
+  <div class="home-section-intro">
+    <p class="home-section-kicker">Community signal</p>
+    <h2 class="title-lg home-section-title">Built by people who actually ship</h2>
+    <p class="muted-text home-section-text">
+      Codemate is where devs, makers and curious builders meet to turn ideas into real projects.
+    </p>
+  </div>
 
   <section class="home-stats-clean">
     <div class="home-stat">
-      <strong class="title-lg"><%= @users_count %>+</strong>
-      <span class="muted-text">builders</span>
+      <%= image_tag "icon_user_W.svg", class: "home-stat-illu", alt: "Builders" %>
+      <strong class="home-stat-number"><%= @users_count %>+</strong>
+      <span class="home-stat-label">builders</span>
+      <p class="home-stat-text">
+        Developers, makers and collaborators building together.
+      </p>
     </div>
 
     <div class="home-stat">
-      <strong class="title-lg"><%= @projects_count %>+</strong>
-      <span class="muted-text">projects</span>
+      <%= image_tag "icon_cube_W.svg", class: "home-stat-illu", alt: "Projects" %>
+      <strong class="home-stat-number"><%= @projects_count %>+</strong>
+      <span class="home-stat-label">projects</span>
+      <p class="home-stat-text">
+        Ideas turned into concrete products, MVPs and experiments.
+      </p>
     </div>
 
     <div class="home-stat">
-      <strong class="title-lg"><%= @contributors_count %>+</strong>
-      <span class="muted-text">contributors</span>
+      <%= image_tag "icon_alien_W.svg", class: "home-stat-illu", alt: "Contributors" %>
+      <strong class="home-stat-number"><%= @contributors_count %>+</strong>
+      <span class="home-stat-label">contributors</span>
+      <p class="home-stat-text">
+        People joining forces to design, code and ship faster.
+      </p>
     </div>
   </section>
+</section>
 
   <section class="home-featured-clean">
-    <div class="section-heading">
+    <div class="section-heading home-section-heading">
       <div>
-        <h2 class="title-lg">Featured projects</h2>
-        <p class="muted-text">Discover a few active projects looking for builders.</p>
+        <p class="home-section-kicker">Featured builds</p>
+        <h2 class="title-lg">Projects looking for builders</h2>
+        <p class="muted-text">Discover active projects and jump into something real.</p>
       </div>
 
       <%= link_to "Browse all", projects_path, class: "btn btn-outline" %>
     </div>
 
     <% if @featured_projects.any? %>
-      <div class="dashboard-grid">
+      <div class="dashboard-grid home-featured-grid">
         <% @featured_projects.each do |project| %>
-          <article class="dashboard-project-card">
+          <article class="dashboard-project-card home-project-card">
+            <div class="home-project-noise"></div>
 
             <div class="dashboard-project-top">
               <span class="badge-status"><%= project.status.capitalize %></span>
@@ -65,7 +91,7 @@
 
             <p class="dashboard-project-text"><%= project.short_description %></p>
 
-            <div class="project-meta">
+            <div class="project-meta home-project-meta">
               <span>⏱ <%= project.estimated_duration.to_s.humanize %></span>
               <span>👥 <%= project.accepted_members_count %> / <%= project.max_collaborators %></span>
             </div>
@@ -87,12 +113,11 @@
 
               <%= link_to "View", project_path(project), class: "btn btn-secondary" %>
             </div>
-
           </article>
         <% end %>
       </div>
     <% else %>
-      <div class="empty-state">
+      <div class="empty-state home-empty-state">
         <h3 class="title-lg">No featured projects yet</h3>
         <p class="subtitle">Be the first to create a project.</p>
 
@@ -101,6 +126,28 @@
         <% end %>
       </div>
     <% end %>
+  </section>
+
+  <section class="home-final-cta">
+    <div class="home-final-cta-inner">
+      <p class="home-section-kicker">Start building</p>
+      <h2 class="title-lg home-final-cta-title">
+        Your next real project can start here.
+      </h2>
+      <p class="home-final-cta-text">
+        Launch an idea, find contributors, and build something worth showing.
+      </p>
+
+      <div class="home-final-cta-actions">
+        <% if user_signed_in? %>
+          <%= link_to "Create a project", new_project_path, class: "btn btn-primary home-cta-primary" %>
+        <% else %>
+          <%= link_to "Join Codemate", new_user_registration_path, class: "btn btn-primary home-cta-primary" %>
+        <% end %>
+
+        <%= link_to "Explore projects", projects_path, class: "btn btn-secondary home-cta-secondary" %>
+      </div>
+    </div>
   </section>
 
 </div>
