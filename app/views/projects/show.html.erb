@@ -1,41 +1,60 @@
-<div class="project-shell">
-  <p class="back-link">
+<div class="project-shell project-show-page">
+  <p class="back-link project-back-link">
     <%= link_to "← Back to projects", projects_path %>
   </p>
 
-  <section class="project-hero">
-    <div>
-      <div class="project-badges">
+  <section class="project-hero project-hero--enhanced">
+    <div class="project-hero-main">
+      <div class="project-badges project-badges--enhanced">
         <span class="badge-status"><%= @project.status.capitalize %></span>
         <span class="badge-category"><%= @project.category.humanize %></span>
       </div>
 
       <h1 class="project-title title-xl"><%= @project.title %></h1>
       <p class="project-subtitle subtitle"><%= @project.short_description %></p>
+
+      <div class="project-hero-meta">
+        <span class="project-hero-meta-item">
+          <%= image_tag "icon_cube_W.svg", class: "project-inline-icon", alt: "Project" %>
+          <%= @project.category.humanize %>
+        </span>
+        <span class="project-hero-meta-item">
+          <%= image_tag "icon_planning_W.svg", class: "project-inline-icon", alt: "Duration" %>
+          <%= @project.estimated_duration.humanize %>
+        </span>
+        <span class="project-hero-meta-item">
+          <%= image_tag "icon_user_W.svg", class: "project-inline-icon", alt: "Team" %>
+          <%= @project.accepted_members_count %> / <%= @project.max_collaborators %>
+        </span>
+      </div>
     </div>
 
     <% if @is_owner %>
-      <div class="hero-actions">
-        <%= link_to "Edit", edit_project_path(@project), class: "btn-outline" %>
+      <div class="hero-actions project-hero-actions">
+        <%= link_to "Edit", edit_project_path(@project), class: "btn btn-outline" %>
 
         <%= button_to "Delete",
           project_path(@project),
           method: :delete,
           form: { data: { turbo_confirm: "Delete project ?" } },
-          class: "btn-orange" %>
+          class: "btn btn-orange" %>
       </div>
     <% end %>
   </section>
 
-  <div class="layout">
-    <main class="card">
-      <section>
-        <h2 class="title-lg">About</h2>
+  <div class="layout project-layout-show">
+    <main class="card project-main-card">
+      <section class="project-section">
+        <div class="project-section-heading">
+          <h2 class="title-lg project-section-title">About</h2>
+        </div>
         <p><%= @project.description %></p>
       </section>
 
-      <section>
-        <h2 class="title-lg">Technologies</h2>
+      <section class="project-section">
+        <div class="project-section-heading">
+          <h2 class="title-lg project-section-title">Technologies</h2>
+        </div>
 
         <div class="tech-list">
           <% if @project.technologies.any? %>
@@ -48,34 +67,40 @@
         </div>
       </section>
 
-      <section>
-        <h2 class="title-lg">Team</h2>
+      <section class="project-section">
+        <div class="project-section-heading">
+          <h2 class="title-lg project-section-title">Team</h2>
+        </div>
 
         <% if @accepted_collaborations.any? %>
           <% @accepted_collaborations.each do |collab| %>
-            <div class="member-row">
-              <div>
-                <strong><%= collab.user.display_name %></strong>
+            <div class="member-row member-row--enhanced">
+              <div class="member-row-identity">
+                <div>
+                  <strong><%= collab.user.display_name %></strong>
 
-                <% if collab.owner %>
-                  <span class="role">Owner</span>
-                <% elsif collab.role.present? %>
-                  <span class="role"><%= collab.role %></span>
-                <% end %>
+                  <% if collab.owner %>
+                    <span class="role">Owner</span>
+                  <% elsif collab.role.present? %>
+                    <span class="role"><%= collab.role %></span>
+                  <% end %>
+                </div>
               </div>
 
               <% if @is_owner && !collab.owner %>
                 <div class="member-actions">
-                  <%= button_to "Message",
-                    project_conversations_path(@project, recipient_id: collab.user.id),
+                  <%= button_to project_conversations_path(@project, recipient_id: collab.user.id),
                     method: :post,
-                    class: "btn-outline" %>
+                    class: "btn btn-outline" do %>
+                    <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message" %>
+                    Message
+                  <% end %>
 
                   <%= button_to "Remove",
                     project_collaboration_path(@project, collab),
                     method: :patch,
                     params: { status: "removed" },
-                    class: "btn-remove" %>
+                    class: "btn btn-remove" %>
                 </div>
               <% end %>
             </div>
@@ -86,56 +111,94 @@
       </section>
     </main>
 
-    <aside class="card">
-      <h2 class="title-lg">Project info</h2>
+    <aside class="card project-sidebar-card">
+      <div class="project-sidebar-section">
+        <h2 class="title-lg project-section-title">Project info</h2>
 
-      <ul class="info">
-        <li>Owner: <%= @project_owner.display_name %></li>
-        <li>Duration: <%= @project.estimated_duration.humanize %></li>
-        <li>Team: <%= @project.accepted_members_count %> / <%= @project.max_collaborators %></li>
-      </ul>
+        <ul class="info project-info-list">
+          <li>
+            <%= image_tag "icon_user_W.svg", class: "project-inline-icon", alt: "Owner" %>
+            <span>Owner: <strong><%= @project_owner.display_name %></strong></span>
+          </li>
+          <li>
+            <%= image_tag "icon_planning_W.svg", class: "project-inline-icon", alt: "Duration" %>
+            <span>Duration: <strong><%= @project.estimated_duration.humanize %></strong></span>
+          </li>
+          <li>
+            <%= image_tag "icon_user_W.svg", class: "project-inline-icon", alt: "Team" %>
+            <span>Team: <strong><%= @project.accepted_members_count %> / <%= @project.max_collaborators %></strong></span>
+          </li>
+        </ul>
+      </div>
 
-      <% if user_signed_in? && !@is_owner && @existing_collaboration&.status.in?(%w[pending accepted]) %>
-        <%= button_to "Message owner",
-          project_conversations_path(@project, recipient_id: @project_owner.id),
-          method: :post,
-          class: "btn-outline mt-3" %>
+      <% if user_signed_in? && !@is_owner %>
+        <div class="project-sidebar-section project-sidebar-actions">
+          <% if @existing_collaboration&.status == "pending" %>
+            <div class="callout">
+              Your join request is pending.
+            </div>
+
+            <%= button_to project_conversations_path(@project, recipient_id: @project_owner.id),
+              method: :post,
+              class: "btn btn-orange mt-3" do %>
+              <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message owner" %>
+              Message owner
+            <% end %>
+          <% elsif @existing_collaboration&.status == "accepted" %>
+            <%= button_to project_conversations_path(@project, recipient_id: @project_owner.id),
+              method: :post,
+              class: "btn btn-orange mt-3" do %>
+              <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message owner" %>
+              Message owner
+            <% end %>
+          <% elsif @project.recruiting? %>
+            <%= button_to "Join project",
+              project_collaborations_path(@project),
+              method: :post,
+              params: { collaboration: { status: "pending" } },
+              class: "btn btn-primary mt-3" %>
+          <% end %>
+        </div>
       <% end %>
 
       <% if @project.recruiting? %>
-        <div class="callout-green">
+        <div class="callout-green project-recruiting-callout">
           This project is recruiting
         </div>
       <% end %>
 
       <% if @is_owner %>
-        <h2 class="title-lg">Pending</h2>
+        <div class="project-sidebar-section project-pending-section">
+          <h2 class="title-lg project-section-title">Pending</h2>
 
-        <% if @pending_collaborations.any? %>
-          <% @pending_collaborations.each do |collab| %>
-            <div class="member-row">
-              <strong><%= collab.user.display_name %></strong>
+          <% if @pending_collaborations.any? %>
+            <% @pending_collaborations.each do |collab| %>
+              <div class="member-row member-row--enhanced">
+                <div class="member-row-identity">
+                  <strong><%= collab.user.display_name %></strong>
+                </div>
 
-              <div class="member-actions">
-                <%= button_to "Message",
-                  project_conversations_path(@project, recipient_id: collab.user.id),
-                  method: :post,
-                  class: "btn-outline" %>
+                <div class="member-actions">
+                  <%= button_to project_conversations_path(@project, recipient_id: collab.user.id),
+                    method: :post,
+                    class: "btn btn-outline" do %>
+                    <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message" %>
+                    Message
+                  <% end %>
 
-                <%= button_to "Accept",
-                  project_collaboration_path(@project, collab),
-                  method: :patch,
-                  params: { status: "accepted" },
-                  class: "btn-green" %>
+                  <%= button_to "Accept",
+                    project_collaboration_path(@project, collab),
+                    method: :patch,
+                    params: { status: "accepted" },
+                    class: "btn btn-green" %>
+                </div>
               </div>
-            </div>
+            <% end %>
+          <% else %>
+            <p class="muted">No pending requests.</p>
           <% end %>
-        <% else %>
-          <p class="muted">No pending requests.</p>
-        <% end %>
+        </div>
       <% end %>
     </aside>
   </div>
 </div>
-
-<style>

@@ -85,7 +85,7 @@
     <% if @featured_projects.any? %>
       <div class="dashboard-grid">
         <% @featured_projects.each do |project| %>
-          <article class="dashboard-project-card" data-home-motion-target="reveal">
+          <article class="dashboard-project-card">
             <div class="dashboard-project-top">
               <span class="badge-status"><%= project.status.capitalize %></span>
               <span class="badge-category"><%= project.category.to_s.humanize %></span>
