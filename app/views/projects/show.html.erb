@@ -150,35 +150,28 @@
         </ul>
       </div>
 
-      <% if user_signed_in? && !@is_owner %>
-        <div class="project-sidebar-section project-sidebar-actions">
-          <% if @existing_collaboration&.status == "pending" %>
-            <div class="callout">
-              Your join request is pending.
-            </div>
+    <% if user_signed_in? && !@is_owner %>
+      <div class="project-sidebar-section project-sidebar-actions">
+        <% if @existing_collaboration&.status == "pending" %>
+          <div class="callout">
+            Your join request is pending.
+          </div>
+        <% elsif @project.recruiting? && @existing_collaboration.blank? %>
+          <%= button_to "Join project",
+            project_collaborations_path(@project),
+            method: :post,
+            params: { collaboration: { status: "pending" } },
+            class: "btn btn-primary" %>
+        <% end %>
 
-            <%= button_to project_conversations_path(@project, recipient_id: @project_owner.id),
-              method: :post,
-              class: "btn btn-orange mt-3" do %>
-              <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message owner" %>
-              Message owner
-            <% end %>
-          <% elsif @existing_collaboration&.status == "accepted" %>
-            <%= button_to project_conversations_path(@project, recipient_id: @project_owner.id),
-              method: :post,
-              class: "btn btn-orange mt-3" do %>
-              <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message owner" %>
-              Message owner
-            <% end %>
-          <% elsif @project.recruiting? %>
-            <%= button_to "Join project",
-              project_collaborations_path(@project),
-              method: :post,
-              params: { collaboration: { status: "pending" } },
-              class: "btn btn-primary mt-3" %>
-          <% end %>
-        </div>
-      <% end %>
+        <%= button_to project_conversations_path(@project, recipient_id: @project_owner.id),
+          method: :post,
+          class: "btn btn-orange" do %>
+          <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message owner" %>
+          Message owner
+        <% end %>
+      </div>
+    <% end %>
 
       <% if @project.recruiting? %>
         <div class="callout-green project-recruiting-callout">

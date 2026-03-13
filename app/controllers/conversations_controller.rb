@@ -76,16 +76,16 @@ class ConversationsController < ApplicationController
     return false unless owner
 
     target_collaboration = @project.collaborations.find_by(user: target_user)
-    current_collaboration = @project.collaborations.find_by(user: current_user)
 
+    # Owner can message accepted or pending collaborators
     if current_user == owner
       return target_collaboration.present? && target_collaboration.status.in?(%w[pending accepted])
     end
 
-    if target_user == owner
-      return current_collaboration.present? && current_collaboration.status.in?(%w[pending accepted])
-    end
+    # Any logged-in user can message the owner
+    return true if target_user == owner
 
+    # Members cannot message each other
     false
   end
 end
