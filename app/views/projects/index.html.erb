@@ -15,29 +15,38 @@
   <%= render "filters" %>
 
   <% if @projects.any? %>
-    <div class="projects-grid">
+    <div class="projects-grid projects-grid--premium">
       <% @projects.each do |project| %>
-        <article class="project-card">
+        <article class="project-card project-card--premium">
           <div class="project-card-top">
             <span class="badge-status"><%= project.status.capitalize %></span>
             <span class="badge-category"><%= project.category.humanize %></span>
           </div>
 
-          <h2 class="title-md">
-            <%= link_to project.title, project_path(project), class: "project-card-title" %>
+          <h2 class="project-card-title title-lg">
+            <%= link_to project.title, project_path(project) %>
           </h2>
 
-          <p class="project-card-text"><%= project.short_description %></p>
+          <p class="project-card-description">
+            <%= project.short_description %>
+          </p>
 
-          <div class="project-meta">
-            <span>⏱ <%= project.estimated_duration.humanize %></span>
-            <span>👥 <%= project.accepted_members_count %> / <%= project.max_collaborators %></span>
+          <div class="project-card-meta">
+            <span class="project-meta-item">
+              <%= image_tag "icon_planning_W.svg", class: "project-inline-icon", alt: "Duration" %>
+              <%= project.estimated_duration.humanize %>
+            </span>
+
+            <span class="project-meta-item">
+              <%= image_tag "icon_user_W.svg", class: "project-inline-icon", alt: "Members" %>
+              <%= project.accepted_members_count %> / <%= project.max_collaborators %>
+            </span>
           </div>
 
-          <div class="tech-list">
+          <div class="project-card-technologies tech-list">
             <% if project.technologies.any? %>
-              <% project.technologies.each do |technology| %>
-                <span class="tech-badge"><%= technology.name %></span>
+              <% project.technologies.each do |tech| %>
+                <span class="tech-badge"><%= tech.name %></span>
               <% end %>
             <% else %>
               <span class="muted-text">No technologies yet</span>
@@ -50,7 +59,7 @@
               <strong><%= project.owner&.display_name || "Unknown" %></strong>
             </span>
 
-            <%= link_to "View project", project_path(project), class: "btn btn-secondary" %>
+            <%= link_to "View project", project_path(project), class: "btn btn-outline project-card-cta" %>
           </div>
         </article>
       <% end %>
