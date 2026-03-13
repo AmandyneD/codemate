@@ -1,19 +1,68 @@
-<div class="container py-4">
-  <p>
-    <%= link_to "← Back to project", project_path(@project) %>
+<div class="page-shell inbox-page">
+  <p class="back-link inbox-back-link">
+    <%= link_to "← Back to projects", projects_path %>
   </p>
 
-  <h1>Conversations</h1>
+  <section class="card inbox-hero-card">
+    <p class="inbox-kicker">Inbox</p>
+    <h1 class="title-xl inbox-title">Your conversations</h1>
+    <p class="page-subtitle inbox-subtitle">
+      Keep track of project discussions, owners and collaborators in one place.
+    </p>
+  </section>
 
-  <% if @conversations.any? %>
-    <% @conversations.each do |conversation| %>
-      <div class="border rounded p-3 mb-3">
-        <strong><%= conversation.other_user(current_user).display_name %></strong>
-        <div>Project: <%= conversation.project.title %></div>
-        <%= link_to "Open", conversation_path(conversation), class: "btn btn-sm btn-primary mt-2" %>
+  <section class="card inbox-list-card">
+    <div class="inbox-list-header">
+      <h2 class="title-lg">Recent threads</h2>
+      <span class="section-count"><%= @conversations.count %></span>
+    </div>
+
+    <% if @conversations.any? %>
+      <div class="inbox-list">
+        <% @conversations.each do |conversation| %>
+          <% other_user = conversation.other_user(current_user) %>
+          <% last_message = conversation.messages.max_by(&:created_at) %>
+
+          <%= link_to conversation_path(conversation), class: "inbox-item" do %>
+            <div class="inbox-avatar">
+              <%= other_user.display_name.to_s.first.upcase %>
+            </div>
+
+            <div class="inbox-item-content">
+              <div class="inbox-item-top">
+                <div>
+                  <h3 class="inbox-item-title"><%= other_user.display_name %></h3>
+                  <p class="inbox-item-project">
+                    <span class="badge-category"><%= conversation.project.category.to_s.humanize %></span>
+                    <span><%= conversation.project.title %></span>
+                  </p>
+                </div>
+
+                <% if last_message.present? %>
+                  <span class="inbox-item-time"><%= l(last_message.created_at, format: :short) %></span>
+                <% end %>
+              </div>
+
+              <p class="inbox-item-preview">
+                <% if last_message.present? %>
+                  <strong><%= last_message.user == current_user ? "You" : last_message.user.display_name %>:</strong>
+                  <%= truncate(last_message.content.to_s, length: 90) %>
+                <% else %>
+                  No messages yet. Start the conversation.
+                <% end %>
+              </p>
+            </div>
+
+            <div class="inbox-item-arrow">→</div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state inbox-empty-state">
+        <h3 class="title-lg">No conversations yet</h3>
+        <p class="subtitle">Your project conversations will appear here.</p>
+        <%= link_to "Explore projects", projects_path, class: "btn btn-primary mt-3" %>
       </div>
     <% end %>
-  <% else %>
-    <p>No conversations yet.</p>
-  <% end %>
+  </section>
 </div>

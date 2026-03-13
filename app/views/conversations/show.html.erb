@@ -1,85 +1,77 @@
-<div class="page-shell conversation-page">
-  <p class="back-link conversation-back-link">
-    <%= link_to "← Back to project", project_path(@project) %>
-  </p>
+<div class="conversation-layout">
 
-  <section class="card conversation-hero-card">
-    <div class="conversation-hero-top">
-      <div>
-        <p class="conversation-kicker">Private conversation</p>
-        <h1 class="title-xl conversation-title">Conversation with <%= @other_user.display_name %></h1>
-        <p class="page-subtitle conversation-subtitle">
-          About project <strong><%= @project.title %></strong>
-        </p>
-      </div>
+  <div class="conversation-thread-card card">
 
-      <div class="conversation-project-chip-wrap">
-        <span class="badge-category"><%= @project.category.to_s.humanize %></span>
-      </div>
+    <div class="conversation-thread-header">
+      <h2 class="title-lg">Messages</h2>
+      <span class="badge-count"><%= @messages.count %></span>
     </div>
-  </section>
 
-  <div class="conversation-layout">
-    <section class="card conversation-thread-card">
-      <div class="conversation-thread-header">
-        <h2 class="title-lg">Messages</h2>
-        <span class="section-count"><%= @messages.count %></span>
-      </div>
+    <div class="conversation-thread-body">
 
-      <div class="conversation-thread-body">
-        <% if @messages.any? %>
-          <div class="conversation-message-list">
-            <% @messages.each do |message| %>
-              <% mine = message.user == current_user %>
-              <article class="conversation-message <%= mine ? 'conversation-message--mine' : 'conversation-message--other' %>">
-                <div class="conversation-message-meta">
-                  <strong><%= mine ? 'You' : message.user.display_name %></strong>
-                  <small class="muted-text"><%= l(message.created_at, format: :short) %></small>
-                </div>
+      <% if @messages.any? %>
+        <div class="conversation-message-list">
+          <% @messages.each do |message| %>
 
-                <div class="conversation-message-bubble">
-                  <p><%= simple_format(message.content) %></p>
-                </div>
-              </article>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="empty-state conversation-empty-state">
-            <h3 class="title-lg">No messages yet</h3>
-            <p class="subtitle">Start the conversation and talk about the project.</p>
-          </div>
-        <% end %>
-      </div>
-    </section>
+            <% mine = message.user == current_user %>
 
-    <aside class="card conversation-sidebar-card">
-      <section class="conversation-sidebar-section">
-        <h2 class="title-lg">Project</h2>
-        <ul class="info-list conversation-info-list">
-          <li><strong>Title:</strong> <%= @project.title %></li>
-          <li><strong>Owner:</strong> <%= @project.owner&.display_name || 'Unknown' %></li>
-          <li><strong>Status:</strong> <%= @project.status.capitalize %></li>
-          <li><strong>Team:</strong> <%= @project.accepted_members_count %> / <%= @project.max_collaborators %></li>
-        </ul>
-      </section>
+            <div class="conversation-message <%= mine ? "conversation-message--mine" : "conversation-message--other" %>">
 
-      <section class="conversation-sidebar-section conversation-form-section">
-        <h2 class="title-lg">New message</h2>
+              <div class="conversation-message-meta">
+                <strong><%= message.user.display_name %></strong>
+                <small class="muted-text">
+                  <%= l(message.created_at, format: :short) %>
+                </small>
+              </div>
 
-        <%= form_with model: [@conversation, @message], local: true, class: "conversation-form" do |f| %>
-          <div class="field">
-            <%= f.label :content, "Your message" %>
-            <%= f.text_area :content,
-              rows: 6,
-              class: "conversation-textarea",
-              placeholder: "Write your message here..." %>
-          </div>
+              <div class="conversation-message-bubble">
+                <p><%= message.content %></p>
+              </div>
 
-          <div class="conversation-form-actions">
-            <%= f.submit "Send", class: "btn btn-primary conversation-send-btn" %>
-          </div>
-        <% end %>
-      </section>
-    </aside>
+            </div>
+
+          <% end %>
+        </div>
+      <% else %>
+        <div class="conversation-empty-state card">
+          <h3 class="title-md">No messages yet</h3>
+          <p class="muted-text">Start the conversation.</p>
+        </div>
+      <% end %>
+
+    </div>
+
+    <!-- ✅ FORM NOW HERE -->
+    <div class="conversation-form-section">
+
+      <%= form_with model: [@conversation, @message], local: true, class: "conversation-form" do |f| %>
+
+        <%= f.label :content, "New message" %>
+
+        <%= f.text_area :content,
+          class: "conversation-textarea",
+          placeholder: "Write your message…" %>
+
+        <div class="conversation-form-actions">
+          <%= f.submit "Send", class: "btn btn-primary conversation-send-btn" %>
+        </div>
+
+      <% end %>
+
+    </div>
+
   </div>
+
+  <!-- Sidebar stays project info only -->
+  <div class="conversation-sidebar-card card">
+    <h2 class="title-lg">Project</h2>
+
+    <ul class="conversation-info-list">
+      <li>Title: <%= @project.title %></li>
+      <li>Owner: <%= @project.owner.display_name %></li>
+      <li>Status: <%= @project.status.capitalize %></li>
+      <li>Team: <%= @project.accepted_members_count %> / <%= @project.max_collaborators %></li>
+    </ul>
+  </div>
+
 </div>

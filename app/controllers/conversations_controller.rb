@@ -1,13 +1,12 @@
 class ConversationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_project, only: [ :index, :create ]
+  before_action :set_project, only: [ :create ]
   before_action :set_conversation, only: [ :show ]
   before_action :authorize_conversation_access!, only: [ :show ]
 
   def index
     @conversations =
       Conversation
-        .where(project: @project)
         .where("sender_id = :user_id OR recipient_id = :user_id", user_id: current_user.id)
         .includes(:project, :sender, :recipient, messages: :user)
         .order(updated_at: :desc)
@@ -79,17 +78,14 @@ class ConversationsController < ApplicationController
     target_collaboration = @project.collaborations.find_by(user: target_user)
     current_collaboration = @project.collaborations.find_by(user: current_user)
 
-    # Owner can message accepted or pending collaborators
     if current_user == owner
       return target_collaboration.present? && target_collaboration.status.in?(%w[pending accepted])
     end
 
-    # Accepted or pending collaborator can message the owner
     if target_user == owner
       return current_collaboration.present? && current_collaboration.status.in?(%w[pending accepted])
     end
 
-    # Members cannot message each other
     false
   end
 end
