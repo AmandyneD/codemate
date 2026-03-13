@@ -3450,3 +3450,59 @@ a:hover {
     display: none;
   }
 }
+
+
+.project-tech-picker-shell {
+  margin-top: 6px;
+}
+
+.project-tech-picker-bar {
+  grid-template-columns: 1fr;
+  min-height: auto;
+}
+
+.project-tech-picker-bar .filters-linear-field--tech {
+  padding: 14px 16px;
+}
+
+.project-tech-picker {
+  min-height: 52px;
+}
+
+.project-tech-picker .filters-linear-tech-selected {
+  margin-bottom: 8px;
+}
+
+.project-tech-picker .filters-linear-tech-selected:empty {
+  display: none;
+}
+
+.tech-picker-placeholder {
+  color: var(--text-soft);
+  font-size: 14px;
+}
+
+.profile-tech-picker-shell {
+  margin-top: 6px;
+}
+
+.profile-tech-picker-bar {
+  grid-template-columns: 1fr;
+  min-height: auto;
+}
+
+.profile-tech-picker-bar .filters-linear-field--tech {
+  padding: 14px 16px;
+}
+
+.profile-tech-picker {
+  min-height: 52px;
+}
+
+.profile-tech-picker .filters-linear-tech-selected {
+  margin-bottom: 8px;
+}
+
+.profile-tech-picker .filters-linear-tech-selected:empty {
+  display: none;
+}

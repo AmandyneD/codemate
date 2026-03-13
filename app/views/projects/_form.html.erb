@@ -52,29 +52,7 @@
         </div>
       </div>
 
-      <div class="field">
-        <label class="project-form-section-label">Technologies</label>
-
-        <div
-          class="project-form-tech"
-          data-controller="technology-picker"
-          data-technology-picker-search-url-value="<%= search_technologies_path %>"
-          data-technology-picker-selected-value='<%= project.technologies.map { |t| { id: t.id, name: t.name } }.to_json %>'
-        >
-          <div class="project-form-tech-selected" data-technology-picker-target="selected"></div>
-
-          <input
-            type="text"
-            class="project-form-tech-input"
-            placeholder="Add technologies..."
-            data-technology-picker-target="input"
-            data-action="input->technology-picker#search keydown->technology-picker#handleKeydown"
-          >
-
-          <div class="project-form-tech-results" data-technology-picker-target="results"></div>
-          <div data-technology-picker-target="hiddenFields"></div>
-        </div>
-      </div>
+      <%= render "filters_new", project: project %>
 
       <div class="project-form-actions">
         <%= f.submit(

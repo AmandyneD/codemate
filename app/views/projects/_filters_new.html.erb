@@ -1,0 +1,39 @@
+<div class="field">
+  <label class="project-form-section-label">Technologies</label>
+
+  <div class="filters-linear project-tech-picker-shell">
+    <div class="filters-linear-form">
+      <div class="filters-linear-bar project-tech-picker-bar">
+        <div class="filters-linear-field filters-linear-field--tech">
+          <div
+            class="filters-linear-tech project-tech-picker"
+            data-controller="technology-picker"
+            data-technology-picker-search-url-value="<%= search_technologies_path %>"
+            data-technology-picker-selected-value='<%= project.technologies.map { |t| { id: t.id, name: t.name } }.to_json %>'
+          >
+            <div
+              class="filters-linear-tech-selected"
+              data-technology-picker-target="selected">
+            </div>
+
+            <input
+              type="text"
+              class="filters-linear-input filters-linear-input--tech"
+              placeholder="Add technologies..."
+              autocomplete="off"
+              data-technology-picker-target="input"
+              data-action="input->technology-picker#search keydown->technology-picker#handleKeydown blur->technology-picker#hideResults"
+            >
+
+            <div
+              class="filters-linear-tech-results"
+              data-technology-picker-target="results">
+            </div>
+
+            <div data-technology-picker-target="hiddenFields"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

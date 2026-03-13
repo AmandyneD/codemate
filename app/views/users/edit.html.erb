@@ -98,18 +98,7 @@
         </p>
 
         <%= hidden_field_tag "user[technology_ids][]", "" %>
-
-        <div class="tech-grid profile-tech-grid">
-          <% Technology.order(:name).each do |tech| %>
-            <label class="tech-option profile-tech-option" for="user_technology_<%= tech.id %>">
-              <%= check_box_tag "user[technology_ids][]",
-                tech.id,
-                @user.technology_ids.include?(tech.id),
-                id: "user_technology_#{tech.id}" %>
-              <span><%= tech.name %></span>
-            </label>
-          <% end %>
-        </div>
+        <%= render "technology_picker", user: @user %>
       </section>
 
       <section class="profile-edit-section profile-edit-section--avatar">
