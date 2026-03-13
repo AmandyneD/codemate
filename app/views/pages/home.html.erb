@@ -124,7 +124,25 @@
                 Owner: <strong><%= project.owner&.display_name || "Unknown" %></strong>
               </span>
 
-              <%= link_to "View", project_path(project), class: "btn btn-secondary" %>
+              <div class="dashboard-project-actions">
+                <% if user_signed_in? %>
+                  <% bookmark = current_user.bookmarks.find_by(project: project) %>
+                  <% if bookmark.present? %>
+                    <%= button_to "♥",
+                      project_bookmark_path(project, bookmark),
+                      method: :delete,
+                      class: "btn btn-orange",
+                      form: { data: { turbo_confirm: "Remove this project from favorites?" } } %>
+                  <% else %>
+                    <%= button_to "♡",
+                      project_bookmarks_path(project),
+                      method: :post,
+                      class: "btn btn-outline" %>
+                  <% end %>
+                <% end %>
+
+                <%= link_to "View", project_path(project), class: "btn btn-secondary" %>
+              </div>
             </div>
           </article>
         <% end %>

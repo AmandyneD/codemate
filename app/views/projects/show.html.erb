@@ -29,8 +29,27 @@
       </div>
     </div>
 
-    <% if @is_owner %>
-      <div class="hero-actions project-hero-actions">
+    <div class="hero-actions project-hero-actions">
+      <% if user_signed_in? %>
+        <% bookmark = current_user.bookmarks.find_by(project: @project) %>
+
+        <% if bookmark.present? %>
+          <%= button_to project_bookmark_path(@project, bookmark),
+            method: :delete,
+            class: "btn btn-orange",
+            form: { data: { turbo_confirm: "Remove this project from favorites?" } } do %>
+            ♥ Favorited
+          <% end %>
+        <% else %>
+          <%= button_to project_bookmarks_path(@project),
+            method: :post,
+            class: "btn btn-outline" do %>
+            ♡ Favorite
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @is_owner %>
         <%= link_to "Edit", edit_project_path(@project), class: "btn btn-outline" %>
 
         <%= button_to "Delete",
@@ -38,8 +57,8 @@
           method: :delete,
           form: { data: { turbo_confirm: "Delete project ?" } },
           class: "btn btn-orange" %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </section>
 
   <div class="layout project-layout-show">
