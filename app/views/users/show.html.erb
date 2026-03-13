@@ -1,71 +1,100 @@
-<div class="page-shell profile-page">
-  <p class="back-link">
+<div class="page-shell profile-page profile-page--enhanced">
+  <p class="back-link profile-back-link">
     <%= link_to "← Back", request.referer.presence || projects_path %>
   </p>
 
-  <section class="profile-hero-card profile-hero-card--clean">
-    <div class="profile-hero-main">
-      <div class="profile-avatar-wrap">
-        <% if @user.avatar.attached? %>
-          <%= image_tag @user.avatar, class: "profile-avatar-large", alt: @user.display_name %>
-        <% else %>
-          <div class="profile-avatar-fallback">
-            <%= @user.display_name.to_s.first.upcase %>
-          </div>
-        <% end %>
-      </div>
+  <section class="profile-hero-shell">
+    <div class="profile-hero-glow profile-hero-glow--green"></div>
+    <div class="profile-hero-glow profile-hero-glow--plum"></div>
 
-      <div class="profile-hero-content">
-        <h1 class="title-xl profile-hero-title"><%= @user.display_name %></h1>
-
-        <p class="page-subtitle profile-hero-bio">
-          <%= @user.bio.presence || "This member has not added a bio yet." %>
-        </p>
-
-        <div class="profile-meta profile-meta--clean">
-          <% if @user.github_url.present? %>
-            <span class="profile-meta-item">
-              <strong>GitHub</strong>
-              <%= link_to @user.github_url.sub(%r{https?://}, ""), @user.github_url, target: "_blank", rel: "noopener" %>
-            </span>
+    <section class="profile-hero-card profile-hero-card--enhanced">
+      <div class="profile-hero-main">
+        <div class="profile-avatar-wrap profile-avatar-wrap--enhanced">
+          <% if @user.avatar.attached? %>
+            <%= image_tag @user.avatar, class: "profile-avatar-large profile-avatar-large--enhanced", alt: @user.display_name %>
+          <% else %>
+            <div class="profile-avatar-fallback profile-avatar-fallback--enhanced">
+              <%= @user.display_name.to_s.first.upcase %>
+            </div>
           <% end %>
+        </div>
 
-          <span class="profile-meta-item">
-            <strong><%= @owned_projects.count %></strong>
-            created
-          </span>
+        <div class="profile-hero-content">
+          <div class="profile-hero-topline">
+            <span class="profile-eyebrow">Builder profile</span>
+          </div>
 
-          <span class="profile-meta-item">
-            <strong><%= @joined_projects.count %></strong>
-            joined
-          </span>
+          <h1 class="title-xl profile-hero-title"><%= @user.display_name %></h1>
 
-          <span class="profile-meta-item">
-            <strong><%= @favorite_projects.count %></strong>
-            favorites
-          </span>
+          <p class="page-subtitle profile-hero-bio">
+            <%= @user.bio.presence || "This member has not added a bio yet." %>
+          </p>
+
+          <div class="profile-meta profile-meta--enhanced">
+            <% if @user.github_url.present? %>
+              <span class="profile-meta-item profile-meta-item--enhanced">
+                <strong>GitHub</strong>
+                <%= link_to @user.github_url.sub(%r{https?://}, ""), @user.github_url, target: "_blank", rel: "noopener" %>
+              </span>
+            <% end %>
+
+            <span class="profile-meta-item profile-meta-item--enhanced">
+              <strong><%= @owned_projects.count %></strong>
+              created
+            </span>
+
+            <span class="profile-meta-item profile-meta-item--enhanced">
+              <strong><%= @joined_projects.count %></strong>
+              joined
+            </span>
+
+            <span class="profile-meta-item profile-meta-item--enhanced">
+              <strong><%= @favorite_projects.count %></strong>
+              favorites
+            </span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <% if user_signed_in? && current_user == @user %>
-      <div class="profile-hero-actions">
-        <%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-primary" %>
-      </div>
-    <% end %>
+      <% if user_signed_in? && current_user == @user %>
+        <div class="profile-hero-actions">
+          <%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-primary profile-edit-btn" %>
+        </div>
+      <% end %>
+    </section>
   </section>
 
-  <div class="profile-layout">
-    <main class="content-card">
-      <section class="content-section">
-        <div class="section-heading">
-          <h2 class="title-lg">Technologies</h2>
+  <section class="profile-stats-strip">
+    <article class="profile-stat-card">
+      <span class="profile-stat-label">Created projects</span>
+      <strong class="profile-stat-number"><%= @owned_projects.count %></strong>
+    </article>
+
+    <article class="profile-stat-card">
+      <span class="profile-stat-label">Joined projects</span>
+      <strong class="profile-stat-number"><%= @joined_projects.count %></strong>
+    </article>
+
+    <article class="profile-stat-card">
+      <span class="profile-stat-label">Favorites</span>
+      <strong class="profile-stat-number"><%= @favorite_projects.count %></strong>
+    </article>
+  </section>
+
+  <div class="profile-layout profile-layout--enhanced">
+    <main class="content-card profile-main-card">
+      <section class="content-section profile-section">
+        <div class="section-heading profile-section-heading">
+          <div>
+            <p class="profile-section-kicker">Stack</p>
+            <h2 class="title-lg">Technologies</h2>
+          </div>
         </div>
 
-        <div class="tech-list">
+        <div class="tech-list profile-tech-list">
           <% if @user.technologies.any? %>
             <% @user.technologies.order(:name).each do |technology| %>
-              <span class="tech-badge"><%= technology.name %></span>
+              <span class="tech-badge profile-tech-badge"><%= technology.name %></span>
             <% end %>
           <% else %>
             <span class="muted-text">No technologies added yet.</span>
@@ -73,16 +102,19 @@
         </div>
       </section>
 
-      <section class="content-section">
-        <div class="section-heading">
-          <h2 class="title-lg">Created projects</h2>
+      <section class="content-section profile-section">
+        <div class="section-heading profile-section-heading">
+          <div>
+            <p class="profile-section-kicker">Portfolio</p>
+            <h2 class="title-lg">Created projects</h2>
+          </div>
           <span class="section-count"><%= @owned_projects.count %></span>
         </div>
 
         <% if @owned_projects.any? %>
           <div class="project-list project-list-clean">
             <% @owned_projects.each do |project| %>
-              <%= link_to project_path(project), class: "project-row-card project-row-card-clean" do %>
+              <%= link_to project_path(project), class: "project-row-card project-row-card-clean profile-project-row" do %>
                 <div class="project-row-card-content project-row-card-content-clean">
                   <div class="project-row-card-main project-row-card-main-clean">
                     <h3 class="project-row-title"><%= project.title %></h3>
@@ -109,16 +141,19 @@
         <% end %>
       </section>
 
-      <section class="content-section">
-        <div class="section-heading">
-          <h2 class="title-lg">Joined projects</h2>
+      <section class="content-section profile-section">
+        <div class="section-heading profile-section-heading">
+          <div>
+            <p class="profile-section-kicker">Collaboration</p>
+            <h2 class="title-lg">Joined projects</h2>
+          </div>
           <span class="section-count"><%= @joined_projects.count %></span>
         </div>
 
         <% if @joined_projects.any? %>
           <div class="project-list project-list-clean">
             <% @joined_projects.each do |project| %>
-              <%= link_to project_path(project), class: "project-row-card project-row-card-clean" do %>
+              <%= link_to project_path(project), class: "project-row-card project-row-card-clean profile-project-row" do %>
                 <div class="project-row-card-content project-row-card-content-clean">
                   <div class="project-row-card-main project-row-card-main-clean">
                     <h3 class="project-row-title"><%= project.title %></h3>
@@ -146,17 +181,20 @@
       </section>
     </main>
 
-    <aside class="sidebar-card">
-      <section class="content-section">
-        <div class="section-heading">
-          <h2 class="title-lg">Favorite projects</h2>
+    <aside class="sidebar-card profile-sidebar-card">
+      <section class="content-section profile-section">
+        <div class="section-heading profile-section-heading">
+          <div>
+            <p class="profile-section-kicker">Saved</p>
+            <h2 class="title-lg">Favorite projects</h2>
+          </div>
           <span class="section-count"><%= @favorite_projects.count %></span>
         </div>
 
         <% if @favorite_projects.any? %>
           <div class="project-list project-list-clean">
             <% @favorite_projects.each do |project| %>
-              <%= link_to project_path(project), class: "project-row-card project-row-card-clean" do %>
+              <%= link_to project_path(project), class: "project-row-card project-row-card-clean profile-project-row profile-project-row--compact" do %>
                 <div class="project-row-card-content project-row-card-content-clean">
                   <div class="project-row-card-main project-row-card-main-clean">
                     <h3 class="project-row-title"><%= project.title %></h3>

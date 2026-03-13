@@ -1,16 +1,24 @@
-<section class="home-hero-clean">
+<section class="home-hero-clean" data-controller="home-motion">
+  <div
+    class="home-hero-bg"
+    data-home-motion-target="parallax"
+    data-speed="0.18">
+  </div>
+
+  <div class="home-hero-overlay"></div>
+
   <div class="home-hero-inner">
-    <h1 class="title-xl home-title-clean">
+    <h1 class="title-xl home-title-clean" data-home-motion-target="reveal">
       Build real projects.<br>
       Find your dev team.<br>
       Ship faster.
     </h1>
 
-    <p class="subtitle home-subtitle-clean">
+    <p class="subtitle home-subtitle-clean" data-home-motion-target="reveal">
       Join real projects, collaborate with other builders, and create work you can actually showcase.
     </p>
 
-    <div class="home-cta-clean">
+    <div class="home-cta-clean" data-home-motion-target="reveal">
       <% if user_signed_in? %>
         <%= link_to "Start a project", new_project_path, class: "btn btn-primary home-cta-primary" %>
       <% else %>
@@ -22,49 +30,49 @@
   </div>
 </section>
 
-<div class="page-shell home-page">
+<div class="page-shell home-page" data-controller="home-motion">
 
-<section class="home-stats-section">
-  <div class="home-section-intro">
-    <p class="home-section-kicker">Community signal</p>
-    <h2 class="title-lg home-section-title">Built by people who actually ship</h2>
-    <p class="muted-text home-section-text">
-      Codemate is where devs, makers and curious builders meet to turn ideas into real projects.
-    </p>
-  </div>
-
-  <section class="home-stats-clean">
-    <div class="home-stat">
-      <%= image_tag "icon_user_W.svg", class: "home-stat-illu", alt: "Builders" %>
-      <strong class="home-stat-number"><%= @users_count %>+</strong>
-      <span class="home-stat-label">builders</span>
-      <p class="home-stat-text">
-        Developers, makers and collaborators building together.
+  <section class="home-stats-section" data-home-motion-target="reveal">
+    <div class="home-section-intro" data-home-motion-target="reveal">
+      <p class="home-section-kicker">Community signal</p>
+      <h2 class="title-lg home-section-title">Built by people who actually ship</h2>
+      <p class="muted-text home-section-text">
+        Codemate is where devs, makers and curious builders meet to turn ideas into real projects.
       </p>
     </div>
 
-    <div class="home-stat">
-      <%= image_tag "icon_cube_W.svg", class: "home-stat-illu", alt: "Projects" %>
-      <strong class="home-stat-number"><%= @projects_count %>+</strong>
-      <span class="home-stat-label">projects</span>
-      <p class="home-stat-text">
-        Ideas turned into concrete products, MVPs and experiments.
-      </p>
-    </div>
+    <section class="home-stats-clean">
+      <div class="home-stat" data-home-motion-target="reveal">
+        <%= image_tag "icon_user_W.svg", class: "home-stat-illu", alt: "Builders" %>
+        <strong class="home-stat-number"><%= @users_count %>+</strong>
+        <span class="home-stat-label">builders</span>
+        <p class="home-stat-text">
+          Developers, makers and collaborators building together.
+        </p>
+      </div>
 
-    <div class="home-stat">
-      <%= image_tag "icon_alien_W.svg", class: "home-stat-illu", alt: "Contributors" %>
-      <strong class="home-stat-number"><%= @contributors_count %>+</strong>
-      <span class="home-stat-label">contributors</span>
-      <p class="home-stat-text">
-        People joining forces to design, code and ship faster.
-      </p>
-    </div>
+      <div class="home-stat" data-home-motion-target="reveal">
+        <%= image_tag "icon_cube_W.svg", class: "home-stat-illu", alt: "Projects" %>
+        <strong class="home-stat-number"><%= @projects_count %>+</strong>
+        <span class="home-stat-label">projects</span>
+        <p class="home-stat-text">
+          Ideas turned into concrete products, MVPs and experiments.
+        </p>
+      </div>
+
+      <div class="home-stat" data-home-motion-target="reveal">
+        <%= image_tag "icon_alien_W.svg", class: "home-stat-illu", alt: "Contributors" %>
+        <strong class="home-stat-number"><%= @contributors_count %>+</strong>
+        <span class="home-stat-label">contributors</span>
+        <p class="home-stat-text">
+          People joining forces to design, code and ship faster.
+        </p>
+      </div>
+    </section>
   </section>
-</section>
 
-  <section class="home-featured-clean">
-    <div class="section-heading home-section-heading">
+  <section class="home-featured-clean" data-home-motion-target="reveal">
+    <div class="section-heading home-section-heading" data-home-motion-target="reveal">
       <div>
         <p class="home-section-kicker">Featured builds</p>
         <h2 class="title-lg">Projects looking for builders</h2>
@@ -75,11 +83,9 @@
     </div>
 
     <% if @featured_projects.any? %>
-      <div class="dashboard-grid home-featured-grid">
+      <div class="dashboard-grid">
         <% @featured_projects.each do |project| %>
-          <article class="dashboard-project-card home-project-card">
-            <div class="home-project-noise"></div>
-
+          <article class="dashboard-project-card" data-home-motion-target="reveal">
             <div class="dashboard-project-top">
               <span class="badge-status"><%= project.status.capitalize %></span>
               <span class="badge-category"><%= project.category.to_s.humanize %></span>
@@ -91,9 +97,16 @@
 
             <p class="dashboard-project-text"><%= project.short_description %></p>
 
-            <div class="project-meta home-project-meta">
-              <span>⏱ <%= project.estimated_duration.to_s.humanize %></span>
-              <span>👥 <%= project.accepted_members_count %> / <%= project.max_collaborators %></span>
+            <div class="project-meta">
+              <span class="project-meta-item">
+                <%= image_tag "icon_planning_W.svg", class: "project-meta-icon", alt: "Duration" %>
+                <%= project.estimated_duration.to_s.humanize %>
+              </span>
+
+              <span class="project-meta-item">
+                <%= image_tag "icon_user_W.svg", class: "project-meta-icon", alt: "Members" %>
+                <%= project.accepted_members_count %> / <%= project.max_collaborators %>
+              </span>
             </div>
 
             <div class="tech-list">
@@ -117,7 +130,7 @@
         <% end %>
       </div>
     <% else %>
-      <div class="empty-state home-empty-state">
+      <div class="empty-state home-empty-state" data-home-motion-target="reveal">
         <h3 class="title-lg">No featured projects yet</h3>
         <p class="subtitle">Be the first to create a project.</p>
 
@@ -128,7 +141,7 @@
     <% end %>
   </section>
 
-  <section class="home-final-cta">
+  <section class="home-final-cta" data-home-motion-target="reveal">
     <div class="home-final-cta-inner">
       <p class="home-section-kicker">Start building</p>
       <h2 class="title-lg home-final-cta-title">

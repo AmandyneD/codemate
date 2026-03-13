@@ -1,36 +1,54 @@
-<div class="page-shell profile-edit-page">
-  <p class="back-link">
+<div class="page-shell profile-edit-page profile-edit-page--enhanced">
+  <p class="back-link profile-back-link">
     <%= link_to "← Back to profile", user_path(@user) %>
   </p>
 
-  <div class="page-header">
-    <div>
-      <h1 class="title-xl">Edit profile</h1>
-      <p class="page-subtitle">Update your public profile and technologies.</p>
-    </div>
-  </div>
+  <section class="profile-edit-hero-shell">
+    <div class="profile-hero-glow profile-hero-glow--green"></div>
+    <div class="profile-hero-glow profile-hero-glow--plum"></div>
 
-  <section class="profile-hero-card profile-edit-hero">
-    <div class="profile-hero-main">
-      <div class="profile-avatar-wrap">
-        <% if @user.avatar.attached? %>
-          <%= image_tag @user.avatar, class: "profile-avatar-large", alt: @user.display_name %>
-        <% else %>
-          <div class="profile-avatar-fallback">
-            <%= @user.display_name.to_s.first.upcase %>
+    <section class="profile-hero-card profile-edit-hero-card">
+      <div class="profile-hero-main">
+        <div class="profile-avatar-wrap profile-avatar-wrap--enhanced">
+          <% if @user.avatar.attached? %>
+            <%= image_tag @user.avatar, class: "profile-avatar-large profile-avatar-large--enhanced", alt: @user.display_name %>
+          <% else %>
+            <div class="profile-avatar-fallback profile-avatar-fallback--enhanced">
+              <%= @user.display_name.to_s.first.upcase %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="profile-hero-content">
+          <span class="profile-eyebrow">Edit builder profile</span>
+          <h1 class="title-xl profile-edit-title">Edit profile</h1>
+          <p class="page-subtitle profile-edit-subtitle">
+            Update your public profile, stack and avatar so other builders can understand who you are.
+          </p>
+
+          <div class="profile-meta profile-meta--enhanced">
+            <span class="profile-meta-item profile-meta-item--enhanced">
+              <strong><%= @user.technology_ids.count %></strong>
+              technologies
+            </span>
+
+            <span class="profile-meta-item profile-meta-item--enhanced">
+              <strong><%= @user.avatar.attached? ? "1" : "0" %></strong>
+              avatar
+            </span>
+
+            <span class="profile-meta-item profile-meta-item--enhanced">
+              <strong><%= @user.github_url.present? ? "GitHub" : "Optional" %></strong>
+              profile link
+            </span>
           </div>
-        <% end %>
+        </div>
       </div>
-
-      <div class="profile-hero-content">
-        <h2 class="title-lg"><%= @user.display_name %></h2>
-        <p class="muted-text">Editing your public profile</p>
-      </div>
-    </div>
+    </section>
   </section>
 
-  <div class="auth-card profile-edit-card">
-    <%= form_with model: @user, html: { multipart: true } do |f| %>
+  <section class="profile-edit-form-card">
+    <%= form_with model: @user, html: { multipart: true, class: "profile-edit-form" } do |f| %>
 
       <% if @user.errors.any? %>
         <div class="form-errors">
@@ -43,34 +61,47 @@
         </div>
       <% end %>
 
-      <section class="content-section">
-        <h2 class="title-lg">Public profile</h2>
+      <section class="profile-edit-section">
+        <div class="profile-section-heading">
+          <div>
+            <p class="profile-section-kicker">Public profile</p>
+            <h2 class="title-lg">Identity</h2>
+          </div>
+        </div>
 
         <div class="field">
           <%= f.label :display_name, "Display name" %>
-          <%= f.text_field :display_name %>
+          <%= f.text_field :display_name, class: "auth-input" %>
         </div>
 
         <div class="field">
           <%= f.label :bio, "Bio" %>
-          <%= f.text_area :bio, rows: 4, placeholder: "Tell other members a bit about yourself, your background, or what you like to build." %>
+          <%= f.text_area :bio, rows: 5, class: "auth-input", placeholder: "Tell other members a bit about yourself, your background, or what you like to build." %>
         </div>
 
         <div class="field">
           <%= f.label :github_url, "GitHub URL" %>
-          <%= f.text_field :github_url, placeholder: "https://github.com/yourname" %>
+          <%= f.text_field :github_url, class: "auth-input", placeholder: "https://github.com/yourname" %>
         </div>
       </section>
 
-      <section class="content-section profile-edit-subcard">
-        <h2 class="title-lg">Technologies</h2>
-        <p class="muted-text">Select the technologies you use so other members can better understand your stack.</p>
+      <section class="profile-edit-section profile-edit-section--stack">
+        <div class="profile-section-heading">
+          <div>
+            <p class="profile-section-kicker">Builder stack</p>
+            <h2 class="title-lg">Technologies</h2>
+          </div>
+        </div>
+
+        <p class="muted-text profile-edit-helper">
+          Select the technologies you use so other members can better understand your stack.
+        </p>
 
         <%= hidden_field_tag "user[technology_ids][]", "" %>
 
-        <div class="tech-grid">
+        <div class="tech-grid profile-tech-grid">
           <% Technology.order(:name).each do |tech| %>
-            <label class="tech-option" for="user_technology_<%= tech.id %>">
+            <label class="tech-option profile-tech-option" for="user_technology_<%= tech.id %>">
               <%= check_box_tag "user[technology_ids][]",
                 tech.id,
                 @user.technology_ids.include?(tech.id),
@@ -81,24 +112,42 @@
         </div>
       </section>
 
-      <% if @user.avatar.attached? %>
-        <div class="field">
-          <label>Current avatar</label>
-          <div class="avatar-preview">
-            <%= image_tag @user.avatar, class: "profile-avatar" %>
+      <section class="profile-edit-section profile-edit-section--avatar">
+        <div class="profile-section-heading">
+          <div>
+            <p class="profile-section-kicker">Visual identity</p>
+            <h2 class="title-lg">Avatar</h2>
           </div>
         </div>
-      <% end %>
 
-      <div class="field">
-        <%= f.label :avatar, "Avatar" %>
-        <%= f.file_field :avatar, accept: "image/*" %>
-      </div>
+        <div class="profile-avatar-upload-row">
+          <div class="profile-avatar-upload-preview">
+            <% if @user.avatar.attached? %>
+              <%= image_tag @user.avatar, class: "profile-avatar-large profile-avatar-large--enhanced", alt: @user.display_name %>
+            <% else %>
+              <div class="profile-avatar-fallback profile-avatar-fallback--enhanced">
+                <%= @user.display_name.to_s.first.upcase %>
+              </div>
+            <% end %>
+          </div>
 
-      <div class="actions">
-        <%= f.submit "Save profile", class: "btn btn-primary w-100" %>
+          <div class="profile-avatar-upload-fields">
+            <p class="muted-text profile-edit-helper">
+              Upload a clear image to make your profile more recognizable.
+            </p>
+
+            <div class="field">
+              <%= f.label :avatar, "Upload avatar" %>
+              <%= f.file_field :avatar, accept: "image/*" %>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="profile-edit-actions">
+        <%= f.submit "Save profile", class: "btn btn-primary profile-edit-submit" %>
       </div>
 
     <% end %>
-  </div>
+  </section>
 </div>
