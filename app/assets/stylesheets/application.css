@@ -3899,3 +3899,31 @@ a:hover {
   background: transparent !important;
   box-shadow: none !important;
 }
+
+.project-new-page {
+  position: relative;
+  min-height: calc(100vh - 90px);
+  overflow: hidden;
+}
+
+.project-new-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/background_home.png") left center / cover no-repeat;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.project-new-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(24, 25, 22, 0.88);
+  z-index: 1;
+}
+
+.project-new-page .page-shell {
+  position: relative;
+  z-index: 2;
+}
