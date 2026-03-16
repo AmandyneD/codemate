@@ -1,5 +1,5 @@
-<div class="project-form-shell">
-  <div class="project-form-card">
+<div class="project-form-layout">
+  <div class="project-form-panel">
     <%= form_with model: project do |f| %>
       <% if project.errors.any? %>
         <div class="form-errors">
@@ -44,22 +44,21 @@
           <%= f.label :max_collaborators %>
           <%= f.number_field :max_collaborators, min: 1, placeholder: "Ex: 4" %>
         </div>
-
-        <div class="field">
-          <%= f.label :status %>
-          <%= f.select :status,
-            [["Draft", "draft"], ["Open", "open"], ["Full", "full"], ["Closed", "closed"], ["Completed", "completed"]] %>
-        </div>
       </div>
 
       <%= render "filters_new", project: project %>
 
-      <div class="project-form-actions">
-        <%= f.submit(
-          project.persisted? ? "Save changes" : "Create project",
-          class: "navbar-cta project-form-submit"
-        ) %>
-      </div>
+    <div class="project-form-actions project-form-actions--dual">
+      <%= f.submit "Save as draft",
+        name: "project_action",
+        value: "draft",
+        class: "btn btn-outline project-form-submit-secondary" %>
+
+      <%= f.submit "Publish project",
+        name: "project_action",
+        value: "publish",
+        class: "btn btn-primary project-form-submit" %>
+    </div>
     <% end %>
   </div>
 </div>

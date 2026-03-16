@@ -91,6 +91,13 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
 
+    @project.status =
+      if params[:project_action] == "publish"
+        "open"
+      else
+        "draft"
+      end
+
     if @project.save
       @project.collaborations.create!(
         user: current_user,
@@ -140,7 +147,6 @@ class ProjectsController < ApplicationController
       :category,
       :estimated_duration,
       :max_collaborators,
-      :status,
       technology_ids: []
     )
 

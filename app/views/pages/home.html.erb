@@ -32,44 +32,56 @@
 
 <div class="page-shell home-page" data-controller="home-motion">
 
-  <section class="home-stats-section" data-home-motion-target="reveal">
-    <div class="home-section-intro" data-home-motion-target="reveal">
-      <p class="home-section-kicker">Community signal</p>
-      <h2 class="title-lg home-section-title">Built by people who actually ship</h2>
-      <p class="muted-text home-section-text">
-        Codemate is where devs, makers and curious builders meet to turn ideas into real projects.
+<section class="home-stats-section" data-home-motion-target="reveal">
+  <div class="home-section-intro home-section-intro--stats" data-home-motion-target="reveal">
+    <p class="home-section-kicker">Community signal</p>
+    <h2 class="title-lg home-section-title">Built by people who actually ship</h2>
+    <p class="muted-text home-section-text">
+      Codemate is where devs, makers and curious builders meet to turn ideas into real projects.
+    </p>
+  </div>
+
+  <div class="home-stats-premium">
+    <article class="home-stat-card" data-home-motion-target="reveal">
+      <div class="home-stat-card-top">
+        <%= image_tag "icon_user_W.svg", class: "home-stat-card-icon", alt: "Builders" %>
+        <span class="home-stat-card-label">builders</span>
+      </div>
+
+      <strong class="home-stat-card-number"><%= @users_count %>+</strong>
+
+      <p class="home-stat-card-text">
+        Developers, makers and collaborators building together.
       </p>
-    </div>
+    </article>
 
-    <section class="home-stats-clean">
-      <div class="home-stat" data-home-motion-target="reveal">
-        <%= image_tag "icon_user_W.svg", class: "home-stat-illu", alt: "Builders" %>
-        <strong class="home-stat-number"><%= @users_count %>+</strong>
-        <span class="home-stat-label">builders</span>
-        <p class="home-stat-text">
-          Developers, makers and collaborators building together.
-        </p>
+    <article class="home-stat-card" data-home-motion-target="reveal">
+      <div class="home-stat-card-top">
+        <%= image_tag "icon_cube_W.svg", class: "home-stat-card-icon", alt: "Projects" %>
+        <span class="home-stat-card-label">projects</span>
       </div>
 
-      <div class="home-stat" data-home-motion-target="reveal">
-        <%= image_tag "icon_cube_W.svg", class: "home-stat-illu", alt: "Projects" %>
-        <strong class="home-stat-number"><%= @projects_count %>+</strong>
-        <span class="home-stat-label">projects</span>
-        <p class="home-stat-text">
-          Ideas turned into concrete products, MVPs and experiments.
-        </p>
+      <strong class="home-stat-card-number"><%= @projects_count %>+</strong>
+
+      <p class="home-stat-card-text">
+        Ideas turned into concrete products, MVPs and experiments.
+      </p>
+    </article>
+
+    <article class="home-stat-card" data-home-motion-target="reveal">
+      <div class="home-stat-card-top">
+        <%= image_tag "icon_alien_W.svg", class: "home-stat-card-icon", alt: "Contributors" %>
+        <span class="home-stat-card-label">contributors</span>
       </div>
 
-      <div class="home-stat" data-home-motion-target="reveal">
-        <%= image_tag "icon_alien_W.svg", class: "home-stat-illu", alt: "Contributors" %>
-        <strong class="home-stat-number"><%= @contributors_count %>+</strong>
-        <span class="home-stat-label">contributors</span>
-        <p class="home-stat-text">
-          People joining forces to design, code and ship faster.
-        </p>
-      </div>
-    </section>
-  </section>
+      <strong class="home-stat-card-number"><%= @contributors_count %>+</strong>
+
+      <p class="home-stat-card-text">
+        People joining forces to design, code and ship faster.
+      </p>
+    </article>
+  </div>
+</section>
 
   <section class="home-featured-clean" data-home-motion-target="reveal">
     <div class="section-heading home-section-heading" data-home-motion-target="reveal">
@@ -159,26 +171,30 @@
     <% end %>
   </section>
 
-  <section class="home-final-cta" data-home-motion-target="reveal">
-    <div class="home-final-cta-inner">
-      <p class="home-section-kicker">Start building</p>
-      <h2 class="title-lg home-final-cta-title">
+<section class="home-final-banner" data-home-motion-target="reveal">
+  <div class="home-final-banner-inner">
+    <div class="home-final-banner-content">
+      <p class="home-section-kicker home-final-banner-kicker">Start building</p>
+
+      <h2 class="title-xl home-final-banner-title">
         Your next real project can start here.
       </h2>
-      <p class="home-final-cta-text">
+
+      <p class="home-final-banner-text">
         Launch an idea, find contributors, and build something worth showing.
       </p>
-
-      <div class="home-final-cta-actions">
-        <% if user_signed_in? %>
-          <%= link_to "Create a project", new_project_path, class: "btn btn-primary home-cta-primary" %>
-        <% else %>
-          <%= link_to "Join Codemate", new_user_registration_path, class: "btn btn-primary home-cta-primary" %>
-        <% end %>
-
-        <%= link_to "Explore projects", projects_path, class: "btn btn-secondary home-cta-secondary" %>
-      </div>
     </div>
-  </section>
+
+    <div class="home-final-banner-actions">
+      <% if user_signed_in? %>
+        <%= link_to "Create a project", new_project_path, class: "btn btn-primary home-final-banner-primary" %>
+      <% else %>
+        <%= link_to "Join Codemate", new_user_registration_path, class: "btn btn-primary home-final-banner-primary" %>
+      <% end %>
+
+      <%= link_to "Explore projects", projects_path, class: "btn btn-secondary home-final-banner-secondary" %>
+    </div>
+  </div>
+</section>
 
 </div>
