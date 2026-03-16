@@ -288,13 +288,13 @@ a:hover {
 }
 
 .user-menu-button:hover {
-  border-color: var(--codemate-green-light);
+  border-color: var(--codemate-plum);
   background: rgba(83, 181, 127, 0.03);
   transform: translateY(-1px);
 }
 
 .user-dropdown[open] .user-menu-button {
-  border-color: var(--codemate-green-light);
+  border-color: var(--codemate-plum);
   background: rgba(83, 181, 127, 0.05);
 }
 
@@ -1251,7 +1251,7 @@ a:hover {
 
 .filters-linear-advanced-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   margin-top: 14px;
 }
@@ -1260,6 +1260,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .filters-linear-label {
@@ -1268,6 +1269,9 @@ a:hover {
 }
 
 .filters-linear-select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   border: 1px solid var(--border-light);
   padding: 0 12px;
   min-height: 46px;
@@ -1594,7 +1598,7 @@ a:hover {
 .profile-hero-glow--plum {
   right: 40px;
   top: 20px;
-  background: rgba(89, 65, 245, 0.75);
+  background: rgba(125, 149, 255, 0.45);
 }
 
 .profile-hero-card--clean {
@@ -1625,7 +1629,7 @@ a:hover {
   pointer-events: none;
   background:
     radial-gradient(circle at top right, rgba(83,181,127,0.08), transparent 28%),
-    radial-gradient(circle at bottom left, rgba(120,71,94,0.08), transparent 24%);
+    radial-gradient(circle at bottom left, rgba(125, 149, 255, 0.08), transparent 24%);
 }
 
 .profile-hero-main {
@@ -1803,8 +1807,8 @@ a:hover {
 .section-count {
   min-width: 32px;
   height: 32px;
-  border: 1px solid var(--codemate-green-light);
-  color: var(--codemate-green-light);
+  border: 1px solid var(--codemate-plum);
+  color: var(--codemate-green-plum);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2072,7 +2076,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--codemate-green-dark);
+  background: var(--codemate-plum);
   color: var(--codemate-offwhite);
   font-family: "Jersey 10", sans-serif;
   font-size: 28px;
@@ -3269,12 +3273,14 @@ a:hover {
   gap: 6px;
 }
 
-.conversation-message--mine {
-  align-self: flex-end;
+.conversation-message--mine .conversation-message-bubble {
+  background: rgba(125, 149, 255, 0.16);
+  border: 1px solid rgba(125, 149, 255, 0.45);
 }
 
-.conversation-message--other {
-  align-self: flex-start;
+.conversation-message--other .conversation-message-bubble {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(125, 149, 255, 0.25);
 }
 
 .conversation-message-bubble {
@@ -3337,8 +3343,12 @@ a:hover {
 }
 
 .conversation-send-btn {
-  width: 100%;
-  min-height: 48px;
+  background: rgba(125, 149, 255, 0.9);
+  border: none;
+}
+
+.conversation-send-btn:hover {
+  background: rgba(125, 149, 255, 1);
 }
 
 /* ---------- Sidebar ---------- */
@@ -3394,7 +3404,7 @@ a:hover {
 
 .inbox-kicker {
   margin: 0 0 10px;
-  color: var(--codemate-green-light);
+  color: var(--codemate-plum);
   font-size: 14px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3439,7 +3449,7 @@ a:hover {
 .inbox-item:hover {
   text-decoration: none;
   color: var(--codemate-offwhite);
-  border-color: var(--codemate-green-light);
+  border-color: var(--codemate-plum);
   background: rgba(83, 181, 127, 0.05);
   transform: translateY(-1px);
 }
@@ -3448,7 +3458,7 @@ a:hover {
   width: 52px;
   height: 52px;
   border: 1px solid var(--border-light);
-  background: var(--codemate-green-dark);
+  background: var(--codemate-plum);
   color: var(--codemate-offwhite);
   display: flex;
   align-items: center;
@@ -3971,7 +3981,6 @@ a:hover {
   gap: 10px;
   padding: 8px 14px;
   font-size: 13px;
-  border-radius: 10px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
   color: var(--codemate-offwhite);
@@ -4421,19 +4430,19 @@ a:hover {
 .profile-hero-card--enhanced,
 .profile-stat-card,
 .profile-meta-item--enhanced {
-  border-color: rgba(91, 124, 240, 0.45);
+  border-color: 	rgba(125, 149, 255, 0.45);
 }
 
 .builder-card::after,
 .profile-hero-card--enhanced::before {
   background:
-    radial-gradient(circle at top right, rgba(120,71,94,0.14), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(120,71,94,0.10), transparent 30%);
+    radial-gradient(circle at top right, rgba(125, 149, 255, 0.10), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(125, 149, 255, 0.10), transparent 30%);
 }
 
 .builder-card:hover {
   border-color: var(--codemate-plum);
-  background: rgba(120, 71, 94, 0.08);
+  background: rgba(125, 149, 255, 0.08);
 }
 
 .builder-card-title a:hover {
@@ -4472,4 +4481,92 @@ a:hover {
   background: rgba(120, 71, 94, 0.12);
   border-color: var(--codemate-plum);
   color: var(--codemate-plum);
+}
+
+.profile-hero {
+  padding: 60px 0 40px;
+  position: relative;
+}
+
+.profile-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-hero-left {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.profile-avatar-xl {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.profile-avatar-fallback-xl {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #7d95ff, #7d95ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.profile-hero-name {
+  font-size: 56px;
+  margin: 4px 0;
+}
+
+.profile-hero-bio {
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.profile-hero-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ===== CONVERSATION THEME (PROFILE COLOR) ===== */
+
+.conversation-thread-card {
+  border-color: rgba(125, 149, 255, 0.45);
+}
+
+.conversation-thread-card::after {
+  background:
+    radial-gradient(circle at top right, rgba(125,149,255,0.14), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(125,149,255,0.10), transparent 30%);
+}
+
+.conversation-sidebar-card {
+  border-color: rgba(125, 149, 255, 0.35);
+}
+
+.conversation-sidebar-card::after {
+  background:
+    radial-gradient(circle at top right, rgba(125,149,255,0.12), transparent 30%);
+}
+
+/* ===== FIX INBOX GREEN HOVER ===== */
+
+.inbox-item:hover {
+  background: rgba(125, 149, 255, 0.08) !important;
+  border-color: rgba(125, 149, 255, 0.45) !important;
+}
+
+.inbox-list-card .inbox-item:hover {
+  background: rgba(125, 149, 255, 0.08) !important;
+}
+
+.filters-linear-advanced-grid > * {
+  min-width: 0;
 }

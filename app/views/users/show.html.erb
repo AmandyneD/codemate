@@ -3,66 +3,53 @@
     <%= link_to "← Back", request.referer.presence || projects_path %>
   </p>
 
-  <section class="profile-hero-shell">
-    <div class="profile-hero-glow profile-hero-glow--green"></div>
-    <div class="profile-hero-glow profile-hero-glow--plum"></div>
+<section class="profile-hero">
+  <div class="profile-hero-inner">
 
-    <section class="profile-hero-card profile-hero-card--enhanced">
-      <div class="profile-hero-main">
-        <div class="profile-avatar-wrap profile-avatar-wrap--enhanced">
-          <% if @user.avatar.attached? %>
-            <%= image_tag @user.avatar, class: "profile-avatar-large profile-avatar-large--enhanced", alt: @user.display_name %>
-          <% else %>
-            <div class="profile-avatar-fallback profile-avatar-fallback--enhanced">
-              <%= @user.display_name.to_s.first.upcase %>
-            </div>
-          <% end %>
-        </div>
+    <div class="profile-hero-left">
 
-        <div class="profile-hero-content">
-          <div class="profile-hero-topline">
-            <span class="profile-eyebrow">Builder profile</span>
+      <div class="profile-avatar-wrap">
+        <% if @user.avatar.attached? %>
+          <%= image_tag @user.avatar, class: "profile-avatar-xl" %>
+        <% else %>
+          <div class="profile-avatar-fallback-xl">
+            <%= @user.display_name.first.upcase %>
           </div>
-
-          <h1 class="title-xl profile-hero-title"><%= @user.display_name %></h1>
-
-          <p class="page-subtitle profile-hero-bio">
-            <%= @user.bio.presence || "This member has not added a bio yet." %>
-          </p>
-
-          <div class="profile-meta profile-meta--enhanced">
-            <% if @user.github_url.present? %>
-              <span class="profile-meta-item profile-meta-item--enhanced">
-                <strong>GitHub</strong>
-                <%= link_to @user.github_url.sub(%r{https?://}, ""), @user.github_url, target: "_blank", rel: "noopener" %>
-              </span>
-            <% end %>
-
-            <span class="profile-meta-item profile-meta-item--enhanced">
-              <strong><%= @owned_projects.count %></strong>
-              created
-            </span>
-
-            <span class="profile-meta-item profile-meta-item--enhanced">
-              <strong><%= @joined_projects.count %></strong>
-              joined
-            </span>
-
-            <span class="profile-meta-item profile-meta-item--enhanced">
-              <strong><%= @favorite_projects.count %></strong>
-              favorites
-            </span>
-          </div>
-        </div>
+        <% end %>
       </div>
 
-      <% if user_signed_in? && current_user == @user %>
-        <div class="profile-hero-actions">
-          <%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-primary profile-edit-btn" %>
+      <div class="profile-hero-text">
+        <span class="profile-eyebrow">Builder profile</span>
+
+        <h1 class="profile-hero-name">
+          <%= @user.display_name %>
+        </h1>
+
+        <p class="profile-hero-bio">
+          <%= @user.bio.presence || "This member has not added a bio yet." %>
+        </p>
+
+        <div class="profile-hero-meta">
+          <% if @user.github_url.present? %>
+            <span class="profile-chip">
+              GitHub
+              <%= link_to @user.github_url.sub(%r{https?://}, ""), @user.github_url, target: "_blank" %>
+            </span>
+          <% end %>
+
         </div>
-      <% end %>
-    </section>
-  </section>
+
+      </div>
+    </div>
+
+    <% if current_user == @user %>
+      <div class="profile-hero-actions">
+        <%= link_to "Edit profile", edit_user_path(@user), class: "btn btn-primary" %>
+      </div>
+    <% end %>
+
+  </div>
+</section>
 
   <section class="profile-stats-strip">
     <article class="profile-stat-card">
