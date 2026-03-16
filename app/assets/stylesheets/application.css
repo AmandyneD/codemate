@@ -14,7 +14,7 @@
   --codemate-green-light: #53b57f;
   --codemate-green-dark: #49674e;
   --codemate-orange: #d88314;
-  --codemate-plum: #78475e;
+  --codemate-plum: #7d95ff;
 
   --border-light: rgba(242, 239, 235, 0.18);
   --border-soft: rgba(242, 239, 235, 0.1);
@@ -313,7 +313,7 @@ a:hover {
 }
 
 .navbar-avatar-fallback {
-  background: var(--codemate-green-dark);
+  background: var(--codemate-plum);
   color: var(--codemate-offwhite);
   display: flex;
   align-items: center;
@@ -1594,7 +1594,7 @@ a:hover {
 .profile-hero-glow--plum {
   right: 40px;
   top: 20px;
-  background: rgba(120, 71, 94, 0.75);
+  background: rgba(89, 65, 245, 0.75);
 }
 
 .profile-hero-card--clean {
@@ -4412,4 +4412,64 @@ a:hover {
 
 .profile-sidebar-card .dashboard-project-text {
   min-height: auto;
+}
+
+
+/* ===== PROFILE / BUILDER CARD VARIANT ===== */
+
+.builder-card,
+.profile-hero-card--enhanced,
+.profile-stat-card,
+.profile-meta-item--enhanced {
+  border-color: rgba(91, 124, 240, 0.45);
+}
+
+.builder-card::after,
+.profile-hero-card--enhanced::before {
+  background:
+    radial-gradient(circle at top right, rgba(120,71,94,0.14), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(120,71,94,0.10), transparent 30%);
+}
+
+.builder-card:hover {
+  border-color: var(--codemate-plum);
+  background: rgba(120, 71, 94, 0.08);
+}
+
+.builder-card-title a:hover {
+  color: var(--codemate-plum);
+}
+
+.profile-eyebrow,
+.profile-section-kicker,
+.inbox-kicker {
+  color: var(--codemate-plum);
+}
+
+.profile-meta-item--enhanced a:hover {
+  color: var(--codemate-plum);
+}
+
+/* ===== BUILDER PAGE BUTTON VARIANT (PLUM) ===== */
+
+.builders-page .btn-primary {
+  background: var(--codemate-plum);
+  border-color: var(--codemate-plum);
+  color: white;
+}
+
+.builders-page .btn-primary:hover {
+  background: #7d95ff;
+  border-color: #7d95ff;
+}
+
+.builders-page .btn-outline {
+  border-color: var(--codemate-plum);
+  color: var(--codemate-plum);
+}
+
+.builders-page .btn-outline:hover {
+  background: rgba(120, 71, 94, 0.12);
+  border-color: var(--codemate-plum);
+  color: var(--codemate-plum);
 }

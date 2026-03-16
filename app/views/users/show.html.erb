@@ -114,7 +114,7 @@
         <% if @owned_projects.any? %>
           <div class="dashboard-grid">
             <% @owned_projects.each do |project| %>
-              <article class="dashboard-project-card">
+              <article class="dashboard-project-card profile-project-card">
                 <div class="dashboard-project-top">
                   <span class="badge-status"><%= project.status.capitalize %></span>
                   <span class="badge-category"><%= project.category.to_s.humanize %></span>
@@ -179,7 +179,7 @@
         <% if @joined_projects.any? %>
           <div class="dashboard-grid">
             <% @joined_projects.each do |project| %>
-              <article class="dashboard-project-card">
+              <article class="dashboard-project-card profile-project-card">
                 <div class="dashboard-project-top">
                   <span class="badge-status"><%= project.status.capitalize %></span>
                   <span class="badge-category"><%= project.category.to_s.humanize %></span>
@@ -246,7 +246,7 @@
         <% if @favorite_projects.any? %>
           <div class="section-stack">
             <% @favorite_projects.each do |project| %>
-              <article class="dashboard-project-card">
+              <article class="dashboard-project-card profile-project-card">
                 <div class="dashboard-project-top">
                   <span class="badge-status"><%= project.status.capitalize %></span>
                   <span class="badge-category"><%= project.category.to_s.humanize %></span>
