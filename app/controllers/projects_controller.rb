@@ -127,6 +127,20 @@ class ProjectsController < ApplicationController
     redirect_to my_projects_path, notice: "Projet supprimé avec succès."
   end
 
+  def generate_description
+    description = ::Ai::ProjectDescriptionGenerator.new(
+      title: params[:title],
+      short_description: params[:short_description]
+    ).call
+
+    render json: { description: description }
+  rescue ArgumentError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error("[ProjectsController#generate_description] #{e.class}: #{e.message}")
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   private
 
   def set_project

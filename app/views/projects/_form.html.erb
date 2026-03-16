@@ -1,6 +1,11 @@
 <div class="project-form-layout">
   <div class="project-form-panel">
-    <%= form_with model: project do |f| %>
+    <%= form_with model: project,
+      data: {
+        controller: "project-ai",
+        project_ai_url_value: generate_description_projects_path
+      } do |f| %>
+
       <% if project.errors.any? %>
         <div class="form-errors">
           <h2 class="title-md"><%= pluralize(project.errors.count, "error") %> prevented this project from being saved:</h2>
@@ -14,18 +19,47 @@
 
       <div class="field">
         <%= f.label :title %>
-        <%= f.text_field :title, placeholder: "Ex: Codemate, Airbnb clone, habit tracker..." %>
+        <%= f.text_field :title,
+          placeholder: "Ex: Codemate, Airbnb clone, habit tracker...",
+          data: { project_ai_target: "title" } %>
       </div>
 
       <div class="field">
         <%= f.label :short_description %>
-        <%= f.text_field :short_description, placeholder: "A short summary for project cards" %>
+        <%= f.text_field :short_description,
+          placeholder: "A short summary for project cards",
+          data: { project_ai_target: "shortDescription" } %>
       </div>
 
-      <div class="field">
-        <%= f.label :description %>
-        <%= f.text_area :description, rows: 6, placeholder: "Describe the project, goals, and what kind of collaborators you are looking for." %>
-      </div>
+
+<div class="field field-description">
+  <div class="field-header">
+    <%= f.label :description, class: "field-label" %>
+
+    <button
+      type="button"
+      class="btn-ai"
+      data-action="click->project-ai#generate"
+      data-project-ai-target="button">
+      <span
+        class="btn-ai-spinner"
+        data-project-ai-target="spinner"
+        aria-hidden="true">
+      </span>
+
+      <span data-project-ai-target="buttonText">
+        Generate with AI
+      </span>
+    </button>
+  </div>
+
+  <%= f.text_area :description,
+    rows: 8,
+    placeholder: "Describe the project, goals, and what kind of collaborators you are looking for.",
+    data: { project_ai_target: "description" },
+    class: "textarea-description" %>
+</div>
+
 
       <div class="project-form-grid">
         <div class="field">
@@ -48,17 +82,17 @@
 
       <%= render "filters_new", project: project %>
 
-    <div class="project-form-actions project-form-actions--dual">
-      <%= f.submit "Save as draft",
-        name: "project_action",
-        value: "draft",
-        class: "btn btn-outline project-form-submit-secondary" %>
+      <div class="project-form-actions project-form-actions--dual">
+        <%= f.submit "Save as draft",
+          name: "project_action",
+          value: "draft",
+          class: "btn btn-outline project-form-submit-secondary" %>
 
-      <%= f.submit "Publish project",
-        name: "project_action",
-        value: "publish",
-        class: "btn btn-primary project-form-submit" %>
-    </div>
+        <%= f.submit "Publish project",
+          name: "project_action",
+          value: "publish",
+          class: "btn btn-primary project-form-submit" %>
+      </div>
     <% end %>
   </div>
 </div>

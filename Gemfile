@@ -22,6 +22,8 @@ gem "simple_form"
 
 gem "inline_svg"
 
+gem "openai"
+
 gem "cloudinary"
 gem "activestorage-cloudinary-service"
 

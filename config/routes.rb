@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   end
 
   resources :projects do
+    collection do
+      post :generate_description
+    end
+
     resources :project_technologies, only: [ :create, :destroy ]
     resources :collaborations, only: [ :create, :index, :update ]
     resources :bookmarks, only: [ :create, :destroy ]
