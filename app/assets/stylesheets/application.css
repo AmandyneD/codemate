@@ -4033,3 +4033,36 @@ a:hover {
   font-size: 13px;
   padding: 6px 10px;
 }
+
+
+.account-settings-page {
+  max-width: 1180px;
+}
+
+.account-settings-card {
+  max-width: 1180px;
+  width: 100%;
+}
+
+.account-settings-back-link {
+  margin-bottom: 24px;
+}
+
+.danger-zone-inline {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  border-color: rgba(255, 92, 92, 0.35);
+  background: transparent;
+}
+
+.danger-zone-inline .danger-title {
+  margin-bottom: 10px;
+}
+
+.danger-zone-inline .muted-text {
+  margin-bottom: 18px;
+}
