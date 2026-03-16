@@ -9,6 +9,7 @@
             class="filters-linear-tech project-tech-picker"
             data-controller="technology-picker"
             data-technology-picker-search-url-value="<%= search_technologies_path %>"
+            data-technology-picker-input-name-value="project[technology_ids][]"
             data-technology-picker-selected-value='<%= project.technologies.map { |t| { id: t.id, name: t.name } }.to_json %>'
           >
             <div
