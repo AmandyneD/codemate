@@ -1,40 +1,39 @@
-<div class="page-shell">
-  <div class="page-header">
-    <div>
-      <h1 class="title-xl">Browse projects</h1>
-      <p class="page-subtitle">
-        Search by project name, technologies, and refine with advanced filters.
-      </p>
-    </div>
+<div class="page-shell layout-container">
 
-    <p class="muted-text">
+  <div class="page-intro">
+    <h1 class="title-xl">Explore projects</h1>
+    <p class="page-subtitle">
+      Search by project name, technologies, and refine with advanced filters.
+    </p>
+
+    <p class="muted-text page-intro-meta">
       <strong><%= @projects.size %></strong> projects found
     </p>
   </div>
 
-  <%= render "filters" %>
+  <div class="page-filters">
+    <%= render "filters" %>
+  </div>
 
   <% if @projects.any? %>
     <div class="projects-grid projects-grid--premium">
       <% @projects.each do |project| %>
-        <article class="project-card project-card--premium">
-          <div class="project-card-top">
+        <article class="dashboard-project-card browse-project-card">
+          <div class="dashboard-project-top">
             <span class="badge-status"><%= project.status.capitalize %></span>
-            <span class="badge-category"><%= project.category.humanize %></span>
+            <span class="badge-category"><%= project.category.to_s.humanize %></span>
           </div>
 
-          <h2 class="project-card-title title-lg">
+          <h3 class="dashboard-project-title">
             <%= link_to project.title, project_path(project) %>
-          </h2>
+          </h3>
 
-          <p class="project-card-description">
-            <%= project.short_description %>
-          </p>
+          <p class="dashboard-project-text"><%= project.short_description %></p>
 
-          <div class="project-card-meta">
+          <div class="project-meta">
             <span class="project-meta-item">
               <%= image_tag "icon_planning_W.svg", class: "project-inline-icon", alt: "Duration" %>
-              <%= project.estimated_duration.humanize %>
+              <%= project.estimated_duration.to_s.humanize %>
             </span>
 
             <span class="project-meta-item">
@@ -43,23 +42,24 @@
             </span>
           </div>
 
-          <div class="project-card-technologies tech-list">
+          <div class="tech-list">
             <% if project.technologies.any? %>
-              <% project.technologies.each do |tech| %>
-                <span class="tech-badge"><%= tech.name %></span>
+              <% project.technologies.each do |technology| %>
+                <span class="tech-badge"><%= technology.name %></span>
               <% end %>
             <% else %>
               <span class="muted-text">No technologies yet</span>
             <% end %>
           </div>
 
-          <div class="project-card-footer">
-            <span class="muted-text">
-              Owner:
-              <strong><%= project.owner&.display_name || "Unknown" %></strong>
+          <div class="dashboard-project-footer">
+            <span class="project-card-owner">
+              Owner: <strong><%= project.owner&.display_name || "Unknown" %></strong>
             </span>
 
-            <%= link_to "View project", project_path(project), class: "btn btn-outline project-card-cta" %>
+            <div class="dashboard-project-actions">
+              <%= link_to "View", project_path(project), class: "btn btn-outline" %>
+            </div>
           </div>
         </article>
       <% end %>
@@ -72,4 +72,5 @@
       <%= link_to "Reset filters", projects_path, class: "btn btn-orange mt-3" %>
     </div>
   <% end %>
+
 </div>

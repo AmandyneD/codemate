@@ -1,12 +1,14 @@
 <div class="project-new-page">
-<div class="page-shell">
-  <div class="page-header">
-    <div>
+  <div class="page-shell layout-container">
+    <p class="back-link project-back-link">
+      <%= link_to "← Back to projects", projects_path %>
+    </p>
+
+    <div class="page-intro">
       <h1 class="title-xl">New project</h1>
       <p class="page-subtitle">Create a project and start building your team.</p>
     </div>
-  </div>
 
-  <%= render "form", project: @project %>
-</div>
+    <%= render "form", project: @project %>
+  </div>
 </div>
