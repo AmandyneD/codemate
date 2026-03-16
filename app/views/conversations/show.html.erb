@@ -3,8 +3,17 @@
   <div class="conversation-thread-card card">
 
     <div class="conversation-thread-header">
-      <h2 class="title-lg">Messages</h2>
+
+      <div class="conversation-thread-header-left">
+        <%= link_to project_path(@project), class: "btn btn-outline btn-sm conversation-back-btn" do %>
+          ← Back to project
+        <% end %>
+
+        <h2 class="title-lg">Messages</h2>
+      </div>
+
       <span class="badge-count"><%= @messages.count %></span>
+
     </div>
 
     <div class="conversation-thread-body">
@@ -41,7 +50,6 @@
 
     </div>
 
-    <!-- ✅ FORM NOW HERE -->
     <div class="conversation-form-section">
 
       <%= form_with model: [@conversation, @message], local: true, class: "conversation-form" do |f| %>
@@ -62,7 +70,6 @@
 
   </div>
 
-  <!-- Sidebar stays project info only -->
   <div class="conversation-sidebar-card card">
     <h2 class="title-lg">Project</h2>
 

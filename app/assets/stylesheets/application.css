@@ -4015,3 +4015,21 @@ a:hover {
 .textarea-description {
   margin-top: 0;
 }
+
+
+.conversation-thread-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.conversation-thread-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.conversation-back-btn {
+  font-size: 13px;
+  padding: 6px 10px;
+}
