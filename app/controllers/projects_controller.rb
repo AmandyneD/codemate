@@ -67,7 +67,7 @@ class ProjectsController < ApplicationController
     else
       @projects.reject(&:draft?)
     end
-end
+  end
 
   def show
     @project_owner = @project.owner
@@ -127,13 +127,22 @@ end
   def edit
   end
 
-  def update
-    if @project.update(project_params)
-      redirect_to @project, notice: "Projet mis à jour avec succès."
+def update
+  @project.assign_attributes(project_params)
+
+  @project.status =
+    if params[:project_action] == "publish"
+      "open"
     else
-      render :edit, status: :unprocessable_entity
+      "draft"
     end
+
+  if @project.save
+    redirect_to @project, notice: "Projet mis à jour avec succès."
+  else
+    render :edit, status: :unprocessable_entity
   end
+end
 
   def destroy
     @project.destroy
