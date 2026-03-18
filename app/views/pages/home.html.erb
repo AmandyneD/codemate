@@ -7,28 +7,29 @@
 
   <div class="home-hero-overlay"></div>
 
-  <div class="home-hero-inner">
-    <h1 class="title-xl home-title-clean" data-home-motion-target="reveal">
-      Build real projects.<br>
-      Find your dev team.<br>
-      Ship faster.
-    </h1>
+<div class="home-hero-inner">
+  <h1 class="title-xl home-title-clean" data-home-motion-target="reveal">
+    Build real projects.<br>
+    Find your dev team.<br>
+    Ship faster.
+  </h1>
 
-    <p class="subtitle home-subtitle-clean" data-home-motion-target="reveal">
-      Join real projects, collaborate with other builders, and create work you can actually showcase.
-    </p>
+  <p class="subtitle home-subtitle-clean" data-home-motion-target="reveal">
+    Join real projects, collaborate with other builders, and create work you can actually showcase.
+  </p>
 
-    <div class="home-cta-clean" data-home-motion-target="reveal">
-      <% if user_signed_in? %>
+  <div class="home-cta-clean" data-home-motion-target="reveal">
+    <% if user_signed_in? %>
       <%= link_to new_project_path, class: "btn btn-primary home-cta-primary glitch-btn" do %>
         <span class="glitch-btn__text" data-text="Start a project">Start a project</span>
       <% end %>
-        <%= link_to "Get started", new_user_registration_path, class: "btn btn-primary home-cta-primary" %>
-      <% end %>
+    <% else %>
+      <%= link_to "Get started", new_user_registration_path, class: "btn btn-primary home-cta-primary" %>
+    <% end %>
 
-      <%= link_to "Explore projects", projects_path, class: "btn btn-secondary home-cta-secondary" %>
-    </div>
+    <%= link_to "Explore projects", projects_path, class: "btn btn-secondary home-cta-secondary" %>
   </div>
+</div>
 </section>
 
 <div class="page-shell home-page layout-container" data-controller="home-motion">
