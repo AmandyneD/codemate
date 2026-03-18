@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg topbar-modern sticky-top">
   <div class="navbar-container">
     <%= link_to root_path, class: "navbar-brand codemate-brand" do %>
-      <%= image_tag "mate_blanc.svg", height: 50, class: "brand-icon", alt: "Logo" %>
-      <%= image_tag "codemate_blanc.svg", height: 26, class: "brand-wordmark", alt: "Codemate" %>
+      <%= image_tag "mate_blanc.svg", height: 40, class: "brand-icon", alt: "Logo" %>
+      <%= image_tag "codemate_blanc.svg", height: 22, class: "brand-wordmark", alt: "Codemate" %>
     <% end %>
 
     <button
@@ -28,7 +28,7 @@
         <li class="nav-item">
           <%= link_to "Browse builders",
             users_path,
-            class: "nav-link custom-nav-link #{'is-active' if current_page?(users_path)}" %>
+            class: "nav-link custom-nav-link nav-link-builders #{'is-active' if current_page?(users_path)}" %>
         </li>
 
         <% if user_signed_in? %>

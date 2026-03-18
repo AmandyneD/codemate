@@ -1,10 +1,10 @@
 <div class="project-new-page">
   <div class="page-shell layout-container">
-    <p class="back-link project-back-link">
-      <%= link_to "← Back to project", project_path(@project) %>
-    </p>
-
     <div class="page-intro">
+      <div class="project-hero-actions">
+        <%= link_to "← Back to project", project_path(@project), class: "btn btn-secondary btn-sm" %>
+      </div>
+
       <h1 class="title-xl">Edit project</h1>
       <p class="page-subtitle">Update the content and settings of your project.</p>
     </div>

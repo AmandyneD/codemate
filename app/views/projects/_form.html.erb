@@ -31,35 +31,33 @@
           data: { project_ai_target: "shortDescription" } %>
       </div>
 
+      <div class="field field-description">
+        <div class="field-header">
+          <%= f.label :description, class: "field-label" %>
 
-<div class="field field-description">
-  <div class="field-header">
-    <%= f.label :description, class: "field-label" %>
+          <button
+            type="button"
+            class="btn btn-profile-outline btn-sm btn-ai"
+            data-action="click->project-ai#generate"
+            data-project-ai-target="button">
+            <span
+              class="btn-ai-spinner"
+              data-project-ai-target="spinner"
+              aria-hidden="true">
+            </span>
 
-    <button
-      type="button"
-      class="btn-ai"
-      data-action="click->project-ai#generate"
-      data-project-ai-target="button">
-      <span
-        class="btn-ai-spinner"
-        data-project-ai-target="spinner"
-        aria-hidden="true">
-      </span>
+            <span data-project-ai-target="buttonText">
+              Generate with AI
+            </span>
+          </button>
+        </div>
 
-      <span data-project-ai-target="buttonText">
-        Generate with AI
-      </span>
-    </button>
-  </div>
-
-  <%= f.text_area :description,
-    rows: 8,
-    placeholder: "Describe the project, goals, and what kind of collaborators you are looking for.",
-    data: { project_ai_target: "description" },
-    class: "textarea-description" %>
-</div>
-
+        <%= f.text_area :description,
+          rows: 8,
+          placeholder: "Describe the project, goals, and what kind of collaborators you are looking for.",
+          data: { project_ai_target: "description" },
+          class: "textarea-description" %>
+      </div>
 
       <div class="project-form-grid">
         <div class="field">
@@ -86,12 +84,12 @@
         <%= f.submit "Save as draft",
           name: "project_action",
           value: "draft",
-          class: "btn btn-outline project-form-submit-secondary" %>
+          class: "btn btn-secondary btn-md project-form-submit-secondary" %>
 
         <%= f.submit "Publish project",
           name: "project_action",
           value: "publish",
-          class: "btn btn-primary project-form-submit" %>
+          class: "btn btn-primary btn-md project-form-submit" %>
       </div>
     <% end %>
   </div>

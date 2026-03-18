@@ -36,27 +36,27 @@
         <% if bookmark.present? %>
           <%= button_to project_bookmark_path(@project, bookmark),
             method: :delete,
-            class: "btn btn-orange",
+            class: "btn btn-secondary btn-md",
             form: { data: { turbo_confirm: "Remove this project from favorites?" } } do %>
             ♥ Favorited
           <% end %>
         <% else %>
           <%= button_to project_bookmarks_path(@project),
             method: :post,
-            class: "btn btn-outline" do %>
+            class: "btn btn-secondary btn-md" do %>
             ♡ Favorite
           <% end %>
         <% end %>
       <% end %>
 
       <% if @is_owner %>
-        <%= link_to "Edit", edit_project_path(@project), class: "btn btn-outline" %>
+        <%= link_to "Edit", edit_project_path(@project), class: "btn btn-secondary btn-md" %>
 
         <%= button_to "Delete",
           project_path(@project),
           method: :delete,
           form: { data: { turbo_confirm: "Delete project ?" } },
-          class: "btn btn-orange" %>
+          class: "btn btn-danger btn-md" %>
       <% end %>
     </div>
   </section>
@@ -110,7 +110,7 @@
                 <div class="member-actions">
                   <%= button_to project_conversations_path(@project, recipient_id: collab.user.id),
                     method: :post,
-                    class: "btn btn-outline" do %>
+                    class: "btn btn-secondary btn-sm" do %>
                     <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message" %>
                     Message
                   <% end %>
@@ -119,7 +119,7 @@
                     project_collaboration_path(@project, collab),
                     method: :patch,
                     params: { status: "removed" },
-                    class: "btn btn-remove" %>
+                    class: "btn btn-danger btn-sm" %>
                 </div>
               <% end %>
             </div>
@@ -137,7 +137,7 @@
         <ul class="info project-info-list">
           <li>
             <%= image_tag "icon_user_W.svg", class: "project-inline-icon", alt: "Owner" %>
-            <span>Owner: <strong><%= @project_owner.display_name %></strong></span>
+            <span>Owner: <strong><%= @project.owner&.display_name || "Unknown" %></strong></span>
           </li>
           <li>
             <%= image_tag "icon_planning_W.svg", class: "project-inline-icon", alt: "Duration" %>
@@ -150,28 +150,30 @@
         </ul>
       </div>
 
-    <% if user_signed_in? && !@is_owner %>
-      <div class="project-sidebar-section project-sidebar-actions">
-        <% if @existing_collaboration&.status == "pending" %>
-          <div class="callout">
-            Your join request is pending.
-          </div>
-        <% elsif @project.recruiting? && @existing_collaboration.blank? %>
-          <%= button_to "Join project",
-            project_collaborations_path(@project),
-            method: :post,
-            params: { collaboration: { status: "pending" } },
-            class: "btn btn-primary" %>
-        <% end %>
+      <% if user_signed_in? && !@is_owner %>
+        <div class="project-sidebar-section project-sidebar-actions">
+          <% if @existing_collaboration&.status == "pending" %>
+            <div class="callout">
+              Your join request is pending.
+            </div>
+          <% elsif @project.recruiting? && @existing_collaboration.blank? %>
+            <%= button_to "Join project",
+              project_collaborations_path(@project),
+              method: :post,
+              params: { collaboration: { status: "pending" } },
+              class: "btn btn-primary btn-md" %>
+          <% end %>
 
-        <%= button_to project_conversations_path(@project, recipient_id: @project_owner.id),
-          method: :post,
-          class: "btn btn-orange" do %>
-          <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message owner" %>
-          Message owner
-        <% end %>
-      </div>
-    <% end %>
+          <% if @project_owner.present? %>
+            <%= button_to project_conversations_path(@project, recipient_id: @project_owner.id),
+              method: :post,
+              class: "btn btn-secondary btn-md" do %>
+              <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message owner" %>
+              Message owner
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
 
       <% if @project.recruiting? %>
         <div class="callout-green project-recruiting-callout">
@@ -193,7 +195,7 @@
                 <div class="member-actions">
                   <%= button_to project_conversations_path(@project, recipient_id: collab.user.id),
                     method: :post,
-                    class: "btn btn-outline" do %>
+                    class: "btn btn-secondary btn-sm" do %>
                     <%= image_tag "icon_message_W.svg", class: "button-inline-icon", alt: "Message" %>
                     Message
                   <% end %>
@@ -202,7 +204,7 @@
                     project_collaboration_path(@project, collab),
                     method: :patch,
                     params: { status: "accepted" },
-                    class: "btn btn-green" %>
+                    class: "btn btn-primary btn-sm" %>
                 </div>
               </div>
             <% end %>

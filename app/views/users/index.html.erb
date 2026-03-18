@@ -1,11 +1,10 @@
-<div class="page-shell builders-page">
-  <div class="page-header">
-    <div>
-      <h1 class="title-xl">Browse builders</h1>
-      <p class="page-subtitle">
-        Discover profiles and find people by stack.
-      </p>
-    </div>
+<div class="page-shell layout-container builders-page">
+
+  <div class="page-intro">
+    <h1 class="title-xl">Browse builders</h1>
+    <p class="page-subtitle">
+      Discover profiles and find people by stack.
+    </p>
   </div>
 
   <div class="search-hero">
@@ -25,7 +24,7 @@
         ),
         class: "search-select" %>
 
-      <%= submit_tag "Search", class: "search-submit" %>
+      <%= submit_tag "Search", class: "btn btn-profile btn-md" %>
     <% end %>
   </div>
 
@@ -74,7 +73,7 @@
               <%= pluralize(user.technologies.count, "tech") %>
             </span>
 
-            <%= link_to "View profile", user_path(user), class: "btn btn-primary" %>
+            <%= link_to "View profile", user_path(user), class: "btn btn-profile btn-sm" %>
           </div>
         </article>
       <% end %>
@@ -85,4 +84,5 @@
       <p class="page-subtitle">Try another search or stack filter.</p>
     </div>
   <% end %>
+
 </div>

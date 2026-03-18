@@ -267,6 +267,27 @@ a:hover {
   gap: 16px;
 }
 
+.nav-link-builders {
+  color: var(--codemate-offwhite) !important;
+}
+
+.nav-link-builders:hover {
+  color: var(--codemate-plum) !important;
+}
+
+.nav-link-builders::after {
+  background: var(--codemate-plum);
+}
+
+.nav-link-builders.is-active {
+  color: var(--codemate-plum) !important;
+}
+
+.nav-link-builders.is-active::after,
+.nav-link-builders:hover::after {
+  background: var(--codemate-plum);
+}
+
 /* ---------- User dropdown ---------- */
 
 .user-dropdown {
@@ -277,7 +298,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  min-height: 58px;
+  min-height: 36px;
   padding: 8px 14px;
   cursor: pointer;
   list-style: none;
@@ -304,8 +325,8 @@ a:hover {
 
 .navbar-avatar,
 .navbar-avatar-fallback {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   object-fit: cover;
   display: block;
   flex-shrink: 0;
@@ -346,7 +367,7 @@ a:hover {
   right: 0;
   z-index: 50;
   width: 260px;
-  padding: 8px;
+  padding: 6px;
   overflow: hidden;
   background: rgba(24, 25, 22, 0.98);
   border: 1px solid var(--border-light);
@@ -4587,4 +4608,150 @@ a:hover {
 
 .filters-linear-advanced-grid > * {
   min-width: 0;
+}
+
+
+/* ===== BUTTON SYSTEM V1 ===== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+  font-family: "Jersey 10", sans-serif;
+  letter-spacing: 0.4px;
+  line-height: 1;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:focus,
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(242, 239, 235, 0.14);
+}
+
+.btn:disabled,
+.btn.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+}
+
+.btn-sm {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 16px;
+}
+
+.btn-md {
+  min-height: 48px;
+  padding: 0 18px;
+  font-size: 20px;
+}
+
+.btn-lg {
+  min-height: 56px;
+  padding: 0 24px;
+  font-size: 22px;
+}
+
+.btn-primary {
+  background: var(--codemate-green-light);
+  border-color: var(--codemate-green-light);
+  color: var(--codemate-black) !important;
+}
+
+.btn-primary:hover {
+  background: var(--codemate-offwhite);
+  border-color: var(--codemate-offwhite);
+  color: var(--codemate-black) !important;
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--border-light);
+  color: var(--codemate-offwhite) !important;
+}
+
+.btn-secondary:hover {
+  border-color: var(--codemate-green-light);
+  color: var(--codemate-green-light) !important;
+  background: rgba(83, 181, 127, 0.05);
+}
+
+.btn-profile {
+  background: var(--codemate-plum);
+  border-color: var(--codemate-plum);
+  color: var(--codemate-offwhite) !important;
+}
+
+.btn-profile:hover {
+  background: rgba(125, 149, 255, 0.92);
+  border-color: rgba(125, 149, 255, 0.92);
+  color: var(--codemate-offwhite) !important;
+}
+
+.btn-profile:focus,
+.btn-profile:focus-visible,
+.btn-profile-outline:focus,
+.btn-profile-outline:focus-visible {
+  box-shadow: 0 0 0 2px rgba(125, 149, 255, 0.18);
+}
+
+.btn-profile-outline {
+  background: transparent;
+  border-color: var(--codemate-plum);
+  color: var(--codemate-plum) !important;
+}
+
+.btn-profile-outline:hover {
+  background: rgba(125, 149, 255, 0.10);
+  border-color: var(--codemate-plum);
+  color: var(--codemate-plum) !important;
+}
+
+.btn-danger {
+  background: #ff5c5c;
+  border-color: #ff5c5c;
+  color: var(--codemate-black) !important;
+}
+
+.btn-danger:hover {
+  background: var(--codemate-offwhite);
+  border-color: var(--codemate-offwhite);
+  color: var(--codemate-black) !important;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-soft) !important;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--codemate-offwhite) !important;
+}
+
+.btn-icon {
+  min-width: 40px;
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
 }

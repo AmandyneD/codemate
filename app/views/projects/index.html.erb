@@ -58,7 +58,7 @@
             </span>
 
             <div class="dashboard-project-actions">
-              <%= link_to "View", project_path(project), class: "btn btn-outline" %>
+              <%= link_to "View", project_path(project), class: "btn btn-secondary btn-sm" %>
             </div>
           </div>
         </article>
@@ -69,7 +69,7 @@
       <h2 class="title-lg">No open projects found</h2>
       <p class="page-subtitle">Try another search or remove some filters.</p>
 
-      <%= link_to "Reset filters", projects_path, class: "btn btn-orange mt-3" %>
+      <%= link_to "Reset filters", projects_path, class: "btn btn-secondary btn-md mt-3" %>
     </div>
   <% end %>
 
