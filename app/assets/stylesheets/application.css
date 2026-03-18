@@ -4849,3 +4849,80 @@ a:hover {
     width: 100%;
   }
 }
+.project-hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.project-hero-actions form {
+  margin: 0;
+}
+
+.project-hero-actions .btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 980px) {
+  .project-hero-actions {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* FAVORITE BUTTON */
+
+.btn-favorite {
+  background: transparent;
+  border: 1px solid #f4a340;
+  color: #f2efeb !important;
+}
+
+.btn-favorite:hover {
+  background: rgba(244,163,64,0.08);
+  border-color: #f4a340;
+}
+
+.btn-favorite.is-active {
+  background: #f4a340;
+  border-color: #f4a340;
+  color: #121212 !important;
+}
+
+.btn-favorite.is-active:hover {
+  background: #ffb45c;
+  border-color: #ffb45c;
+}
+
+
+/* ===== PROJECT STATUS SYSTEM ===== */
+
+.badge-status {
+  padding: 6px 12px;
+  border: 1px solid;
+  font-family: "Jersey 10", sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.badge-status--draft {
+  border-color: #e3a24a;
+  background: rgba(227, 162, 74, 0.12);
+  color: #e3a24a;
+}
+
+.badge-status--open {
+  border-color: var(--codemate-green-light);
+  background: rgba(83, 181, 127, 0.12);
+  color: var(--codemate-green-light);
+}
+
+.badge-status--full {
+  border-color: rgba(255, 69, 18, 0.847);
+  background: rgba(83, 5, 27, 0.18);
+  color: rgba(255, 69, 18, 0.847);
+}

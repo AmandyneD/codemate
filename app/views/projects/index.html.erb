@@ -20,8 +20,9 @@
       <% @projects.each do |project| %>
         <article class="dashboard-project-card browse-project-card">
           <div class="dashboard-project-top">
-            <span class="badge-status"><%= project.status.capitalize %></span>
-            <span class="badge-category"><%= project.category.to_s.humanize %></span>
+            <span class="badge-status badge-status--<%= project.display_status %>">
+              <%= project.display_status.capitalize %>
+            </span>
           </div>
 
           <h3 class="dashboard-project-title">
@@ -31,6 +32,11 @@
           <p class="dashboard-project-text"><%= project.short_description %></p>
 
           <div class="project-meta">
+            <span class="project-meta-item">
+              <%= image_tag "icon_cube_W.svg", class: "project-inline-icon", alt: "Category" %>
+              <%= project.category.to_s.humanize %>
+            </span>
+
             <span class="project-meta-item">
               <%= image_tag "icon_planning_W.svg", class: "project-inline-icon", alt: "Duration" %>
               <%= project.estimated_duration.to_s.humanize %>

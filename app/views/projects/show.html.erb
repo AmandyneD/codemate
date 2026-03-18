@@ -6,8 +6,9 @@
   <section class="project-hero project-hero--enhanced">
     <div class="project-hero-main">
       <div class="project-badges project-badges--enhanced">
-        <span class="badge-status"><%= @project.status.capitalize %></span>
-        <span class="badge-category"><%= @project.category.humanize %></span>
+      <span class="badge-status badge-status--<%= @project.status %>">
+        <%= @project.status.capitalize %>
+      </span>
       </div>
 
       <h1 class="project-title title-xl"><%= @project.title %></h1>
@@ -29,36 +30,40 @@
       </div>
     </div>
 
-    <div class="hero-actions project-hero-actions">
-      <% if user_signed_in? %>
-        <% bookmark = current_user.bookmarks.find_by(project: @project) %>
+<div class="project-hero-actions">
 
-        <% if bookmark.present? %>
-          <%= button_to project_bookmark_path(@project, bookmark),
-            method: :delete,
-            class: "btn btn-secondary btn-md",
-            form: { data: { turbo_confirm: "Remove this project from favorites?" } } do %>
-            ♥ Favorited
-          <% end %>
-        <% else %>
-          <%= button_to project_bookmarks_path(@project),
-            method: :post,
-            class: "btn btn-secondary btn-md" do %>
-            ♡ Favorite
-          <% end %>
-        <% end %>
-      <% end %>
+<% if user_signed_in? %>
+  <% bookmark = current_user.bookmarks.find_by(project: @project) %>
 
-      <% if @is_owner %>
-        <%= link_to "Edit", edit_project_path(@project), class: "btn btn-secondary btn-md" %>
+  <% if bookmark.present? %>
+    <%= button_to project_bookmark_path(@project, bookmark),
+      method: :delete,
+      class: "btn btn-favorite btn-sm is-active",
+      form: { data: { turbo_confirm: "Remove from favorites?" } } do %>
+      ♥ Favorited
+    <% end %>
+  <% else %>
+    <%= button_to project_bookmarks_path(@project),
+      method: :post,
+      class: "btn btn-favorite btn-sm" do %>
+      ♡ Favorite
+    <% end %>
+  <% end %>
+<% end %>
 
-        <%= button_to "Delete",
-          project_path(@project),
-          method: :delete,
-          form: { data: { turbo_confirm: "Delete project ?" } },
-          class: "btn btn-danger btn-md" %>
-      <% end %>
-    </div>
+  <% if @is_owner %>
+    <%= link_to "Edit",
+      edit_project_path(@project),
+      class: "btn btn-secondary btn-sm" %>
+
+    <%= button_to "Delete",
+      project_path(@project),
+      method: :delete,
+      form: { data: { turbo_confirm: "Delete project?" } },
+      class: "btn btn-danger btn-sm" %>
+  <% end %>
+
+</div>
   </section>
 
   <div class="layout project-layout-show">

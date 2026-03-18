@@ -6,8 +6,13 @@ class Project < ApplicationRecord
   has_many :users, through: :collaborations
 
   has_many :bookmarks, dependent: :destroy
-has_many :bookmarked_by_users, through: :bookmarks, source: :user
+  has_many :bookmarked_by_users, through: :bookmarks, source: :user
   has_many :conversations, dependent: :destroy
+
+  enum :status, {
+    draft: "draft",
+    open: "open"
+  }
 
   validates :title, presence: true
   validates :short_description, presence: true
@@ -19,7 +24,7 @@ has_many :bookmarked_by_users, through: :bookmarks, source: :user
             presence: true,
             numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
-  scope :published, -> { where.not(status: "draft") }
+  scope :published, -> { where.not(status: :draft) }
 
   after_initialize :set_defaults, if: :new_record?
 
@@ -39,13 +44,23 @@ has_many :bookmarked_by_users, through: :bookmarks, source: :user
     accepted_collaborations.count
   end
 
+  def full?
+    accepted_members_count >= max_collaborators
+  end
+
+  def display_status
+    return "draft" if draft?
+    return "full" if full?
+    "open"
+  end
+
   def recruiting?
-    status == "open" && accepted_members_count < max_collaborators
+    open? && !full?
   end
 
   private
 
   def set_defaults
-    self.status ||= "draft"
+    self.status ||= :draft
   end
 end

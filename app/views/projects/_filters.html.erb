@@ -65,6 +65,16 @@
             <option value="long_term" <%= "selected" if @selected_duration == "long_term" %>>Long term</option>
           </select>
         </div>
+
+        <div class="filters-linear-stack">
+          <label class="filters-linear-label">Status</label>
+          <select name="status" class="filters-linear-select">
+            <option value="">All statuses</option>
+            <option value="open" <%= "selected" if @selected_status == "open" %>>Open</option>
+            <option value="draft" <%= "selected" if @selected_status == "draft" %>>Draft</option>
+            <option value="full" <%= "selected" if @selected_status == "full" %>>Full</option>
+          </select>
+        </div>
       </div>
 
       <div class="filters-linear-reset">

@@ -4,57 +4,70 @@ class ProjectsController < ApplicationController
   before_action :authorize_owner!, only: %i[edit update destroy]
 
   def index
-    Rails.logger.info("PROJECT FILTER PARAMS => #{params.to_unsafe_h}")
+  Rails.logger.info("PROJECT FILTER PARAMS => #{params.to_unsafe_h}")
 
-    @selected_category = params[:category].presence
-    @selected_duration = params[:estimated_duration].presence
-    @selected_technology_ids = Array(params[:technology_ids]).reject(&:blank?).map(&:to_i)
+  @selected_category = params[:category].presence
+  @selected_duration = params[:estimated_duration].presence
+  @selected_status = params[:status].presence
+  @selected_technology_ids = Array(params[:technology_ids]).reject(&:blank?).map(&:to_i)
 
-    @selected_technologies =
-      if @selected_technology_ids.any?
-        Technology.where(id: @selected_technology_ids).select(:id, :name, :category)
-      else
-        []
-      end
-
-    @projects = Project.where(status: "open")
-
-    if params[:q].present?
-      query = "%#{params[:q].strip}%"
-
-      @projects = @projects
-        .left_joins(:technologies)
-        .where(
-          "projects.title ILIKE :query
-           OR projects.short_description ILIKE :query
-           OR projects.description ILIKE :query
-           OR technologies.name ILIKE :query
-           OR technologies.category ILIKE :query",
-          query: query
-        )
-    end
-
+  @selected_technologies =
     if @selected_technology_ids.any?
-      @projects = @projects
-        .left_joins(:technologies)
-        .where(technologies: { id: @selected_technology_ids })
+      Technology.where(id: @selected_technology_ids).select(:id, :name, :category)
+    else
+      []
     end
 
-    if @selected_category.present?
-      @projects = @projects
-        .left_joins(:technologies)
-        .where(technologies: { category: @selected_category })
-    end
+  @projects = Project.all
 
-    if @selected_duration.present?
-      @projects = @projects.where(estimated_duration: @selected_duration)
-    end
+  if params[:q].present?
+    query = "%#{params[:q].strip}%"
 
     @projects = @projects
-      .distinct
-      .includes(:technologies)
-      .order(created_at: :desc)
+      .left_joins(:technologies)
+      .where(
+        "projects.title ILIKE :query
+         OR projects.short_description ILIKE :query
+         OR projects.description ILIKE :query
+         OR technologies.name ILIKE :query
+         OR technologies.category ILIKE :query",
+        query: query
+      )
   end
+
+  if @selected_technology_ids.any?
+    @projects = @projects
+      .left_joins(:technologies)
+      .where(technologies: { id: @selected_technology_ids })
+  end
+
+  if @selected_category.present?
+    @projects = @projects
+      .left_joins(:technologies)
+      .where(technologies: { category: @selected_category })
+  end
+
+  if @selected_duration.present?
+    @projects = @projects.where(estimated_duration: @selected_duration)
+  end
+
+  @projects = @projects
+    .distinct
+    .includes(:technologies, collaborations: :user)
+    .order(created_at: :desc)
+
+  @projects =
+    case @selected_status
+    when "draft"
+      @projects.select(&:draft?)
+    when "full"
+      @projects.select(&:full?)
+    when "open"
+      @projects.select { |project| project.display_status == "open" }
+    else
+      @projects.reject(&:draft?)
+    end
+end
 
   def show
     @project_owner = @project.owner
