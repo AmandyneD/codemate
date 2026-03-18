@@ -20,8 +20,9 @@
 
     <div class="home-cta-clean" data-home-motion-target="reveal">
       <% if user_signed_in? %>
-        <%= link_to "Start a project", new_project_path, class: "btn btn-primary home-cta-primary" %>
-      <% else %>
+      <%= link_to new_project_path, class: "btn btn-primary home-cta-primary glitch-btn" do %>
+        <span class="glitch-btn__text" data-text="Start a project">Start a project</span>
+      <% end %>
         <%= link_to "Get started", new_user_registration_path, class: "btn btn-primary home-cta-primary" %>
       <% end %>
 

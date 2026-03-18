@@ -42,7 +42,11 @@
 
       <div class="navbar-right">
         <% if user_signed_in? %>
-          <%= link_to "Create project", new_project_path, class: "navbar-cta" %>
+        <%= link_to new_project_path, class: "navbar-cta glitch-btn js-navbar-glitch", data: { text: "Create project" } do %>
+          <span class="glitch-btn__text" data-text="Create project">Create project</span>
+          <span class="glitch-btn__noise" aria-hidden="true"></span>
+          <span class="glitch-btn__scanline" aria-hidden="true"></span>
+        <% end %>
 
           <details class="user-dropdown">
             <summary class="user-menu-button">
