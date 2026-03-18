@@ -7,7 +7,7 @@
     </p>
   </div>
 
-  <div class="search-hero">
+  <div class="search-hero builders-search-hero">
     <%= form_with url: users_path, method: :get, local: true, class: "builders-search-bar" do %>
       <div class="search-input-wrap">
         <%= text_field_tag :q,
@@ -24,7 +24,7 @@
         ),
         class: "search-select" %>
 
-      <%= submit_tag "Search", class: "btn btn-profile btn-md" %>
+      <%= submit_tag "Search", class: "btn btn-profile btn-md builders-search-submit" %>
     <% end %>
   </div>
 
