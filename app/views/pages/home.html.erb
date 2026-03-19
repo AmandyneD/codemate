@@ -38,56 +38,58 @@
 
 <div class="page-shell home-page layout-container" data-controller="home-motion">
 
-  <section class="home-stats-section" data-home-motion-target="reveal">
-    <div class="home-section-intro home-section-intro--stats" data-home-motion-target="reveal">
-      <p class="home-section-kicker">Community signal</p>
-      <h2 class="title-lg home-section-title">Built by people who actually ship</h2>
-      <p class="muted-text home-section-text">
-        Codemate is where devs, makers and curious builders meet to turn ideas into real projects.
+<section class="home-stats-section" data-home-motion-target="reveal">
+  <div class="home-section-intro home-section-intro--stats" data-home-motion-target="reveal">
+    <p class="home-section-kicker">Community signal</p>
+    <h2 class="title-lg home-section-title home-section-title--stats">
+      Built by people who actually ship
+    </h2>
+    <p class="muted-text home-section-text home-section-text--stats">
+      Codemate is where devs, makers and curious builders meet to turn ideas into real projects.
+    </p>
+  </div>
+
+  <div class="home-stats-premium">
+    <article class="home-stat-card home-stat-card--builders" data-home-motion-target="reveal">
+      <div class="home-stat-card-top">
+        <%= image_tag "icon_user_W.svg", class: "home-stat-card-icon", alt: "Builders" %>
+        <span class="home-stat-card-label">Builders</span>
+      </div>
+
+      <strong class="home-stat-card-number"><%= @users_count %>+</strong>
+
+      <p class="home-stat-card-text">
+        Developers, makers and collaborators building together.
       </p>
-    </div>
+    </article>
 
-    <div class="home-stats-premium">
-      <article class="home-stat-card" data-home-motion-target="reveal">
-        <div class="home-stat-card-top">
-          <%= image_tag "icon_user_W.svg", class: "home-stat-card-icon", alt: "Builders" %>
-          <span class="home-stat-card-label">builders</span>
-        </div>
+    <article class="home-stat-card home-stat-card--projects" data-home-motion-target="reveal">
+      <div class="home-stat-card-top">
+        <%= image_tag "icon_cube_W.svg", class: "home-stat-card-icon", alt: "Projects" %>
+        <span class="home-stat-card-label">Projects</span>
+      </div>
 
-        <strong class="home-stat-card-number"><%= @users_count %>+</strong>
+      <strong class="home-stat-card-number"><%= @projects_count %>+</strong>
 
-        <p class="home-stat-card-text">
-          Developers, makers and collaborators building together.
-        </p>
-      </article>
+      <p class="home-stat-card-text">
+        Ideas turned into concrete products, MVPs and experiments.
+      </p>
+    </article>
 
-      <article class="home-stat-card" data-home-motion-target="reveal">
-        <div class="home-stat-card-top">
-          <%= image_tag "icon_cube_W.svg", class: "home-stat-card-icon", alt: "Projects" %>
-          <span class="home-stat-card-label">projects</span>
-        </div>
+    <article class="home-stat-card home-stat-card--contributors" data-home-motion-target="reveal">
+      <div class="home-stat-card-top">
+        <%= image_tag "icon_alien_W.svg", class: "home-stat-card-icon", alt: "Contributors" %>
+        <span class="home-stat-card-label">Contributors</span>
+      </div>
 
-        <strong class="home-stat-card-number"><%= @projects_count %>+</strong>
+      <strong class="home-stat-card-number"><%= @contributors_count %>+</strong>
 
-        <p class="home-stat-card-text">
-          Ideas turned into concrete products, MVPs and experiments.
-        </p>
-      </article>
-
-      <article class="home-stat-card" data-home-motion-target="reveal">
-        <div class="home-stat-card-top">
-          <%= image_tag "icon_alien_W.svg", class: "home-stat-card-icon", alt: "Contributors" %>
-          <span class="home-stat-card-label">contributors</span>
-        </div>
-
-        <strong class="home-stat-card-number"><%= @contributors_count %>+</strong>
-
-        <p class="home-stat-card-text">
-          People joining forces to design, code and ship faster.
-        </p>
-      </article>
-    </div>
-  </section>
+      <p class="home-stat-card-text">
+        People joining forces to design, code and ship faster.
+      </p>
+    </article>
+  </div>
+</section>
 
   <section class="home-featured-clean" data-home-motion-target="reveal">
     <div class="section-heading home-section-heading" data-home-motion-target="reveal">

@@ -88,10 +88,15 @@
           value: "draft",
           class: "btn btn-secondary btn-md project-form-submit-secondary" %>
 
-        <%= f.submit "Publish project",
-          name: "project_action",
-          value: "publish",
-          class: "btn btn-primary btn-md project-form-submit" %>
+      <button
+        type="submit"
+        name="project_action"
+        value="publish"
+        class="btn btn-primary btn-md project-form-submit publish-glitch-btn">
+        <span class="publish-glitch-btn__text" data-text="Publish project">
+          Publish project
+        </span>
+      </button>
       </div>
     <% end %>
   </div>
