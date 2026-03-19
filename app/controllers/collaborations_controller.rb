@@ -53,9 +53,9 @@ class CollaborationsController < ApplicationController
         role: params[:role].presence
       )
 
-      if @project.accepted_members_count >= @project.max_collaborators
-        @project.update!(status: "full")
-      end
+    if @project.accepted_members_count >= @project.max_collaborators
+      @project.update!(status: "open") if @project.status.blank?
+    end
 
       redirect_to @project, notice: "Collaboration accepted."
 
