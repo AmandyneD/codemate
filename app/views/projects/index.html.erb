@@ -51,7 +51,7 @@
           <div class="tech-list">
             <% if project.technologies.any? %>
               <% project.technologies.each do |technology| %>
-                <span class="tech-badge"><%= technology.name %></span>
+                <span class="tech-badge tech-badge--project"><%= technology.name %></span>
               <% end %>
             <% else %>
               <span class="muted-text">No technologies yet</span>

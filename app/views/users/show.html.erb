@@ -76,7 +76,7 @@
         <div class="tech-list profile-tech-list">
           <% if @user.technologies.any? %>
             <% @user.technologies.order(:name).each do |technology| %>
-              <span class="tech-badge profile-tech-badge"><%= technology.name %></span>
+              <span class="tech-badge profile-tech-badge profile-tech-badge--blue"><%= technology.name %></span>
             <% end %>
           <% else %>
             <span class="muted-text">No technologies added yet.</span>
@@ -131,7 +131,7 @@
                 <div class="tech-list">
                   <% if project.technologies.any? %>
                     <% project.technologies.each do |technology| %>
-                      <span class="tech-badge"><%= technology.name %></span>
+                      <span class="tech-badge tech-badge--project"><%= technology.name %></span>
                     <% end %>
                   <% else %>
                     <span class="muted-text">No technologies yet</span>
@@ -202,7 +202,7 @@
                 <div class="tech-list">
                   <% if project.technologies.any? %>
                     <% project.technologies.each do |technology| %>
-                      <span class="tech-badge"><%= technology.name %></span>
+                      <span class="tech-badge tech-badge--project"><%= technology.name %></span>
                     <% end %>
                   <% else %>
                     <span class="muted-text">No technologies yet</span>
@@ -275,7 +275,7 @@
                 <div class="tech-list">
                   <% if project.technologies.any? %>
                     <% project.technologies.each do |technology| %>
-                      <span class="tech-badge"><%= technology.name %></span>
+                      <span class="tech-badge tech-badge--project"><%= technology.name %></span>
                     <% end %>
                   <% else %>
                     <span class="muted-text">No technologies yet</span>

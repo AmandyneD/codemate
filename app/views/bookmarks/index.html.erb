@@ -13,6 +13,7 @@
     <div class="projects-grid projects-grid--premium">
       <% @favorite_projects.each do |project| %>
         <article class="dashboard-project-card browse-project-card">
+
           <div class="dashboard-project-top">
             <span class="badge-status badge-status--<%= project.display_status %>">
               <%= project.display_status.capitalize %>
@@ -47,7 +48,7 @@
           <div class="tech-list">
             <% if project.technologies.any? %>
               <% project.technologies.each do |technology| %>
-                <span class="tech-badge"><%= technology.name %></span>
+                <span class="tech-badge tech-badge--project"><%= technology.name %></span>
               <% end %>
             <% else %>
               <span class="muted-text">No technologies yet</span>
@@ -63,6 +64,7 @@
               <%= link_to "View", project_path(project), class: "btn btn-outline btn-sm" %>
             </div>
           </div>
+
         </article>
       <% end %>
     </div>

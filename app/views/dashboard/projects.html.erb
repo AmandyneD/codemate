@@ -8,7 +8,6 @@
     <%= link_to "Create a project", new_project_path, class: "btn btn-primary dashboard-create-btn" %>
   </div>
 
-  <!-- CREATED PROJECTS -->
   <section class="dashboard-section">
     <div class="section-heading">
       <div>
@@ -54,7 +53,7 @@
             <div class="tech-list">
               <% if project.technologies.any? %>
                 <% project.technologies.each do |technology| %>
-                  <span class="tech-badge"><%= technology.name %></span>
+                  <span class="tech-badge tech-badge--project"><%= technology.name %></span>
                 <% end %>
               <% else %>
                 <span class="muted-text">No technologies yet</span>
@@ -80,7 +79,6 @@
     <% end %>
   </section>
 
-  <!-- JOINED PROJECTS -->
   <section class="dashboard-section">
     <div class="section-heading">
       <div>
@@ -126,7 +124,7 @@
             <div class="tech-list">
               <% if project.technologies.any? %>
                 <% project.technologies.each do |technology| %>
-                  <span class="tech-badge"><%= technology.name %></span>
+                  <span class="tech-badge tech-badge--project"><%= technology.name %></span>
                 <% end %>
               <% else %>
                 <span class="muted-text">No technologies yet</span>

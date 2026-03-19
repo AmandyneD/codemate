@@ -5,31 +5,35 @@
     data-speed="0.18">
   </div>
 
+<canvas id="hero-glitch-canvas" class="hero-glitch-canvas"></canvas>
+
   <div class="home-hero-overlay"></div>
 
-<div class="home-hero-inner">
-  <h1 class="title-xl home-title-clean" data-home-motion-target="reveal">
-    Build real projects.<br>
-    Find your dev team.<br>
-    Ship faster.
-  </h1>
+  <div class="home-hero-inner">
+    <h1 class="title-xl home-title-clean" data-home-motion-target="reveal">
+      Build real projects.<br>
+      Find your dev team.<br>
+      <span class="glitch-word" data-controller="glitch-word">
+        Ship faster.
+      </span>
+    </h1>
 
-  <p class="subtitle home-subtitle-clean" data-home-motion-target="reveal">
-    Join real projects, collaborate with other builders, and create work you can actually showcase.
-  </p>
+    <p class="subtitle home-subtitle-clean" data-home-motion-target="reveal">
+      Join real projects, collaborate with other builders, and create work you can actually showcase.
+    </p>
 
-  <div class="home-cta-clean" data-home-motion-target="reveal">
-    <% if user_signed_in? %>
-      <%= link_to new_project_path, class: "btn btn-primary home-cta-primary glitch-btn" do %>
-        <span class="glitch-btn__text" data-text="Start a project">Start a project</span>
+    <div class="home-cta-clean" data-home-motion-target="reveal">
+      <% if user_signed_in? %>
+        <%= link_to new_project_path, class: "btn btn-primary home-cta-primary glitch-btn" do %>
+          <span class="glitch-btn__text" data-text="Start a project">Start a project</span>
+        <% end %>
+      <% else %>
+        <%= link_to "Get started", new_user_registration_path, class: "btn btn-primary home-cta-primary" %>
       <% end %>
-    <% else %>
-      <%= link_to "Get started", new_user_registration_path, class: "btn btn-primary home-cta-primary" %>
-    <% end %>
 
-    <%= link_to "Explore projects", projects_path, class: "btn btn-secondary home-cta-secondary" %>
+      <%= link_to "Explore projects", projects_path, class: "btn btn-secondary home-cta-secondary" %>
+    </div>
   </div>
-</div>
 </section>
 
 <div class="page-shell home-page layout-container" data-controller="home-motion">
@@ -132,7 +136,7 @@
             <div class="tech-list">
               <% if project.technologies.any? %>
                 <% project.technologies.each do |technology| %>
-                  <span class="tech-badge"><%= technology.name %></span>
+                  <span class="tech-badge tech-badge--project"><%= technology.name %></span>
                 <% end %>
               <% else %>
                 <span class="muted-text">No technologies yet</span>
@@ -200,7 +204,9 @@
           <%= link_to "Join Codemate", new_user_registration_path, class: "btn btn-primary home-final-banner-primary" %>
         <% end %>
 
-        <%= link_to "Explore projects", projects_path, class: "btn btn-secondary home-final-banner-secondary" %>
+        <%= link_to projects_path, class: "btn btn-secondary home-final-banner-secondary subtle-glitch-btn" do %>
+  <span class="subtle-glitch-btn__text" data-text="Explore projects">Explore projects</span>
+<% end %>
       </div>
     </div>
   </section>

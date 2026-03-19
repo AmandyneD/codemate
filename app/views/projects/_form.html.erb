@@ -37,7 +37,7 @@
 
           <button
             type="button"
-            class="btn btn-profile-outline btn-sm btn-ai"
+            class="btn btn-profile-outline btn-sm btn-ai ai-generate-btn"
             data-action="click->project-ai#generate"
             data-project-ai-target="button">
             <span
@@ -46,7 +46,9 @@
               aria-hidden="true">
             </span>
 
-            <span data-project-ai-target="buttonText">
+            <span
+              class="ai-generate-btn__label"
+              data-project-ai-target="buttonText">
               Generate with AI
             </span>
           </button>

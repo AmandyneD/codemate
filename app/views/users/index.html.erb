@@ -58,10 +58,10 @@
             <%= truncate(user.bio.presence || "No bio yet.", length: 120) %>
           </p>
 
-          <div class="tech-list">
+          <div class="tech-list builder-tech-list">
             <% if user.technologies.any? %>
               <% user.technologies.each do |technology| %>
-                <span class="tech-badge"><%= technology.name %></span>
+                <span class="tech-badge builder-tech-badge"><%= technology.name %></span>
               <% end %>
             <% else %>
               <span class="muted-text">No technologies yet</span>

@@ -13,9 +13,7 @@ export default class extends Controller {
       return
     }
 
-    this.buttonTarget.disabled = true
-    this.buttonTarget.classList.add("is-loading")
-    this.buttonTextTarget.textContent = "Generating..."
+    this.startLoading()
 
     try {
       const response = await fetch(this.urlValue, {
@@ -41,9 +39,19 @@ export default class extends Controller {
     } catch (error) {
       alert(error.message)
     } finally {
-      this.buttonTarget.disabled = false
-      this.buttonTarget.classList.remove("is-loading")
-      this.buttonTextTarget.textContent = "Generate with AI"
+      this.stopLoading()
     }
+  }
+
+  startLoading() {
+    this.buttonTarget.disabled = true
+    this.buttonTarget.classList.add("is-loading")
+    this.buttonTextTarget.textContent = "Generating..."
+  }
+
+  stopLoading() {
+    this.buttonTarget.disabled = false
+    this.buttonTarget.classList.remove("is-loading")
+    this.buttonTextTarget.textContent = "Generate with AI"
   }
 }
