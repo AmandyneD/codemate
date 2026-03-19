@@ -741,9 +741,12 @@ a:hover {
   margin-bottom: 16px;
 }
 
-.field label {
+.field label,
+.field .field-label {
   color: var(--codemate-offwhite);
   font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
 }
 
 .field input,
@@ -774,6 +777,18 @@ a:hover {
 
 .field textarea {
   resize: vertical;
+}
+
+.field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.field-header .field-label {
+  margin: 0;
+  flex: 1;
 }
 
 .form-errors {
@@ -5973,4 +5988,153 @@ a:hover {
   --text-soft: rgba(242, 239, 235, 0.74);
   --surface-dark: rgba(255, 255, 255, 0.02);
   --surface-dark-2: rgba(255, 255, 255, 0.04);
+}
+
+.field-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.field-header .field-label {
+  flex: 1;
+}
+
+.field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field-header .field-label {
+  flex-shrink: 0;
+}
+
+.conversation-message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.conversation-message-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.conversation-message-bubble {
+  max-width: 72%;
+  padding: 18px 22px;
+  border: 1px solid rgba(83, 181, 127, 0.28);
+  background: rgba(83, 181, 127, 0.06);
+  box-shadow: 0 0 18px rgba(83, 181, 127, 0.05);
+}
+
+.conversation-message-bubble p {
+  margin: 0;
+}
+
+.conversation-message--mine .conversation-message-bubble {
+  border-color: rgba(83, 181, 127, 0.32);
+}
+
+.conversation-message--other .conversation-message-bubble {
+  border-color: var(--border-light);
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: none;
+}
+
+.conversation-textarea {
+  min-height: 140px;
+  width: 100%;
+  resize: vertical;
+}
+
+.conversation-form-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.conversation-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conversation-info-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.conversation-project-sidebar .content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.conversation-project-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.conversation-project-title {
+  margin: 0;
+}
+
+.conversation-project-text {
+  margin: 0;
+}
+
+.conversation-project-meta {
+  gap: 10px;
+}
+
+.conversation-project-tech-list {
+  gap: 10px;
+}
+
+.conversation-project-owner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.conversation-project-footer {
+  padding-top: 18px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.btn-outline-green {
+  background: transparent;
+  border: 1px solid #6EE7A8;
+  color: white;
+  transition: all 0.15s ease;
+}
+
+.btn-outline-green:hover {
+  background: rgba(110, 231, 168, 0.1);
+  border-color: #86efac;
+}
+
+.btn-outline-red {
+  background: transparent;
+  border: 1px solid #ff5c5c;
+  color: white;
+  transition: all 0.15s ease;
+}
+
+.btn-outline-red:hover {
+  background: rgba(255, 92, 92, 0.08);
+  border-color: #ff7b7b;
 }

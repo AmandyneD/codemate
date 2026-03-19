@@ -6,76 +6,126 @@
 
     <h1 class="title-xl">Conversation</h1>
     <p class="page-subtitle">
-      Discuss the project with <%= @other_user.display_name %>.
+      Discuss the project with <%= @other_user&.display_name || "this collaborator" %>.
     </p>
   </div>
 
-  <div class="conversation-layout">
+  <div class="profile-layout profile-layout--enhanced">
+    <main class="content-card">
+      <section class="content-section">
+        <div class="section-heading">
+          <div>
+            <h2 class="title-lg">Messages</h2>
+            <p class="muted-text">Keep the discussion focused on the project.</p>
+          </div>
 
-    <div class="conversation-thread-card card">
-
-      <div class="conversation-thread-header">
-        <div class="conversation-thread-header-left">
-          <h2 class="title-lg">Messages</h2>
+          <span class="section-count"><%= @messages.count %></span>
         </div>
 
-        <span class="badge-count"><%= @messages.count %></span>
-      </div>
-
-      <div class="conversation-thread-body">
         <% if @messages.any? %>
           <div class="conversation-message-list">
             <% @messages.each do |message| %>
               <% mine = message.user == current_user %>
 
-              <div class="conversation-message <%= mine ? "conversation-message--mine" : "conversation-message--other" %>">
+              <article class="conversation-message <%= mine ? "conversation-message--mine" : "conversation-message--other" %>">
                 <div class="conversation-message-meta">
-                  <strong><%= message.user.display_name %></strong>
-                  <small class="muted-text">
-                    <%= l(message.created_at, format: :short) %>
-                  </small>
+                  <strong><%= message.user&.display_name || "Unknown" %></strong>
+                  <small class="muted-text"><%= l(message.created_at, format: :short) %></small>
                 </div>
 
                 <div class="conversation-message-bubble">
                   <p><%= message.content %></p>
                 </div>
-              </div>
+              </article>
             <% end %>
           </div>
         <% else %>
-          <div class="conversation-empty-state card">
-            <h3 class="title-md">No messages yet</h3>
-            <p class="muted-text">Start the conversation.</p>
+          <div class="empty-state">
+            <h3 class="title-lg">No messages yet</h3>
+            <p class="page-subtitle">Start the conversation and align on the next steps.</p>
           </div>
         <% end %>
-      </div>
+      </section>
 
-      <div class="conversation-form-section">
+      <section class="content-section">
+        <div class="section-heading">
+          <div>
+            <h2 class="title-lg">New message</h2>
+          </div>
+        </div>
+
         <%= form_with model: [@conversation, @message], local: true, class: "conversation-form" do |f| %>
-          <%= f.label :content, "New message" %>
-
-          <%= f.text_area :content,
-            class: "conversation-textarea",
-            placeholder: "Write your message…" %>
+          <div class="field">
+            <%= f.label :content, class: "field-label" %>
+            <%= f.text_area :content,
+              class: "conversation-textarea",
+              placeholder: "Write your message…" %>
+          </div>
 
           <div class="conversation-form-actions">
-            <%= f.submit "Send", class: "btn btn-primary conversation-send-btn" %>
+            <%= f.submit "Send message", class: "btn btn-primary btn-md" %>
           </div>
         <% end %>
-      </div>
+      </section>
+    </main>
 
-    </div>
+<aside class="sidebar-card conversation-project-sidebar">
+  <section class="content-section">
+    <% project_status = @project.display_status.presence || "draft" %>
 
-    <div class="conversation-sidebar-card card">
+    <div class="conversation-project-header">
       <h2 class="title-lg">Project</h2>
 
-      <ul class="conversation-info-list">
-        <li>Title: <%= @project.title %></li>
-        <li>Owner: <%= @project.owner.display_name %></li>
-        <li>Status: <%= @project.status.capitalize %></li>
-        <li>Team: <%= @project.accepted_members_count %> / <%= @project.max_collaborators %></li>
-      </ul>
+      <span class="badge-status badge-status--<%= project_status %>">
+        <%= project_status.capitalize %>
+      </span>
     </div>
+
+    <h3 class="dashboard-project-title conversation-project-title">
+      <%= @project.title %>
+    </h3>
+
+    <p class="dashboard-project-text conversation-project-text">
+      <%= @project.short_description.presence || "No short description yet." %>
+    </p>
+
+    <div class="project-meta conversation-project-meta">
+      <span class="project-meta-item">
+        <%= image_tag "icon_cube_W.svg", class: "project-inline-icon", alt: "Category" %>
+        <%= @project.category.to_s.humanize %>
+      </span>
+
+      <span class="project-meta-item">
+        <%= image_tag "icon_planning_W.svg", class: "project-inline-icon", alt: "Duration" %>
+        <%= @project.estimated_duration.to_s.humanize %>
+      </span>
+
+      <span class="project-meta-item">
+        <%= image_tag "icon_user_W.svg", class: "project-inline-icon", alt: "Members" %>
+        <%= @project.accepted_members_count %> / <%= @project.max_collaborators %>
+      </span>
+    </div>
+
+    <div class="tech-list conversation-project-tech-list">
+      <% if @project.technologies.any? %>
+        <% @project.technologies.each do |technology| %>
+          <span class="tech-badge tech-badge--project"><%= technology.name %></span>
+        <% end %>
+      <% else %>
+        <span class="muted-text">No technologies yet</span>
+      <% end %>
+    </div>
+
+    <div class="conversation-project-owner">
+      <span class="muted-text">Owner</span>
+      <strong><%= @project.owner&.display_name || "Unknown" %></strong>
+    </div>
+
+    <div class="conversation-project-footer">
+      <%= link_to "View project", project_path(@project), class: "btn btn-outline btn-sm" %>
+    </div>
+  </section>
+</aside>
 
   </div>
 </div>
