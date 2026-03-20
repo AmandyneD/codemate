@@ -5,7 +5,7 @@
     data-speed="0.18">
   </div>
 
-<canvas id="hero-glitch-canvas" class="hero-glitch-canvas"></canvas>
+  <canvas id="hero-glitch-canvas" class="hero-glitch-canvas"></canvas>
 
   <div class="home-hero-overlay"></div>
 
@@ -38,7 +38,7 @@
 
 <div class="page-shell home-page layout-container" data-controller="home-motion">
 
-<section class="home-stats-section" data-home-motion-target="reveal">
+<section class="home-stats-section" data-controller="stats-counter" data-home-motion-target="reveal">
   <div class="home-section-intro home-section-intro--stats" data-home-motion-target="reveal">
     <p class="home-section-kicker">Community signal</p>
     <h2 class="title-lg home-section-title home-section-title--stats">
@@ -56,7 +56,9 @@
         <span class="home-stat-card-label">Builders</span>
       </div>
 
-      <strong class="home-stat-card-number"><%= @users_count %>+</strong>
+      <strong class="home-stat-card-number">
+        <span data-stats-counter-target="number" data-value="<%= @users_count %>">0</span>+
+      </strong>
 
       <p class="home-stat-card-text">
         Developers, makers and collaborators building together.
@@ -69,7 +71,9 @@
         <span class="home-stat-card-label">Projects</span>
       </div>
 
-      <strong class="home-stat-card-number"><%= @projects_count %>+</strong>
+      <strong class="home-stat-card-number">
+        <span data-stats-counter-target="number" data-value="<%= @projects_count %>">0</span>+
+      </strong>
 
       <p class="home-stat-card-text">
         Ideas turned into concrete products, MVPs and experiments.
@@ -82,7 +86,9 @@
         <span class="home-stat-card-label">Contributors</span>
       </div>
 
-      <strong class="home-stat-card-number"><%= @contributors_count %>+</strong>
+      <strong class="home-stat-card-number">
+        <span data-stats-counter-target="number" data-value="<%= @contributors_count %>">0</span>+
+      </strong>
 
       <p class="home-stat-card-text">
         People joining forces to design, code and ship faster.
@@ -103,9 +109,9 @@
     </div>
 
     <% if @featured_projects.any? %>
-      <div class="dashboard-grid">
+      <div class="projects-grid projects-grid--premium">
         <% @featured_projects.each do |project| %>
-          <article class="dashboard-project-card">
+          <article class="dashboard-project-card browse-project-card">
             <div class="dashboard-project-top">
               <span class="badge-status badge-status--<%= project.display_status %>">
                 <%= project.display_status.capitalize %>
@@ -151,23 +157,7 @@
               </span>
 
               <div class="dashboard-project-actions">
-                <% if user_signed_in? %>
-                  <% bookmark = current_user.bookmarks.find_by(project: project) %>
-                  <% if bookmark.present? %>
-                    <%= button_to "♥",
-                      project_bookmark_path(project, bookmark),
-                      method: :delete,
-                      class: "btn btn-orange",
-                      form: { data: { turbo_confirm: "Remove this project from favorites?" } } %>
-                  <% else %>
-                    <%= button_to "♡",
-                      project_bookmarks_path(project),
-                      method: :post,
-                      class: "btn btn-outline" %>
-                  <% end %>
-                <% end %>
-
-                <%= link_to "View", project_path(project), class: "btn btn-outline" %>
+                <%= link_to "View", project_path(project), class: "btn btn-secondary btn-sm" %>
               </div>
             </div>
           </article>
@@ -207,8 +197,8 @@
         <% end %>
 
         <%= link_to projects_path, class: "btn btn-secondary home-final-banner-secondary subtle-glitch-btn" do %>
-  <span class="subtle-glitch-btn__text" data-text="Explore projects">Explore projects</span>
-<% end %>
+          <span class="subtle-glitch-btn__text" data-text="Explore projects">Explore projects</span>
+        <% end %>
       </div>
     </div>
   </section>

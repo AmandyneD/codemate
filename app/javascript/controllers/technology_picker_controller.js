@@ -88,12 +88,6 @@ export default class extends Controller {
   }
 
   renderSelected() {
-    if (this.selectedItems.length === 0) {
-      this.selectedTarget.innerHTML = `
-        <div class="tech-picker-placeholder">No technologies selected yet.</div>
-      `
-      return
-    }
 
     this.selectedTarget.innerHTML = this.selectedItems.map((item) => {
       return `

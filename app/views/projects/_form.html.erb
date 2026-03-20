@@ -65,13 +65,26 @@
         <div class="field">
           <%= f.label :category %>
           <%= f.select :category,
-            [["Web app", "web_app"], ["Mobile app", "mobile_app"], ["SaaS", "saas"], ["AI", "ai"], ["Game", "game"], ["Tool", "tool"], ["Other", "other"]] %>
+            [["Web app", "web_app"],
+            ["Mobile app", "mobile_app"],
+            ["SaaS", "saas"],
+            ["AI", "ai"],
+            ["Game", "game"],
+            ["Tool", "tool"],
+            ["Other", "other"]],
+            { prompt: "Select a category" } %>
         </div>
 
         <div class="field">
           <%= f.label :estimated_duration %>
           <%= f.select :estimated_duration,
-            [["Weekend", "weekend"], ["One week", "one_week"], ["Two weeks", "two_weeks"], ["One month", "one_month"], ["Three months", "three_months"], ["Long term", "long_term"]] %>
+          [["Weekend", "weekend"],
+          ["One week", "one_week"],
+          ["Two weeks", "two_weeks"],
+          ["One month", "one_month"],
+          ["Three months", "three_months"],
+          ["Long term", "long_term"]],
+          { prompt: "Select duration" } %>
         </div>
 
         <div class="field">

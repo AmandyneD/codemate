@@ -6,6 +6,7 @@ import TechnologyFilterController from "controllers/technology_filter_controller
 import HomeMotionController from "controllers/home_motion_controller"
 import ProjectAiController from "controllers/project_ai_controller"
 import GlitchWordController from "controllers/glitch_word_controller"
+import StatsCounterController from "controllers/stats_counter_controller"
 
 const application = Application.start()
 
@@ -17,6 +18,7 @@ application.register("technology-filter", TechnologyFilterController)
 application.register("home-motion", HomeMotionController)
 application.register("project-ai", ProjectAiController)
 application.register("glitch-word", GlitchWordController)
+application.register("stats-counter", StatsCounterController)
 
 document.addEventListener("turbo:load", () => {
   try {
