@@ -30,6 +30,14 @@ export default class extends Controller {
     this.numberTargets.forEach((element, index) => {
       const endValue = parseInt(element.dataset.value, 10) || 0
       const duration = 900 + index * 120
+
+      element.classList.add("is-glitching")
+      element.dataset.display = "0"
+
+      setTimeout(() => {
+        element.classList.remove("is-glitching")
+      }, 220)
+
       this.animateValue(element, endValue, duration)
     })
   }
@@ -41,16 +49,22 @@ export default class extends Controller {
     const tick = (currentTime) => {
       const elapsed = currentTime - startTime
       const progress = Math.min(elapsed / duration, 1)
-
       const eased = 1 - Math.pow(1 - progress, 3)
       const currentValue = Math.floor(start + (endValue - start) * eased)
 
       element.textContent = currentValue
+      element.dataset.display = currentValue
 
       if (progress < 1) {
         requestAnimationFrame(tick)
       } else {
         element.textContent = endValue
+        element.dataset.display = endValue
+        element.classList.add("is-glitch-end")
+
+        setTimeout(() => {
+          element.classList.remove("is-glitch-end")
+        }, 180)
       }
     }
 

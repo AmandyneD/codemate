@@ -2640,7 +2640,7 @@ a:hover {
 .home-cta-primary,
 .home-cta-secondary {
   min-height: 60px;
-  padding: 0 24px;
+  padding: 0 32px;
   font-size: 16px;
   display: inline-flex;
   align-items: center;
@@ -6280,9 +6280,116 @@ a:hover {
 }
 
 .home-stat-card-number {
-  transition: text-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: "Jersey 10", monospace;
+  font-size: 108px;
+  line-height: 0.88;
+  letter-spacing: 1px;
+  color: var(--codemate-offwhite);
+  text-shadow: 0 0 18px rgba(255,255,255,0.04);
 }
 
-.home-stats-section.is-counting .home-stat-card-number {
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.08);
+.home-stat-card-number span {
+  position: relative;
+  display: inline-block;
+  font-family: "Jersey 10", monospace;
+  font-variant-numeric: tabular-nums;
+  min-width: 2ch;
+}
+
+.home-stat-card-number-suffix {
+  min-width: auto;
+}
+
+/* glitch color variants */
+.home-stat-card-number--builders span.is-glitching::before,
+.home-stat-card-number--builders span.is-glitch-end::before {
+  color: #7d95ff;
+}
+
+.home-stat-card-number--builders span.is-glitching::after,
+.home-stat-card-number--builders span.is-glitch-end::after {
+  color: #c4ceff;
+}
+
+.home-stat-card-number--projects span.is-glitching::before,
+.home-stat-card-number--projects span.is-glitch-end::before {
+  color: #53b57f;
+}
+
+.home-stat-card-number--projects span.is-glitching::after,
+.home-stat-card-number--projects span.is-glitch-end::after {
+  color: #9fe3b8;
+}
+
+.home-stat-card-number--contributors span.is-glitching::before,
+.home-stat-card-number--contributors span.is-glitch-end::before {
+  color: #f5a623;
+}
+
+.home-stat-card-number--contributors span.is-glitching::after,
+.home-stat-card-number--contributors span.is-glitch-end::after {
+  color: #ffd27a;
+}
+
+/* glitch layers */
+.home-stat-card-number span.is-glitching::before,
+.home-stat-card-number span.is-glitching::after,
+.home-stat-card-number span.is-glitch-end::before,
+.home-stat-card-number span.is-glitch-end::after {
+  content: attr(data-display);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.home-stat-card-number span.is-glitching::before {
+  transform: translate(-3px, 0);
+  opacity: 0.85;
+}
+
+.home-stat-card-number span.is-glitching::after {
+  transform: translate(3px, 0);
+  opacity: 0.75;
+}
+
+.home-stat-card-number span.is-glitch-end::before {
+  transform: translate(-1px, 0);
+  opacity: 0.55;
+}
+
+.home-stat-card-number span.is-glitch-end::after {
+  transform: translate(1px, 0);
+  opacity: 0.5;
+}
+
+.home-stat-card-number span.is-glitching {
+  animation: stats-glitch-jitter 120ms steps(2, end) 2;
+}
+
+.home-stat-card-number span.is-glitch-end {
+  animation: stats-glitch-pop 160ms steps(2, end) 1;
+}
+
+@keyframes stats-glitch-jitter {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-1px, 0); }
+  50%  { transform: translate(1px, 0); }
+  75%  { transform: translate(-1px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes stats-glitch-pop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.05) translateX(-1px); }
+  60%  { transform: scale(0.98) translateX(1px); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 980px) {
+  .home-stat-card-number {
+    font-size: 82px;
+  }
 }
